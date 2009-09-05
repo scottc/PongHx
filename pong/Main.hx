@@ -13,8 +13,8 @@ class Main
 	
 	static function main() 
 	{
-		//new Rectangle();
-		trace("hello");
+		trace("Welcome to Pong");
+		new Game();
 	}
 	
 }
