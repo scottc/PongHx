@@ -1,76 +1,5 @@
 $estr = function() { return js.Boot.__string_rec(this,''); }
-Std = function() { }
-Std.__name__ = ["Std"];
-Std["is"] = function(v,t) {
-	return js.Boot.__instanceof(v,t);
-}
-Std.string = function(s) {
-	return js.Boot.__string_rec(s,"");
-}
-Std["int"] = function(x) {
-	if(x < 0) return Math.ceil(x);
-	return Math.floor(x);
-}
-Std.parseInt = function(x) {
-	var v = parseInt(x);
-	if(Math.isNaN(v)) return null;
-	return v;
-}
-Std.parseFloat = function(x) {
-	return parseFloat(x);
-}
-Std.random = function(x) {
-	return Math.floor(Math.random() * x);
-}
-Std.prototype.__class__ = Std;
-pong = {}
-pong.Main = function() { }
-pong.Main.__name__ = ["pong","Main"];
-pong.Main.main = function() {
-	haxe.Log.trace("hello",{ fileName : "Main.hx", lineNumber : 17, className : "pong.Main", methodName : "main"});
-}
-pong.Main.prototype.__class__ = pong.Main;
-IntIter = function(min,max) { if( min === $_ ) return; {
-	this.min = min;
-	this.max = max;
-}}
-IntIter.__name__ = ["IntIter"];
-IntIter.prototype.hasNext = function() {
-	return this.min < this.max;
-}
-IntIter.prototype.max = null;
-IntIter.prototype.min = null;
-IntIter.prototype.next = function() {
-	return this.min++;
-}
-IntIter.prototype.__class__ = IntIter;
-haxe = {}
-haxe.Log = function() { }
-haxe.Log.__name__ = ["haxe","Log"];
-haxe.Log.trace = function(v,infos) {
-	js.Boot.__trace(v,infos);
-}
-haxe.Log.clear = function() {
-	js.Boot.__clear_trace();
-}
-haxe.Log.prototype.__class__ = haxe.Log;
 js = {}
-js.Lib = function() { }
-js.Lib.__name__ = ["js","Lib"];
-js.Lib.isIE = null;
-js.Lib.isOpera = null;
-js.Lib.document = null;
-js.Lib.window = null;
-js.Lib.alert = function(v) {
-	alert(js.Boot.__string_rec(v,""));
-}
-js.Lib.eval = function(code) {
-	return eval(code);
-}
-js.Lib.setErrorHandler = function(f) {
-	js.Lib.onerror = f;
-}
-js.Lib.prototype.__class__ = js.Lib;
 js.Boot = function() { }
 js.Boot.__name__ = ["js","Boot"];
 js.Boot.__unhtml = function(s) {
@@ -281,12 +210,186 @@ js.Boot.__init = function() {
 	$closure = js.Boot.__closure;
 }
 js.Boot.prototype.__class__ = js.Boot;
+js.Lib = function() { }
+js.Lib.__name__ = ["js","Lib"];
+js.Lib.isIE = null;
+js.Lib.isOpera = null;
+js.Lib.document = null;
+js.Lib.window = null;
+js.Lib.alert = function(v) {
+	alert(js.Boot.__string_rec(v,""));
+}
+js.Lib.eval = function(code) {
+	return eval(code);
+}
+js.Lib.setErrorHandler = function(f) {
+	js.Lib.onerror = f;
+}
+js.Lib.prototype.__class__ = js.Lib;
+haxe = {}
+haxe.Log = function() { }
+haxe.Log.__name__ = ["haxe","Log"];
+haxe.Log.trace = function(v,infos) {
+	js.Boot.__trace(v,infos);
+}
+haxe.Log.clear = function() {
+	js.Boot.__clear_trace();
+}
+haxe.Log.prototype.__class__ = haxe.Log;
+Std = function() { }
+Std.__name__ = ["Std"];
+Std["is"] = function(v,t) {
+	return js.Boot.__instanceof(v,t);
+}
+Std.string = function(s) {
+	return js.Boot.__string_rec(s,"");
+}
+Std["int"] = function(x) {
+	if(x < 0) return Math.ceil(x);
+	return Math.floor(x);
+}
+Std.parseInt = function(x) {
+	var v = parseInt(x);
+	if(Math.isNaN(v)) return null;
+	return v;
+}
+Std.parseFloat = function(x) {
+	return parseFloat(x);
+}
+Std.random = function(x) {
+	return Math.floor(Math.random() * x);
+}
+Std.prototype.__class__ = Std;
+pong = {}
+pong.Game = function(p) { if( p === $_ ) return; {
+	this._physicsTicker = new haxe.Timer(25);
+	this._physicsTicker.run = $closure(this,"tick");
+}}
+pong.Game.__name__ = ["pong","Game"];
+pong.Game.prototype._graphicsTicker = null;
+pong.Game.prototype._physicsTicker = null;
+pong.Game.prototype.tick = function() {
+	haxe.Log.trace("tick",{ fileName : "Game.hx", lineNumber : 16, className : "pong.Game", methodName : "tick"});
+}
+pong.Game.prototype.__class__ = pong.Game;
+haxe.Timer = function(time_ms) { if( time_ms === $_ ) return; {
+	this.id = haxe.Timer.arr.length;
+	haxe.Timer.arr[this.id] = this;
+	this.timerId = window.setInterval("haxe.Timer.arr[" + this.id + "].run();",time_ms);
+}}
+haxe.Timer.__name__ = ["haxe","Timer"];
+haxe.Timer.delay = function(f,time_ms) {
+	var t = new haxe.Timer(time_ms);
+	t.run = function() {
+		t.stop();
+		f();
+	}
+	return t;
+}
+haxe.Timer.stamp = function() {
+	return Date.now().getTime() / 1000;
+}
+haxe.Timer.prototype.id = null;
+haxe.Timer.prototype.run = function() {
+	null;
+}
+haxe.Timer.prototype.stop = function() {
+	if(this.id == null) return;
+	window.clearInterval(this.timerId);
+	haxe.Timer.arr[this.id] = null;
+	if(this.id > 100 && this.id == haxe.Timer.arr.length - 1) {
+		var p = this.id - 1;
+		while(p >= 0 && haxe.Timer.arr[p] == null) p--;
+		haxe.Timer.arr = haxe.Timer.arr.slice(0,p + 1);
+	}
+	this.id = null;
+}
+haxe.Timer.prototype.timerId = null;
+haxe.Timer.prototype.__class__ = haxe.Timer;
+pong.Main = function() { }
+pong.Main.__name__ = ["pong","Main"];
+pong.Main.main = function() {
+	haxe.Log.trace("Welcome to Pong",{ fileName : "Main.hx", lineNumber : 16, className : "pong.Main", methodName : "main"});
+	new pong.Game();
+}
+pong.Main.prototype.__class__ = pong.Main;
+IntIter = function(min,max) { if( min === $_ ) return; {
+	this.min = min;
+	this.max = max;
+}}
+IntIter.__name__ = ["IntIter"];
+IntIter.prototype.hasNext = function() {
+	return this.min < this.max;
+}
+IntIter.prototype.max = null;
+IntIter.prototype.min = null;
+IntIter.prototype.next = function() {
+	return this.min++;
+}
+IntIter.prototype.__class__ = IntIter;
 $Main = function() { }
 $Main.__name__ = ["@Main"];
 $Main.prototype.__class__ = $Main;
 $_ = {}
 js.Boot.__res = {}
 js.Boot.__init();
+{
+	js.Lib.document = document;
+	js.Lib.window = window;
+	onerror = function(msg,url,line) {
+		var f = js.Lib.onerror;
+		if( f == null )
+			return false;
+		return f(msg,[url+":"+line]);
+	}
+}
+{
+	Date.now = function() {
+		return new Date();
+	}
+	Date.fromTime = function(t) {
+		var d = new Date();
+		d["setTime"](t);
+		return d;
+	}
+	Date.fromString = function(s) {
+		switch(s.length) {
+		case 8:{
+			var k = s.split(":");
+			var d = new Date();
+			d["setTime"](0);
+			d["setUTCHours"](k[0]);
+			d["setUTCMinutes"](k[1]);
+			d["setUTCSeconds"](k[2]);
+			return d;
+		}break;
+		case 10:{
+			var k = s.split("-");
+			return new Date(k[0],k[1] - 1,k[2],0,0,0);
+		}break;
+		case 19:{
+			var k = s.split(" ");
+			var y = k[0].split("-");
+			var t = k[1].split(":");
+			return new Date(y[0],y[1] - 1,y[2],t[0],t[1],t[2]);
+		}break;
+		default:{
+			throw "Invalid date format : " + s;
+		}break;
+		}
+	}
+	Date.prototype["toString"] = function() {
+		var date = this;
+		var m = date.getMonth() + 1;
+		var d = date.getDate();
+		var h = date.getHours();
+		var mi = date.getMinutes();
+		var s = date.getSeconds();
+		return date.getFullYear() + "-" + ((m < 10?"0" + m:"" + m)) + "-" + ((d < 10?"0" + d:"" + d)) + " " + ((h < 10?"0" + h:"" + h)) + ":" + ((mi < 10?"0" + mi:"" + mi)) + ":" + ((s < 10?"0" + s:"" + s));
+	}
+	Date.prototype.__class__ = Date;
+	Date.__name__ = ["Date"];
+}
 {
 	String.prototype.__class__ = String;
 	String.__name__ = ["String"];
@@ -313,15 +416,6 @@ js.Boot.__init();
 	}
 	Math.__name__ = ["Math"];
 }
-{
-	js.Lib.document = document;
-	js.Lib.window = window;
-	onerror = function(msg,url,line) {
-		var f = js.Lib.onerror;
-		if( f == null )
-			return false;
-		return f(msg,[url+":"+line]);
-	}
-}
 js.Lib.onerror = null;
+haxe.Timer.arr = new Array();
 $Main.init = pong.Main.main();
