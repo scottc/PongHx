@@ -264,12 +264,17 @@ pong = {}
 pong.Game = function(p) { if( p === $_ ) return; {
 	this._physicsTicker = new haxe.Timer(25);
 	this._physicsTicker.run = $closure(this,"tick");
+	this._graphicsTicker = new haxe.Timer(50);
+	this._graphicsTicker.run = $closure(this,"render");
 }}
 pong.Game.__name__ = ["pong","Game"];
 pong.Game.prototype._graphicsTicker = null;
 pong.Game.prototype._physicsTicker = null;
+pong.Game.prototype.render = function() {
+	null;
+}
 pong.Game.prototype.tick = function() {
-	haxe.Log.trace("tick",{ fileName : "Game.hx", lineNumber : 16, className : "pong.Game", methodName : "tick"});
+	null;
 }
 pong.Game.prototype.__class__ = pong.Game;
 haxe.Timer = function(time_ms) { if( time_ms === $_ ) return; {
