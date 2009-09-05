@@ -5,7 +5,10 @@
 
 package pong.gfx;
 
-class Rectangle 
+class Rectangle
+#if flash
+	extends flash.display.Sprite
+#end
 {
 	private var _width:Int;
 	private var _height:Int;
@@ -19,7 +22,9 @@ class Rectangle
 		#if js
 		
 		#elseif flash
-			//flash.Lib.
+			//flash.display.Sprite
+		#elseif cpp
+		
 		#end
 	}
 	

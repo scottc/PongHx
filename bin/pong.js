@@ -262,6 +262,7 @@ Std.random = function(x) {
 Std.prototype.__class__ = Std;
 pong = {}
 pong.Game = function(p) { if( p === $_ ) return; {
+	this._stage = new pong.gfx.Stage();
 	this._physicsTicker = new haxe.Timer(25);
 	this._physicsTicker.run = $closure(this,"tick");
 	this._graphicsTicker = new haxe.Timer(50);
@@ -270,6 +271,7 @@ pong.Game = function(p) { if( p === $_ ) return; {
 pong.Game.__name__ = ["pong","Game"];
 pong.Game.prototype._graphicsTicker = null;
 pong.Game.prototype._physicsTicker = null;
+pong.Game.prototype._stage = null;
 pong.Game.prototype.render = function() {
 	null;
 }
@@ -311,6 +313,20 @@ haxe.Timer.prototype.stop = function() {
 }
 haxe.Timer.prototype.timerId = null;
 haxe.Timer.prototype.__class__ = haxe.Timer;
+pong.gfx = {}
+pong.gfx.Stage = function(p) { if( p === $_ ) return; {
+	null;
+}}
+pong.gfx.Stage.__name__ = ["pong","gfx","Stage"];
+pong.gfx.Stage.width = null;
+pong.gfx.Stage.height = null;
+pong.gfx.Stage.getWidth = function() {
+	return js.Lib.window.document.body.clientWidth;
+}
+pong.gfx.Stage.getHeight = function() {
+	return js.Lib.window.document.body.clientHeight;
+}
+pong.gfx.Stage.prototype.__class__ = pong.gfx.Stage;
 pong.Main = function() { }
 pong.Main.__name__ = ["pong","Main"];
 pong.Main.main = function() {
@@ -338,16 +354,6 @@ $Main.prototype.__class__ = $Main;
 $_ = {}
 js.Boot.__res = {}
 js.Boot.__init();
-{
-	js.Lib.document = document;
-	js.Lib.window = window;
-	onerror = function(msg,url,line) {
-		var f = js.Lib.onerror;
-		if( f == null )
-			return false;
-		return f(msg,[url+":"+line]);
-	}
-}
 {
 	Date.now = function() {
 		return new Date();
@@ -394,6 +400,16 @@ js.Boot.__init();
 	}
 	Date.prototype.__class__ = Date;
 	Date.__name__ = ["Date"];
+}
+{
+	js.Lib.document = document;
+	js.Lib.window = window;
+	onerror = function(msg,url,line) {
+		var f = js.Lib.onerror;
+		if( f == null )
+			return false;
+		return f(msg,[url+":"+line]);
+	}
 }
 {
 	String.prototype.__class__ = String;
