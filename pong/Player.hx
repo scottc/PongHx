@@ -5,15 +5,22 @@
 
 package pong;
 
+import pong.geom.Vector;
+
 class Player extends pong.geom.Rectangle
 {
 	public var sprite:pong.gfx.Rectangle;
 	public var score:Int;
 	
+	public var velocity:Vector;
+	
 	public function new(x_:Int, y_:Int, width_:Int, height_:Int) 
 	{
 		super(x_, y_, width_, height_);
 		sprite = new pong.gfx.Rectangle(x_, y_, width_, height_);
+		
+		velocity = new Vector(0,0);
+		
 		score = 0;
 	}
 	public function render() {
@@ -22,5 +29,9 @@ class Player extends pong.geom.Rectangle
 		
 		//width = _position.width;
 		//height = _position.height;
+	}
+	public function move() {
+		x += velocity.x;
+		y += velocity.y;
 	}
 }

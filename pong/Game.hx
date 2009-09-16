@@ -64,10 +64,15 @@ class Game
 	}
 	private function physicsStep():Void{
 		//if (Keyboard.buttonIsDown("w")) {
-			//_leftPlayer.y += 1;
+			//leftPlayer.velocity.y = 1;
 		//}
+		
+		_leftPlayer.move();
+		_rightPlayer.move();
+		_ball.move();
 	}
-	private function render():Void{
+	private function render():Void {
+		_ball.render();
 		_leftPlayer.render();
 		_rightPlayer.render();
 		
