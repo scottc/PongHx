@@ -34,6 +34,7 @@ class Game
 		
 		setupStage();
 		newRound();
+		_ball.y -= 100;
 	}
 	private function setupStage():Void{
 		_stage = new Stage();
@@ -66,9 +67,9 @@ class Game
 	}
 	private function runAI(p:Player) {
 		//make AI chase ball...
-		if (p.y + p.width/2 < _ball.y + _ball.width/2)
+		if (p.y + p.height/2 < _ball.y + _ball.height/2)
 			p.velocity.y = 1;
-		else if (p.y + p.width/2 > _ball.y + _ball.width/2)
+		else if (p.y + p.height/2 > _ball.y + _ball.height/2)
 			p.velocity.y = -1;
 		else
 			p.velocity.y = 0;
