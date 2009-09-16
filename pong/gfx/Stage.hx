@@ -13,7 +13,7 @@ class Stage
 	public function new(){
 	#if flash
 		_sp = flash.Lib.current;
-		
+		drawBackground();
 		//set background color
 		//add(new pong.gfx.Rectangle(0, 0, width, height));
 	#end
@@ -23,6 +23,15 @@ class Stage
 		//_sp = flash.Lib.current;
 		_sp.addChild(object);
 	#end
+	}
+	private function drawBackground() {
+		#if flash
+		var bg:flash.display.Sprite = new flash.display.Sprite();
+		bg.graphics.beginFill(0x000000);
+		bg.graphics.drawRect(0, 0, width, height);
+		bg.graphics.endFill();
+		add(bg);
+		#end
 	}
 	
 	private static function getWidth():Int{
