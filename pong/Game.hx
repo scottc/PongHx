@@ -74,22 +74,31 @@ class Game
 		else
 			p.velocity.y = 0;
 	}
+	private function doCollisions() {
+		//check players vs walls
+		
+		//check ball vs wall
+		
+		//check ball vs players
+	}
 	private function physicsStep():Void{
 		//if (Keyboard.buttonIsDown("w")) {
 			//leftPlayer.velocity.y = 1;
 		//}
 		
 		//if AI is enabled for a player, run it.. else get keyboard input.
-		if (_leftPlayer.ai) {
+		if (_leftPlayer.ai)
 			runAI(_leftPlayer);
-		}
-		if (_rightPlayer.ai) {
+		else{}
+		if (_rightPlayer.ai)
 			runAI(_rightPlayer);
-		}
+		else{}
 		
 		_leftPlayer.move();
 		_rightPlayer.move();
 		_ball.move();
+		
+		doCollisions();
 	}
 	private function render():Void {
 		//tell the game objects to render themselves
