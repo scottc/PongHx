@@ -13,7 +13,7 @@ class Main
 	
 	static function main() 
 	{
-		trace("Welcome to Pong. Pong is Awesome");
+		//trace("Welcome to Pong. Pong is Awesome");
 		new Game();
 	}
 	

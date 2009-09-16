@@ -2,16 +2,26 @@ package pong.gfx;
 
 
 class Stage
-#if flash
-	extends flash.display.Sprite
-#end
 {
 	public static var width(getWidth, null):Int;
 	public static var height(getHeight, null):Int;
 	
+	#if flash
+		private var _sp:flash.display.Sprite;
+	#end
+	
 	public function new(){
 	#if flash
-		super();
+		_sp = flash.Lib.current;
+		
+		//set background color
+		//add(new pong.gfx.Rectangle(0, 0, width, height));
+	#end
+	}
+	public function add(object:Dynamic) {
+	#if flash
+		//_sp = flash.Lib.current;
+		_sp.addChild(object);
 	#end
 	}
 	
