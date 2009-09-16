@@ -11,6 +11,7 @@ class Player extends pong.geom.Rectangle
 {
 	public var sprite:pong.gfx.Rectangle;
 	public var score:Int;
+	public var ai:Bool;
 	
 	public var velocity:Vector;
 	
@@ -22,6 +23,7 @@ class Player extends pong.geom.Rectangle
 		velocity = new Vector(0,0);
 		
 		score = 0;
+		ai = true;
 	}
 	public function render() {
 		sprite.x = x;

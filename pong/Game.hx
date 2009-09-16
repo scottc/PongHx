@@ -55,27 +55,46 @@ class Game
 		_rightScoreLabel.y = 50;
 		_rightScoreLabel.x = Stage.width * 0.5 + 10;
 	}
-	private function newRound():Void{
+	private function newRound():Void {
+		//reset player locations
 		_leftPlayer.y = Stage.height / 2 - _leftPlayer.height / 2;
 		_rightPlayer.y = Stage.height / 2 - _rightPlayer.height / 2;
 		
+		//reset ball location
 		_ball.y = Stage.height / 2 - _ball.height / 2;
 		_ball.x = Stage.width / 2 - _ball.width / 2;
+	}
+	private function runAI(p:Player) {
+		//make AI chase ball...
+		if (p.y < _ball.y)
+			p.velocity.y = 1;
+		if (p.y > _ball.y)
+			p.velocity.y = -1;
 	}
 	private function physicsStep():Void{
 		//if (Keyboard.buttonIsDown("w")) {
 			//leftPlayer.velocity.y = 1;
 		//}
 		
+		//if AI is enabled for a player, run it.. else get keyboard input.
+		if (_leftPlayer.ai) {
+			runAI(_leftPlayer);
+		}
+		if (_rightPlayer.ai) {
+			runAI(_rightPlayer);
+		}
+		
 		_leftPlayer.move();
 		_rightPlayer.move();
 		_ball.move();
 	}
 	private function render():Void {
+		//tell the game objects to render themselves
 		_ball.render();
 		_leftPlayer.render();
 		_rightPlayer.render();
 		
+		//update the text frields..
 		_leftScoreLabel.text = Std.string(_leftPlayer.score);
 		_rightScoreLabel.text = Std.string(_rightPlayer.score);
 	}
