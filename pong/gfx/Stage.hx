@@ -30,6 +30,13 @@ class Stage
 		bg.graphics.beginFill(0x000000);
 		bg.graphics.drawRect(0, 0, width, height);
 		bg.graphics.endFill();
+		bg.graphics.lineStyle(0, 0xffffff);
+		bg.graphics.moveTo(0, 10);
+		bg.graphics.lineTo(width, 10);
+		bg.graphics.moveTo(0, height - 10);
+		bg.graphics.lineTo(width, height - 10);
+		bg.graphics.moveTo(width / 2, 10);
+		bg.graphics.lineTo(width / 2, height - 10);
 		add(bg);
 		#end
 	}
