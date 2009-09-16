@@ -66,10 +66,12 @@ class Game
 	}
 	private function runAI(p:Player) {
 		//make AI chase ball...
-		if (p.y < _ball.y)
+		if (p.y + p.width/2 < _ball.y + _ball.width/2)
 			p.velocity.y = 1;
-		if (p.y > _ball.y)
+		else if (p.y + p.width/2 > _ball.y + _ball.width/2)
 			p.velocity.y = -1;
+		else
+			p.velocity.y = 0;
 	}
 	private function physicsStep():Void{
 		//if (Keyboard.buttonIsDown("w")) {
