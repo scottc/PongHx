@@ -75,15 +75,16 @@ class Game
 			p.velocity.y = 0;
 	}
 	private function doCollisions() {
-		//check players vs walls
+		//players/walls
+		//Stops Left player when reaches Bottom/Top of screen
 		if(_leftPlayer.y +_leftPlayer.height > Stage.height){
-			//cap the player
 			_leftPlayer.y = Stage.height - _leftPlayer.height;
 			}
 		if (_leftPlayer.y < 0) {
 			_leftPlayer.y = 0; 
 		}
 		
+		//Stops Right player when reaches Bottom/Top of screen
 		if(_rightPlayer.y +_rightPlayer.height > Stage.height){
 				_rightPlayer.y = Stage.height - _rightPlayer.height;
 			}
@@ -91,7 +92,8 @@ class Game
 			_rightPlayer.y = 0; 
 		}
 				
-		//check ball vs wall
+		//ball/walls
+		//Makes ball rebound when ball hits Bottom/Top of Screen
 		if (_ball.y + _ball.height > Stage.height) {
 			_ball.y = Stage.height - _ball.height;
 			_ball.velocity.y = -1;
@@ -101,7 +103,7 @@ class Game
 			_ball.y = 0;
 			_ball.velocity.y = 1;
 		}
-		
+		//Resets game and Adds 1 to Right/Left Player when ball reaches Left/Right side of Screen
 		if (_ball.x < 0 - _ball.width) {
 			_rightPlayer.score += 1;
 			newRound();
