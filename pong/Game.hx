@@ -76,16 +76,50 @@ class Game
 	}
 	private function doCollisions() {
 		//check players vs walls
+		if(_leftPlayer.y +_leftPlayer.height > Stage.height){
+			//cap the player
+			_leftPlayer.y = Stage.height - _leftPlayer.height;
+			}
+		if (_leftPlayer.y < 0) {
+			_leftPlayer.y = 0; 
+		}
 		
+		if(_rightPlayer.y +_rightPlayer.height > Stage.height){
+				_rightPlayer.y = Stage.height - _rightPlayer.height;
+			}
+		if (_rightPlayer.y < 0) {
+			_rightPlayer.y = 0; 
+		}
+				
 		//check ball vs wall
+		if (_ball.y + _ball.height > Stage.height) {
+			_ball.y = Stage.height - _ball.height;
+			_ball.velocity.y = -1;
+			}
+			
+		if (_ball.y < 0) {
+			_ball.y = 0;
+			_ball.velocity.y = 1;
+		}
+		
+		if (_ball.x < 0 - _ball.width) {
+			_rightPlayer.score += 1;
+			newRound();
+		}
+		
+		if (_ball.x > Stage.width) {
+			_leftPlayer.score += 1;
+			newRound();
+		}
 		
 		//check ball vs players
+
 	}
 	private function physicsStep():Void{
 		//IF human, get user input... ELSE run ai
 		if (!_leftPlayer.ai){
 			//
-		}else if (_ball.velocity.x < 0)
+		}else if (true)
 			runAI(_leftPlayer);
 			
 		if (!_rightPlayer.ai){
