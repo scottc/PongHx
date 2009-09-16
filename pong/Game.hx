@@ -82,17 +82,17 @@ class Game
 		//check ball vs players
 	}
 	private function physicsStep():Void{
-		//if (Keyboard.buttonIsDown("w")) {
-			//leftPlayer.velocity.y = 1;
-		//}
-		
-		//if AI is enabled for a player, run it.. else get keyboard input.
-		if (_leftPlayer.ai)
+		//IF human, get user input... ELSE run ai
+		if (!_leftPlayer.ai){
+			//
+		}else if (_ball.velocity.x < 0)
 			runAI(_leftPlayer);
-		else{}
-		if (_rightPlayer.ai)
+			
+		if (!_rightPlayer.ai){
+			//
+		}else if(_ball.velocity.x > 0)
 			runAI(_rightPlayer);
-		else{}
+		
 		
 		_leftPlayer.move();
 		_rightPlayer.move();
