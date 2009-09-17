@@ -42,7 +42,7 @@ class Game
 		_ball = new Ball(150, 50, 20, 20);
 		
 		_leftPlayer = new Player(50, 50, 20, 100);
-		_rightPlayer = new Player(300, 50, 20, 100);
+		_rightPlayer = new Player(Stage.width-50, 50, 20, 100);
 		
 		_stage.add(_ball.sprite);
 		_stage.add(_leftPlayer.sprite);
@@ -105,12 +105,12 @@ class Game
 		}
 		//Resets game and Adds 1 to Right/Left Player when ball reaches Left/Right side of Screen
 		if (_ball.x < 0 - _ball.width) {
-			_rightPlayer.score += 1;
+			_rightScoreLabel.text = Std.string(_rightPlayer.score++);
 			newRound();
 		}
 		
 		if (_ball.x > Stage.width) {
-			_leftPlayer.score += 1;
+			_leftScoreLabel.text = Std.string(_leftPlayer.score++);
 			newRound();
 		}
 		
@@ -169,10 +169,6 @@ class Game
 		_ball.render();
 		_leftPlayer.render();
 		_rightPlayer.render();
-		
-		//update the text frields..
-		_leftScoreLabel.text = Std.string(_leftPlayer.score);
-		_rightScoreLabel.text = Std.string(_rightPlayer.score);
 	}
 	
 }

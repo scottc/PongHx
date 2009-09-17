@@ -14,8 +14,6 @@ class Stage
 	#if flash
 		_sp = flash.Lib.current;
 		drawBackground();
-		//set background color
-		//add(new pong.gfx.Rectangle(0, 0, width, height));
 	#end
 	}
 	public function add(object:Dynamic) {
