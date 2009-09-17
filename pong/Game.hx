@@ -47,12 +47,17 @@ class Game
 		_stage.add(_rightPlayer.sprite);
 		
 		_leftScoreLabel = new Label();
-		_leftScoreLabel.y = 50;
-		_leftScoreLabel.x = Stage.width * 0.5 - 100;
+		_leftScoreLabel.text = "0";
+		_leftScoreLabel.y = 10;
+		_leftScoreLabel.x = Stage.width * 0.5 - 10;
 		
 		_rightScoreLabel = new Label();
-		_rightScoreLabel.y = 50;
+		_rightScoreLabel.text = "0";
+		_rightScoreLabel.y = 10;
 		_rightScoreLabel.x = Stage.width * 0.5 + 10;
+		
+		_stage.add(_leftScoreLabel);
+		_stage.add(_rightScoreLabel);
 	}
 	private function newRound():Void {
 		//reset player locations
@@ -103,23 +108,23 @@ class Game
 		}
 		//Resets game and Adds 1 to Right/Left Player when ball reaches Left/Right side of Screen
 		if (_ball.x < 0 - _ball.width) {
-			_rightScoreLabel.text = Std.string(_rightPlayer.score++);//update score and set text
+			_rightScoreLabel.text = Std.string(++_rightPlayer.score);//update score and set text
 			newRound();
 		}
 		
 		if (_ball.x > Stage.width) {
-			_leftScoreLabel.text = Std.string(_leftPlayer.score++);
+			_leftScoreLabel.text = Std.string(++_leftPlayer.score);
 			newRound();
 		}
 		
 		//check ball vs players
 		if (_ball.isOverlapping(_leftPlayer)) {
-			_ball.x = _leftPlayer.x + _leftPlayer.width; //cap the ball
-			_ball.velocity.x *= -1; //reverse the ball's direction
+			//_ball.x = _leftPlayer.x + _leftPlayer.width; //cap the ball
+			//_ball.velocity.x *= -1; //reverse the ball's direction
 		}
 		if (_ball.isOverlapping(_rightPlayer)) {
-			_ball.x = _rightPlayer.x - _ball.width;
-			_ball.velocity.x *= -1;
+			//_ball.x = _rightPlayer.x - _ball.width;
+			//_ball.velocity.x *= -1;
 		}
 	}
 	

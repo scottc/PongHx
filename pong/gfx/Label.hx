@@ -14,6 +14,8 @@ class Label
 	//constuctor
 	public function new(){
 		super();
+		textColor = 0xffffff;
+		width = 40;
 	}
 	
 	//getters and setters
