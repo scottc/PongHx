@@ -210,6 +210,16 @@ js.Boot.__init = function() {
 	$closure = js.Boot.__closure;
 }
 js.Boot.prototype.__class__ = js.Boot;
+pong = {}
+pong.geom = {}
+pong.geom.Vector = function(x_,y_) { if( x_ === $_ ) return; {
+	this.x = x_;
+	this.y = y_;
+}}
+pong.geom.Vector.__name__ = ["pong","geom","Vector"];
+pong.geom.Vector.prototype.x = null;
+pong.geom.Vector.prototype.y = null;
+pong.geom.Vector.prototype.__class__ = pong.geom.Vector;
 js.Lib = function() { }
 js.Lib.__name__ = ["js","Lib"];
 js.Lib.isIE = null;
@@ -226,16 +236,72 @@ js.Lib.setErrorHandler = function(f) {
 	js.Lib.onerror = f;
 }
 js.Lib.prototype.__class__ = js.Lib;
-haxe = {}
-haxe.Log = function() { }
-haxe.Log.__name__ = ["haxe","Log"];
-haxe.Log.trace = function(v,infos) {
-	js.Boot.__trace(v,infos);
+pong.gfx = {}
+pong.gfx.Label = function(p) { if( p === $_ ) return; {
+	null;
+}}
+pong.gfx.Label.__name__ = ["pong","gfx","Label"];
+pong.gfx.Label.prototype.getText = function() {
+	return "";
 }
-haxe.Log.clear = function() {
-	js.Boot.__clear_trace();
+pong.gfx.Label.prototype.getX = function() {
+	return 0;
 }
-haxe.Log.prototype.__class__ = haxe.Log;
+pong.gfx.Label.prototype.getY = function() {
+	return 0;
+}
+pong.gfx.Label.prototype.setText = function(v) {
+	null;
+}
+pong.gfx.Label.prototype.setX = function(v) {
+	null;
+}
+pong.gfx.Label.prototype.setY = function(v) {
+	null;
+}
+pong.gfx.Label.prototype.text = null;
+pong.gfx.Label.prototype.x = null;
+pong.gfx.Label.prototype.y = null;
+pong.gfx.Label.prototype.__class__ = pong.gfx.Label;
+pong.geom.Rectangle = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
+	this.x = x_;
+	this.y = y_;
+	this.width = width_;
+	this.height = height_;
+}}
+pong.geom.Rectangle.__name__ = ["pong","geom","Rectangle"];
+pong.geom.Rectangle.prototype.height = null;
+pong.geom.Rectangle.prototype.isOverlapping = function(rect) {
+	if(this.x < rect.x + rect.width && this.x + this.width > rect.x && this.y < rect.y + rect.height && this.y + this.height > rect.y) return true;
+	return false;
+}
+pong.geom.Rectangle.prototype.width = null;
+pong.geom.Rectangle.prototype.x = null;
+pong.geom.Rectangle.prototype.y = null;
+pong.geom.Rectangle.prototype.__class__ = pong.geom.Rectangle;
+pong.Player = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
+	pong.geom.Rectangle.apply(this,[x_,y_,width_,height_]);
+	this.sprite = new pong.gfx.Rectangle(x_,y_,width_,height_);
+	this.velocity = new pong.geom.Vector(0,0);
+	this.score = 0;
+	this.ai = true;
+}}
+pong.Player.__name__ = ["pong","Player"];
+pong.Player.__super__ = pong.geom.Rectangle;
+for(var k in pong.geom.Rectangle.prototype ) pong.Player.prototype[k] = pong.geom.Rectangle.prototype[k];
+pong.Player.prototype.ai = null;
+pong.Player.prototype.move = function() {
+	this.x += this.velocity.x;
+	this.y += this.velocity.y;
+}
+pong.Player.prototype.render = function() {
+	this.sprite.x = this.x;
+	this.sprite.y = this.y;
+}
+pong.Player.prototype.score = null;
+pong.Player.prototype.sprite = null;
+pong.Player.prototype.velocity = null;
+pong.Player.prototype.__class__ = pong.Player;
 Std = function() { }
 Std.__name__ = ["Std"];
 Std["is"] = function(v,t) {
@@ -260,25 +326,111 @@ Std.random = function(x) {
 	return Math.floor(Math.random() * x);
 }
 Std.prototype.__class__ = Std;
-pong = {}
 pong.Game = function(p) { if( p === $_ ) return; {
-	this._stage = new pong.gfx.Stage();
 	this._physicsTicker = new haxe.Timer(25);
-	this._physicsTicker.run = $closure(this,"tick");
-	this._graphicsTicker = new haxe.Timer(50);
+	this._physicsTicker.run = $closure(this,"physicsStep");
+	this._graphicsTicker = new haxe.Timer(25);
 	this._graphicsTicker.run = $closure(this,"render");
+	this.setupStage();
+	this.newRound();
+	this._ball.y -= 100;
 }}
 pong.Game.__name__ = ["pong","Game"];
+pong.Game.prototype._ball = null;
 pong.Game.prototype._graphicsTicker = null;
+pong.Game.prototype._leftPlayer = null;
+pong.Game.prototype._leftScoreLabel = null;
 pong.Game.prototype._physicsTicker = null;
+pong.Game.prototype._rightPlayer = null;
+pong.Game.prototype._rightScoreLabel = null;
 pong.Game.prototype._stage = null;
-pong.Game.prototype.render = function() {
-	null;
+pong.Game.prototype.doCollisions = function() {
+	if(this._leftPlayer.y + this._leftPlayer.height > pong.gfx.Stage.getHeight() - 10) {
+		this._leftPlayer.y = pong.gfx.Stage.getHeight() - this._leftPlayer.height - 10;
+	}
+	if(this._leftPlayer.y < 10) {
+		this._leftPlayer.y = 10;
+	}
+	if(this._rightPlayer.y + this._rightPlayer.height > pong.gfx.Stage.getHeight() - 10) {
+		this._rightPlayer.y = pong.gfx.Stage.getHeight() - this._rightPlayer.height - 10;
+	}
+	if(this._rightPlayer.y < 10) {
+		this._rightPlayer.y = 10;
+	}
+	if(this._ball.y + this._ball.height > pong.gfx.Stage.getHeight() - 10) {
+		this._ball.y = pong.gfx.Stage.getHeight() - this._ball.height - 10;
+		this._ball.velocity.y *= -1;
+	}
+	if(this._ball.y < 10) {
+		this._ball.y = 10;
+		this._ball.velocity.y *= -1;
+	}
+	if(this._ball.x < 0 - this._ball.width) {
+		this._rightScoreLabel.text = Std.string(++this._rightPlayer.score);
+		this.newRound();
+	}
+	if(this._ball.x > pong.gfx.Stage.getWidth()) {
+		this._leftScoreLabel.text = Std.string(++this._leftPlayer.score);
+		this.newRound();
+	}
+	if(this._ball.isOverlapping(this._leftPlayer)) {
+		this._ball.x = this._leftPlayer.x + this._leftPlayer.width;
+		this._ball.velocity.x *= -1;
+	}
+	if(this._ball.isOverlapping(this._rightPlayer)) {
+		this._ball.x = this._rightPlayer.x - this._ball.width;
+		this._ball.velocity.x *= -1;
+	}
 }
-pong.Game.prototype.tick = function() {
-	null;
+pong.Game.prototype.newRound = function() {
+	this._leftPlayer.y = pong.gfx.Stage.getHeight() / 2 - this._leftPlayer.height / 2;
+	this._rightPlayer.y = pong.gfx.Stage.getHeight() / 2 - this._rightPlayer.height / 2;
+	this._ball.y = pong.gfx.Stage.getHeight() / 2 - this._ball.height / 2;
+	this._ball.x = pong.gfx.Stage.getWidth() / 2 - this._ball.width / 2;
+}
+pong.Game.prototype.physicsStep = function() {
+	if(!this._leftPlayer.ai) null;
+	else if(this._ball.velocity.x < 0) this.runAI(this._leftPlayer);
+	else this._leftPlayer.velocity.y = 0;
+	if(!this._rightPlayer.ai) null;
+	else if(this._ball.velocity.x > 0) this.runAI(this._rightPlayer);
+	else this._rightPlayer.velocity.y = 0;
+	this._leftPlayer.move();
+	this._rightPlayer.move();
+	this._ball.move();
+	this.doCollisions();
+}
+pong.Game.prototype.render = function() {
+	this._ball.render();
+	this._leftPlayer.render();
+	this._rightPlayer.render();
+}
+pong.Game.prototype.runAI = function(p) {
+	if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = 1;
+	else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = -1;
+	else p.velocity.y = 0;
+}
+pong.Game.prototype.setupStage = function() {
+	this._stage = new pong.gfx.Stage();
+	this._ball = new pong.Ball(150,50,20,20);
+	this._leftPlayer = new pong.Player(30,50,20,100);
+	this._rightPlayer = new pong.Player(pong.gfx.Stage.getWidth() - 50,50,20,100);
+	this._stage.add(this._ball.sprite);
+	this._stage.add(this._leftPlayer.sprite);
+	this._stage.add(this._rightPlayer.sprite);
+	this._leftScoreLabel = new pong.gfx.Label();
+	this._leftScoreLabel.text = "0";
+	this._leftScoreLabel.y = 10;
+	this._leftScoreLabel.x = pong.gfx.Stage.getWidth() * 0.5 - 20;
+	this._rightScoreLabel = new pong.gfx.Label();
+	this._rightScoreLabel.text = "0";
+	this._rightScoreLabel.y = 10;
+	this._rightScoreLabel.x = pong.gfx.Stage.getWidth() * 0.5 + 10;
+	this._stage.add(this._leftScoreLabel);
+	this._stage.add(this._rightScoreLabel);
 }
 pong.Game.prototype.__class__ = pong.Game;
+haxe = {}
 haxe.Timer = function(time_ms) { if( time_ms === $_ ) return; {
 	this.id = haxe.Timer.arr.length;
 	haxe.Timer.arr[this.id] = this;
@@ -313,7 +465,44 @@ haxe.Timer.prototype.stop = function() {
 }
 haxe.Timer.prototype.timerId = null;
 haxe.Timer.prototype.__class__ = haxe.Timer;
-pong.gfx = {}
+pong.gfx.Rectangle = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
+	this._color = 16777215;
+	this._x = x_;
+	this._y = y_;
+	this._width = width_;
+	this._height = height_;
+}}
+pong.gfx.Rectangle.__name__ = ["pong","gfx","Rectangle"];
+pong.gfx.Rectangle.prototype._color = null;
+pong.gfx.Rectangle.prototype._height = null;
+pong.gfx.Rectangle.prototype._width = null;
+pong.gfx.Rectangle.prototype._x = null;
+pong.gfx.Rectangle.prototype._y = null;
+pong.gfx.Rectangle.prototype.drawRect = function() {
+	null;
+}
+pong.gfx.Rectangle.prototype.x = null;
+pong.gfx.Rectangle.prototype.y = null;
+pong.gfx.Rectangle.prototype.__class__ = pong.gfx.Rectangle;
+pong.Ball = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
+	pong.geom.Rectangle.apply(this,[x_,y_,width_,height_]);
+	this.sprite = new pong.gfx.Rectangle(x_,y_,width_,height_);
+	this.velocity = new pong.geom.Vector(1,1);
+}}
+pong.Ball.__name__ = ["pong","Ball"];
+pong.Ball.__super__ = pong.geom.Rectangle;
+for(var k in pong.geom.Rectangle.prototype ) pong.Ball.prototype[k] = pong.geom.Rectangle.prototype[k];
+pong.Ball.prototype.move = function() {
+	this.x += this.velocity.x;
+	this.y += this.velocity.y;
+}
+pong.Ball.prototype.render = function() {
+	this.sprite.x = this.x;
+	this.sprite.y = this.y;
+}
+pong.Ball.prototype.sprite = null;
+pong.Ball.prototype.velocity = null;
+pong.Ball.prototype.__class__ = pong.Ball;
 pong.gfx.Stage = function(p) { if( p === $_ ) return; {
 	null;
 }}
@@ -326,11 +515,22 @@ pong.gfx.Stage.getWidth = function() {
 pong.gfx.Stage.getHeight = function() {
 	return js.Lib.window.document.body.clientHeight;
 }
+pong.gfx.Stage.prototype.add = function(object) {
+	null;
+}
+pong.gfx.Stage.prototype.drawBackground = function() {
+	null;
+}
 pong.gfx.Stage.prototype.__class__ = pong.gfx.Stage;
+pong.ui = {}
+pong.ui.Keyboard = function(p) { if( p === $_ ) return; {
+	null;
+}}
+pong.ui.Keyboard.__name__ = ["pong","ui","Keyboard"];
+pong.ui.Keyboard.prototype.__class__ = pong.ui.Keyboard;
 pong.Main = function() { }
 pong.Main.__name__ = ["pong","Main"];
 pong.Main.main = function() {
-	haxe.Log.trace("Welcome to Pong",{ fileName : "Main.hx", lineNumber : 16, className : "pong.Main", methodName : "main"});
 	new pong.Game();
 }
 pong.Main.prototype.__class__ = pong.Main;
