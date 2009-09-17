@@ -15,4 +15,19 @@ class Rectangle
 		width = width_;
 		height = height_;
 	}
+	/**
+	 * Checks if the rectangle is overlapping another.
+	 * @param	rect check agaist this rectangle
+	 * @return	Collision status
+	 */
+	public function isOverlapping(rect:Rectangle):Bool {
+		if (
+			x < rect.x +rect.width //left
+			&& x + width > rect.x //right
+			&& y < rect.y +rect.height //top
+			&& y + height > rect.y //bottom
+			)
+			return true;
+		return false;
+	}
 }

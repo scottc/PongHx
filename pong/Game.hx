@@ -7,8 +7,6 @@ import pong.gfx.Rectangle;
 
 import pong.ui.Keyboard;
 
-import flash.display.Sprite;
-
 class Game
 {
 	private var _graphicsTicker:Timer;
@@ -105,7 +103,7 @@ class Game
 		}
 		//Resets game and Adds 1 to Right/Left Player when ball reaches Left/Right side of Screen
 		if (_ball.x < 0 - _ball.width) {
-			_rightScoreLabel.text = Std.string(_rightPlayer.score++);
+			_rightScoreLabel.text = Std.string(_rightPlayer.score++);//update score and set text
 			newRound();
 		}
 		
@@ -115,33 +113,16 @@ class Game
 		}
 		
 		//check ball vs players
-		if (rect2rect(_ball, _leftPlayer)) {
+		if (_ball.isOverlapping(_leftPlayer)) {
 			_ball.x = _leftPlayer.x + _leftPlayer.width; //cap the ball
 			_ball.velocity.x *= -1; //reverse the ball's direction
 		}
-		if (rect2rect(_ball, _rightPlayer)) {
+		if (_ball.isOverlapping(_rightPlayer)) {
 			_ball.x = _rightPlayer.x - _ball.width;
 			_ball.velocity.x *= -1;
 		}
 	}
-	/**
-	 * Rectangle to Rectangle collision checker
-	 * @param	rect1 rectangle object 1
-	 * @param	rect2 rectangle object 2
-	 * @return	Collision status
-	 */
-	private function rect2rect(rect1:pong.geom.Rectangle, rect2:pong.geom.Rectangle):Bool {
-		
-		if (
-			rect1.x < rect2.x +rect2.width //left
-			&& rect1.x + rect1.width > rect2.x //right
-			&& rect1.y < rect2.y +rect2.height //top
-			&& rect1.y + rect1.height > rect2.y //bottom
-			)
-			return true;
-			
-		return false;
-	}
+	
 	private function physicsStep():Void{
 		//IF human, get user input... ELSE run ai
 		if (!_leftPlayer.ai){
