@@ -77,31 +77,31 @@ class Game
 	private function doCollisions() {
 		//players/walls
 		//Stops Left player when reaches Bottom/Top of screen
-		if(_leftPlayer.y +_leftPlayer.height > Stage.height){
-			_leftPlayer.y = Stage.height - _leftPlayer.height;
-			}
-		if (_leftPlayer.y < 0) {
-			_leftPlayer.y = 0; 
+		if(_leftPlayer.y +_leftPlayer.height > Stage.height -10){
+			_leftPlayer.y = Stage.height - _leftPlayer.height -10;
+		}
+		if (_leftPlayer.y < 10) {
+			_leftPlayer.y = 10; 
 		}
 		
 		//Stops Right player when reaches Bottom/Top of screen
-		if(_rightPlayer.y +_rightPlayer.height > Stage.height){
-				_rightPlayer.y = Stage.height - _rightPlayer.height;
-			}
-		if (_rightPlayer.y < 0) {
-			_rightPlayer.y = 0; 
+		if(_rightPlayer.y +_rightPlayer.height > Stage.height -10){
+			_rightPlayer.y = Stage.height - _rightPlayer.height -10;
+		}
+		if (_rightPlayer.y < 10) {
+			_rightPlayer.y = 10; 
 		}
 				
 		//ball/walls
 		//Makes ball rebound when ball hits Bottom/Top of Screen
-		if (_ball.y + _ball.height > Stage.height) {
-			_ball.y = Stage.height - _ball.height;
-			_ball.velocity.y = -1;
-			}
+		if (_ball.y + _ball.height > Stage.height -10) {
+			_ball.y = Stage.height - _ball.height -10;
+			_ball.velocity.y *= -1;
+		}
 			
-		if (_ball.y < 0) {
-			_ball.y = 0;
-			_ball.velocity.y = 1;
+		if (_ball.y < 10) {
+			_ball.y = 10;
+			_ball.velocity.y *= -1;
 		}
 		//Resets game and Adds 1 to Right/Left Player when ball reaches Left/Right side of Screen
 		if (_ball.x < 0 - _ball.width) {
