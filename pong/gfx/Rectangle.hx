@@ -10,6 +10,12 @@ class Rectangle
 	extends flash.display.Sprite
 #end
 {
+	#if flash
+	#else
+		public var x:Float;
+		public var y:Float;
+	#end
+
 	private var _color:Int;
 	
 	private var _x:Float;

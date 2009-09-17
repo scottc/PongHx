@@ -5,17 +5,22 @@ class Label
 	extends flash.text.TextField
 #end
 {
-	//private var _text:String;
+	#if flash
+	#else
+	public var text:String;
+	public var x:Float;
+	public var y:Float;
+	#end
 	
-	//public var text(getText,null):String;
-	//public var x(getX,null):Int;
-	//public var y(getY,null):Int;
 	
 	//constuctor
-	public function new(){
-		super();
-		textColor = 0xffffff;
-		width = 40;
+	public function new() {
+		#if flash
+			super();
+			textColor = 0xffffff;
+			width = 40;
+			selectable = false;
+		#end
 	}
 	
 	//getters and setters
