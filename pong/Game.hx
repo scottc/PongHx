@@ -39,7 +39,7 @@ class Game
 		
 		_ball = new Ball(150, 50, 20, 20);
 		
-		_leftPlayer = new Player(50, 50, 20, 100);
+		_leftPlayer = new Player(30, 50, 20, 100);
 		_rightPlayer = new Player(Stage.width-50, 50, 20, 100);
 		
 		_stage.add(_ball.sprite);
@@ -49,7 +49,7 @@ class Game
 		_leftScoreLabel = new Label();
 		_leftScoreLabel.text = "0";
 		_leftScoreLabel.y = 10;
-		_leftScoreLabel.x = Stage.width * 0.5 - 10;
+		_leftScoreLabel.x = Stage.width * 0.5 - 20;
 		
 		_rightScoreLabel = new Label();
 		_rightScoreLabel.text = "0";
@@ -119,12 +119,12 @@ class Game
 		
 		//check ball vs players
 		if (_ball.isOverlapping(_leftPlayer)) {
-			//_ball.x = _leftPlayer.x + _leftPlayer.width; //cap the ball
-			//_ball.velocity.x *= -1; //reverse the ball's direction
+			_ball.x = _leftPlayer.x + _leftPlayer.width; //cap the ball
+			_ball.velocity.x *= -1; //reverse the ball's direction
 		}
 		if (_ball.isOverlapping(_rightPlayer)) {
-			//_ball.x = _rightPlayer.x - _ball.width;
-			//_ball.velocity.x *= -1;
+			_ball.x = _rightPlayer.x - _ball.width;
+			_ball.velocity.x *= -1;
 		}
 	}
 	
