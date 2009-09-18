@@ -5,12 +5,21 @@
 
 package pong.gfx;
 
+#if js
+	import js.Dom;
+#end
+
 class Rectangle
 #if flash
 	extends flash.display.Sprite
 #end
 {
 	#if flash
+	#elseif js
+		private var _div:HtmlDom;
+	
+		public var x:Float;
+		public var y:Float;
 	#else
 		public var x:Float;
 		public var y:Float;
@@ -36,8 +45,11 @@ class Rectangle
 			super();
 			drawRect();
 		#elseif js
+			_div = _div.cloneNode(false);
+			_div.style.position = "absolute";
+			drawRect();
 		#elseif cpp
-		
+			
 		#end
 	}
 	private function drawRect() {
@@ -49,6 +61,11 @@ class Rectangle
 			x = _x;
 			y = _y;
 		#elseif js
+			_div.style.top = Std.string(_y)+"px";
+			_div.style.left = Std.string(_x)+"px";
+			_div.style.background = "#"+StringTools.hex(_color,6);
+			_div.style.width = Std.string(_width)+"px";
+			_div.style.height = Std.string(_height)+"px";
 		#elseif cpp
 		
 		#end

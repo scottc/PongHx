@@ -22,8 +22,19 @@ class Game
 	private var _leftScoreLabel:Label;
 	private var _rightScoreLabel:Label;
 	
-	public function new() 
+	private var _id:String;
+	
+	public function new(
+	#if js
+		id_:String
+	#end
+	) 
 	{	
+		#if js
+		 _id = id_;
+		#end
+		
+		
 		_physicsTicker = new Timer(25);
 		_physicsTicker.run = physicsStep;
 		
@@ -34,8 +45,13 @@ class Game
 		newRound();
 		_ball.y -= 100;
 	}
-	private function setupStage():Void{
-		_stage = new Stage();
+	private function setupStage():Void {
+		#if js
+			_stage = new Stage(_id);
+		#else
+			_stage = new Stage();
+		#end
+		
 		
 		_ball = new Ball(150, 50, 20, 20);
 		
