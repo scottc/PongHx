@@ -4,13 +4,12 @@ package pong.gfx {
 	import flash.Boot;
 	public class Stage {
 		public function Stage() : void { if( !flash.Boot.skip_constructor ) {
-			this._sp = flash.Lib.current;
+			pong.gfx.Stage._SP = flash.Lib.current;
 			this.drawBackground();
 		}}
 		
-		protected var _sp : flash.display.Sprite;
 		public function add(object : *) : void {
-			this._sp.addChild(object);
+			_SP.addChild(object);
 		}
 		
 		protected function drawBackground() : void {
@@ -32,6 +31,13 @@ package pong.gfx {
 		protected var $width : int;
 		static public function get height() : int { return getHeight(); }
 		protected var $height : int;
+		static protected var _SP : flash.display.Sprite;
+		static protected var _instance : pong.gfx.Stage;
+		static public function getInstance() : pong.gfx.Stage {
+			if(pong.gfx.Stage._instance == null) pong.gfx.Stage._instance = new pong.gfx.Stage();
+			return _instance;
+		}
+		
 		static public function getWidth() : int {
 			return flash.Lib.current.stage.stageWidth;
 		}

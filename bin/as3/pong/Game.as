@@ -24,8 +24,9 @@ package pong {
 		protected var _rightPlayer : pong.Player;
 		protected var _leftScoreLabel : pong.gfx.Label;
 		protected var _rightScoreLabel : pong.gfx.Label;
+		protected var _id : String;
 		protected function setupStage() : void {
-			this._stage = new pong.gfx.Stage();
+			this._stage = pong.gfx.Stage.getInstance();
 			this._ball = new pong.Ball(150,50,20,20);
 			this._leftPlayer = new pong.Player(30,50,20,100);
 			this._rightPlayer = new pong.Player(pong.gfx.Stage.getWidth() - 50,50,20,100);

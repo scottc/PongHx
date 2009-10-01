@@ -38,6 +38,10 @@ class Stage_obj : public virtual hxObject
 
 		static int width;
 		static int height;
+		static pong::gfx::Stage _instance;
+		static pong::gfx::Stage getInstance( );
+		static Dynamic getInstance_dyn();
+
 		static int getWidth( );
 		static Dynamic getWidth_dyn();
 

@@ -42,13 +42,13 @@ class Label_obj : public virtual hxObject
 		virtual int getX( );
 		Dynamic getX_dyn();
 
-		virtual Void setX( int v);
+		virtual Void setX( double v);
 		Dynamic setX_dyn();
 
-		virtual int getY( );
+		virtual Void getY( );
 		Dynamic getY_dyn();
 
-		virtual Void setY( int v);
+		virtual Void setY( double v);
 		Dynamic setY_dyn();
 
 };

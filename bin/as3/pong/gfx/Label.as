@@ -9,27 +9,27 @@ package pong.gfx {
 			this.selectable = false;
 		}}
 		
-		protected function getText() : String {
+		public function getText() : String {
 			return "";
 		}
 		
-		protected function setText(v : String) : void {
-			null;
+		public function setText(v : String) : void {
+			var foo : String = v;
 		}
 		
-		protected function getX() : int {
+		public function getX() : int {
 			return 0;
 		}
 		
-		protected function setX(v : int) : void {
+		public function setX(v : Number) : void {
 			null;
 		}
 		
-		protected function getY() : int {
-			return 0;
+		public function getY() : void {
+			null;
 		}
 		
-		protected function setY(v : int) : void {
+		public function setY(v : Number) : void {
 			null;
 		}
 		

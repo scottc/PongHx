@@ -36,6 +36,7 @@ DEFINE_DYNAMIC_FUNC0(Label_obj,getText,return )
 
 Void Label_obj::setText( String v){
 {
+		String foo = v;
 	}
 return null();
 }
@@ -50,7 +51,7 @@ int Label_obj::getX( ){
 
 DEFINE_DYNAMIC_FUNC0(Label_obj,getX,return )
 
-Void Label_obj::setX( int v){
+Void Label_obj::setX( double v){
 {
 	}
 return null();
@@ -59,14 +60,16 @@ return null();
 
 DEFINE_DYNAMIC_FUNC1(Label_obj,setX,(void))
 
-int Label_obj::getY( ){
-	return 0;
+Void Label_obj::getY( ){
+{
+	}
+return null();
 }
 
 
-DEFINE_DYNAMIC_FUNC0(Label_obj,getY,return )
+DEFINE_DYNAMIC_FUNC0(Label_obj,getY,(void))
 
-Void Label_obj::setY( int v){
+Void Label_obj::setY( double v){
 {
 	}
 return null();

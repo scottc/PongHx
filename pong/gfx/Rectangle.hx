@@ -16,10 +16,12 @@ class Rectangle
 {
 	#if flash
 	#elseif js
-		private var _div:HtmlDom;
+		public var element:HtmlDom;
+		
+		private static var _num:Int = 0;
 	
-		public var x:Float;
-		public var y:Float;
+		public var x(getX,setX):Float;
+		public var y(getY,setY):Float;
 	#else
 		public var x:Float;
 		public var y:Float;
@@ -45,8 +47,14 @@ class Rectangle
 			super();
 			drawRect();
 		#elseif js
-			_div = _div.cloneNode(false);
-			_div.style.position = "absolute";
+			if (_num == null)
+				_num = 0;
+			else
+				_num++;
+		
+			element = Stage.ELEMENT.cloneNode(false);
+			element.id = "Rectangle_" + Std.string(_num);
+			element.style.position = "absolute";
 			drawRect();
 		#elseif cpp
 			
@@ -61,13 +69,25 @@ class Rectangle
 			x = _x;
 			y = _y;
 		#elseif js
-			_div.style.top = Std.string(_y)+"px";
-			_div.style.left = Std.string(_x)+"px";
-			_div.style.background = "#"+StringTools.hex(_color,6);
-			_div.style.width = Std.string(_width)+"px";
-			_div.style.height = Std.string(_height)+"px";
+			element.style.top = Std.string(_y)+"px";
+			element.style.left = Std.string(_x)+"px";
+			element.style.background = "#"+StringTools.hex(_color,6);
+			element.style.width = Std.string(_width)+"px";
+			element.style.height = Std.string(_height)+"px";
 		#elseif cpp
 		
 		#end
 	}
+	#if js
+	public function getX():Float { return 0; }
+	public function setX(val:Float){
+		element.style.left = Std.string(val) + "px";
+		return 0;
+	}
+	public function getY():Float { return 0; }
+	public function setY(val:Float){
+		element.style.top = Std.string(val) + "px";
+		return 0;
+	}
+	#end
 }

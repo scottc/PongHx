@@ -43,6 +43,7 @@ class Game_obj : public virtual hxObject
 		pong::Player _rightPlayer;
 		pong::gfx::Label _leftScoreLabel;
 		pong::gfx::Label _rightScoreLabel;
+		String _id;
 		virtual Void setupStage( );
 		Dynamic setupStage_dyn();
 

@@ -13,9 +13,9 @@ class Stage
 	public static var height(getHeight, null):Int;
 	
 	#if flash
-		private var _sp:Sprite;
+	private static var _SP:Sprite;
 	#elseif js
-		private var _div:HtmlDom;
+		public static var ELEMENT:HtmlDom;
 		private static var _ID:String = "pong";
 	#end
 	
@@ -33,19 +33,19 @@ class Stage
 	
 	public function new(){
 		#if flash
-			_sp = flash.Lib.current;
+			_SP = flash.Lib.current;
 		#elseif js
-			_div = js.Lib.document.getElementById(_ID);
-			if( _div == null )
-				js.Lib.alert("Unknown element : "+_ID);
+			ELEMENT = js.Lib.document.getElementById(_ID);
+			if( ELEMENT == null )
+				js.Lib.alert("Unknown element : " + _ID);
 		#end
 		drawBackground();
 	}
 	public function add(object:Dynamic) {
 		#if flash
-			_sp.addChild(object);
+			_SP.addChild(object);
 		#elseif js
-			_div.appendChild(object);
+			ELEMENT.appendChild(object.element);
 		#end
 	}
 	private function drawBackground() {
@@ -63,7 +63,18 @@ class Stage
 			bg.graphics.lineTo(width / 2, height - 10);
 			add(bg);
 		#elseif js
-			_div.style.background = "#000000";
+			ELEMENT.style.background = "#000000";
+			ELEMENT.style.border = "0";
+			ELEMENT.style.padding = "0";
+			ELEMENT.style.margin = "0";
+			ELEMENT.style.display = "block";
+			ELEMENT.style.width = "100%";
+			ELEMENT.style.height = "100%";
+			ELEMENT.style.position = "absolute";
+			ELEMENT.style.top = "0px";
+			ELEMENT.style.left = "0px";
+			ELEMENT.style.overflow = "hidden";
+			//ELEMENT.style.background = "#000000";
 		#end
 	}
 	

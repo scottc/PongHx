@@ -238,26 +238,30 @@ js.Lib.setErrorHandler = function(f) {
 js.Lib.prototype.__class__ = js.Lib;
 pong.gfx = {}
 pong.gfx.Label = function(p) { if( p === $_ ) return; {
-	null;
+	this._div = this._div.cloneNode(false);
+	this._div.style.position = "absolute";
+	this._div.style.width = "40px";
+	this._div.style.color = "#fff";
 }}
 pong.gfx.Label.__name__ = ["pong","gfx","Label"];
+pong.gfx.Label.prototype._div = null;
 pong.gfx.Label.prototype.getText = function() {
-	return "";
+	return this._div.innerHTML;
 }
 pong.gfx.Label.prototype.getX = function() {
-	return 0;
+	return this._div.style.left;
 }
 pong.gfx.Label.prototype.getY = function() {
-	return 0;
+	return this._div.style.top;
 }
 pong.gfx.Label.prototype.setText = function(v) {
-	null;
+	this._div.innerHTML = v;
 }
 pong.gfx.Label.prototype.setX = function(v) {
-	null;
+	this._div.style.left = Std.string(v);
 }
 pong.gfx.Label.prototype.setY = function(v) {
-	null;
+	this._div.style.top = Std.string(v);
 }
 pong.gfx.Label.prototype.text = null;
 pong.gfx.Label.prototype.x = null;
@@ -295,8 +299,8 @@ pong.Player.prototype.move = function() {
 	this.y += this.velocity.y;
 }
 pong.Player.prototype.render = function() {
-	this.sprite.x = this.x;
-	this.sprite.y = this.y;
+	this.sprite.setX(this.x);
+	this.sprite.setY(this.y);
 }
 pong.Player.prototype.score = null;
 pong.Player.prototype.sprite = null;
@@ -338,6 +342,7 @@ pong.Game = function(p) { if( p === $_ ) return; {
 pong.Game.__name__ = ["pong","Game"];
 pong.Game.prototype._ball = null;
 pong.Game.prototype._graphicsTicker = null;
+pong.Game.prototype._id = null;
 pong.Game.prototype._leftPlayer = null;
 pong.Game.prototype._leftScoreLabel = null;
 pong.Game.prototype._physicsTicker = null;
@@ -411,7 +416,7 @@ pong.Game.prototype.runAI = function(p) {
 	else p.velocity.y = 0;
 }
 pong.Game.prototype.setupStage = function() {
-	this._stage = new pong.gfx.Stage();
+	this._stage = pong.gfx.Stage.getInstance();
 	this._ball = new pong.Ball(150,50,20,20);
 	this._leftPlayer = new pong.Player(30,50,20,100);
 	this._rightPlayer = new pong.Player(pong.gfx.Stage.getWidth() - 50,50,20,100);
@@ -465,12 +470,117 @@ haxe.Timer.prototype.stop = function() {
 }
 haxe.Timer.prototype.timerId = null;
 haxe.Timer.prototype.__class__ = haxe.Timer;
+StringTools = function() { }
+StringTools.__name__ = ["StringTools"];
+StringTools.urlEncode = function(s) {
+	return encodeURIComponent(s);
+}
+StringTools.urlDecode = function(s) {
+	return decodeURIComponent(s.split("+").join(" "));
+}
+StringTools.htmlEscape = function(s) {
+	return s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
+}
+StringTools.htmlUnescape = function(s) {
+	return s.split("&gt;").join(">").split("&lt;").join("<").split("&amp;").join("&");
+}
+StringTools.startsWith = function(s,start) {
+	return (s.length >= start.length && s.substr(0,start.length) == start);
+}
+StringTools.endsWith = function(s,end) {
+	var elen = end.length;
+	var slen = s.length;
+	return (slen >= elen && s.substr(slen - elen,elen) == end);
+}
+StringTools.isSpace = function(s,pos) {
+	var c = s.charCodeAt(pos);
+	return (c >= 9 && c <= 13) || c == 32;
+}
+StringTools.ltrim = function(s) {
+	var l = s.length;
+	var r = 0;
+	while(r < l && StringTools.isSpace(s,r)) {
+		r++;
+	}
+	if(r > 0) return s.substr(r,l - r);
+	else return s;
+}
+StringTools.rtrim = function(s) {
+	var l = s.length;
+	var r = 0;
+	while(r < l && StringTools.isSpace(s,l - r - 1)) {
+		r++;
+	}
+	if(r > 0) {
+		return s.substr(0,l - r);
+	}
+	else {
+		return s;
+	}
+}
+StringTools.trim = function(s) {
+	return StringTools.ltrim(StringTools.rtrim(s));
+}
+StringTools.rpad = function(s,c,l) {
+	var sl = s.length;
+	var cl = c.length;
+	while(sl < l) {
+		if(l - sl < cl) {
+			s += c.substr(0,l - sl);
+			sl = l;
+		}
+		else {
+			s += c;
+			sl += cl;
+		}
+	}
+	return s;
+}
+StringTools.lpad = function(s,c,l) {
+	var ns = "";
+	var sl = s.length;
+	if(sl >= l) return s;
+	var cl = c.length;
+	while(sl < l) {
+		if(l - sl < cl) {
+			ns += c.substr(0,l - sl);
+			sl = l;
+		}
+		else {
+			ns += c;
+			sl += cl;
+		}
+	}
+	return ns + s;
+}
+StringTools.replace = function(s,sub,by) {
+	return s.split(sub).join(by);
+}
+StringTools.hex = function(n,digits) {
+	var neg = false;
+	if(n < 0) {
+		neg = true;
+		n = -n;
+	}
+	var s = n.toString(16);
+	s = s.toUpperCase();
+	if(digits != null) while(s.length < digits) s = "0" + s;
+	if(neg) s = "-" + s;
+	return s;
+}
+StringTools.prototype.__class__ = StringTools;
 pong.gfx.Rectangle = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
 	this._color = 16777215;
 	this._x = x_;
 	this._y = y_;
 	this._width = width_;
 	this._height = height_;
+	if(pong.gfx.Rectangle._num == null) pong.gfx.Rectangle._num = 0;
+	else pong.gfx.Rectangle._num++;
+	this.element = pong.gfx.Stage.ELEMENT.cloneNode(false);
+	this.element.id = "Rectangle_" + Std.string(pong.gfx.Rectangle._num);
+	this.element.style.position = "absolute";
+	this.drawRect();
 }}
 pong.gfx.Rectangle.__name__ = ["pong","gfx","Rectangle"];
 pong.gfx.Rectangle.prototype._color = null;
@@ -479,7 +589,26 @@ pong.gfx.Rectangle.prototype._width = null;
 pong.gfx.Rectangle.prototype._x = null;
 pong.gfx.Rectangle.prototype._y = null;
 pong.gfx.Rectangle.prototype.drawRect = function() {
-	null;
+	this.element.style.top = Std.string(this._y) + "px";
+	this.element.style.left = Std.string(this._x) + "px";
+	this.element.style.background = "#" + StringTools.hex(this._color,6);
+	this.element.style.width = Std.string(this._width) + "px";
+	this.element.style.height = Std.string(this._height) + "px";
+}
+pong.gfx.Rectangle.prototype.element = null;
+pong.gfx.Rectangle.prototype.getX = function() {
+	return 0;
+}
+pong.gfx.Rectangle.prototype.getY = function() {
+	return 0;
+}
+pong.gfx.Rectangle.prototype.setX = function(val) {
+	this.element.style.left = Std.string(val) + "px";
+	return 0;
+}
+pong.gfx.Rectangle.prototype.setY = function(val) {
+	this.element.style.top = Std.string(val) + "px";
+	return 0;
 }
 pong.gfx.Rectangle.prototype.x = null;
 pong.gfx.Rectangle.prototype.y = null;
@@ -497,18 +626,26 @@ pong.Ball.prototype.move = function() {
 	this.y += this.velocity.y;
 }
 pong.Ball.prototype.render = function() {
-	this.sprite.x = this.x;
-	this.sprite.y = this.y;
+	this.sprite.setX(this.x);
+	this.sprite.setY(this.y);
 }
 pong.Ball.prototype.sprite = null;
 pong.Ball.prototype.velocity = null;
 pong.Ball.prototype.__class__ = pong.Ball;
 pong.gfx.Stage = function(p) { if( p === $_ ) return; {
-	null;
+	pong.gfx.Stage.ELEMENT = js.Lib.document.getElementById(pong.gfx.Stage._ID);
+	if(pong.gfx.Stage.ELEMENT == null) js.Lib.alert("Unknown element : " + pong.gfx.Stage._ID);
+	this.drawBackground();
 }}
 pong.gfx.Stage.__name__ = ["pong","gfx","Stage"];
 pong.gfx.Stage.width = null;
 pong.gfx.Stage.height = null;
+pong.gfx.Stage.ELEMENT = null;
+pong.gfx.Stage._instance = null;
+pong.gfx.Stage.getInstance = function() {
+	if(pong.gfx.Stage._instance == null) pong.gfx.Stage._instance = new pong.gfx.Stage();
+	return pong.gfx.Stage._instance;
+}
 pong.gfx.Stage.getWidth = function() {
 	return js.Lib.window.document.body.clientWidth;
 }
@@ -516,10 +653,20 @@ pong.gfx.Stage.getHeight = function() {
 	return js.Lib.window.document.body.clientHeight;
 }
 pong.gfx.Stage.prototype.add = function(object) {
-	null;
+	pong.gfx.Stage.ELEMENT.appendChild(object.element);
 }
 pong.gfx.Stage.prototype.drawBackground = function() {
-	null;
+	pong.gfx.Stage.ELEMENT.style.background = "#000000";
+	pong.gfx.Stage.ELEMENT.style.border = "0";
+	pong.gfx.Stage.ELEMENT.style.padding = "0";
+	pong.gfx.Stage.ELEMENT.style.margin = "0";
+	pong.gfx.Stage.ELEMENT.style.display = "block";
+	pong.gfx.Stage.ELEMENT.style.width = "100%";
+	pong.gfx.Stage.ELEMENT.style.height = "100%";
+	pong.gfx.Stage.ELEMENT.style.position = "absolute";
+	pong.gfx.Stage.ELEMENT.style.top = "0px";
+	pong.gfx.Stage.ELEMENT.style.left = "0px";
+	pong.gfx.Stage.ELEMENT.style.overflow = "hidden";
 }
 pong.gfx.Stage.prototype.__class__ = pong.gfx.Stage;
 pong.ui = {}
@@ -639,4 +786,6 @@ js.Boot.__init();
 }
 js.Lib.onerror = null;
 haxe.Timer.arr = new Array();
+pong.gfx.Rectangle._num = 0;
+pong.gfx.Stage._ID = "pong";
 $Main.init = pong.Main.main();

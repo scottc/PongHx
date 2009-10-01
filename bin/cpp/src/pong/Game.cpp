@@ -62,7 +62,7 @@ Dynamic Game_obj::__Create(DynamicArray inArgs)
 
 Void Game_obj::setupStage( ){
 {
-		this->_stage = pong::gfx::Stage_obj::__new();
+		this->_stage = pong::gfx::Stage_obj::getInstance();
 		this->_ball = pong::Ball_obj::__new(150,50,20,20);
 		this->_leftPlayer = pong::Player_obj::__new(30,50,20,100);
 		this->_rightPlayer = pong::Player_obj::__new(pong::gfx::Stage_obj::getWidth() - 50,50,20,100);
@@ -216,6 +216,7 @@ Game_obj::Game_obj()
 	InitMember(_rightPlayer);
 	InitMember(_leftScoreLabel);
 	InitMember(_rightScoreLabel);
+	InitMember(_id);
 }
 
 void Game_obj::__Mark()
@@ -228,11 +229,15 @@ void Game_obj::__Mark()
 	MarkMember(_rightPlayer);
 	MarkMember(_leftScoreLabel);
 	MarkMember(_rightScoreLabel);
+	MarkMember(_id);
 }
 
 Dynamic Game_obj::__Field(const String &inName)
 {
 	switch(inName.length) {
+	case 3:
+		if (!memcmp(inName.__s,L"_id",sizeof(wchar_t)*3) ) { return _id; }
+		break;
 	case 5:
 		if (!memcmp(inName.__s,L"_ball",sizeof(wchar_t)*5) ) { return _ball; }
 		if (!memcmp(inName.__s,L"runAI",sizeof(wchar_t)*5) ) { return runAI_dyn(); }
@@ -276,6 +281,7 @@ static int __id__leftPlayer = __hxcpp_field_to_id("_leftPlayer");
 static int __id__rightPlayer = __hxcpp_field_to_id("_rightPlayer");
 static int __id__leftScoreLabel = __hxcpp_field_to_id("_leftScoreLabel");
 static int __id__rightScoreLabel = __hxcpp_field_to_id("_rightScoreLabel");
+static int __id__id = __hxcpp_field_to_id("_id");
 static int __id_setupStage = __hxcpp_field_to_id("setupStage");
 static int __id_newRound = __hxcpp_field_to_id("newRound");
 static int __id_runAI = __hxcpp_field_to_id("runAI");
@@ -294,6 +300,7 @@ Dynamic Game_obj::__IField(int inFieldID)
 	if (inFieldID==__id__rightPlayer) return _rightPlayer;
 	if (inFieldID==__id__leftScoreLabel) return _leftScoreLabel;
 	if (inFieldID==__id__rightScoreLabel) return _rightScoreLabel;
+	if (inFieldID==__id__id) return _id;
 	if (inFieldID==__id_setupStage) return setupStage_dyn();
 	if (inFieldID==__id_newRound) return newRound_dyn();
 	if (inFieldID==__id_runAI) return runAI_dyn();
@@ -306,6 +313,9 @@ Dynamic Game_obj::__IField(int inFieldID)
 Dynamic Game_obj::__SetField(const String &inName,const Dynamic &inValue)
 {
 	switch(inName.length) {
+	case 3:
+		if (!memcmp(inName.__s,L"_id",sizeof(wchar_t)*3) ) { _id=inValue.Cast<String >();return inValue; }
+		break;
 	case 5:
 		if (!memcmp(inName.__s,L"_ball",sizeof(wchar_t)*5) ) { _ball=inValue.Cast<pong::Ball >();return inValue; }
 		break;
@@ -341,6 +351,7 @@ void Game_obj::__GetFields(Array<String> &outFields)
 	outFields->push(STRING(L"_rightPlayer",12));
 	outFields->push(STRING(L"_leftScoreLabel",15));
 	outFields->push(STRING(L"_rightScoreLabel",16));
+	outFields->push(STRING(L"_id",3));
 	super::__GetFields(outFields);
 };
 
@@ -356,6 +367,7 @@ static String sMemberFields[] = {
 	STRING(L"_rightPlayer",12),
 	STRING(L"_leftScoreLabel",15),
 	STRING(L"_rightScoreLabel",16),
+	STRING(L"_id",3),
 	STRING(L"setupStage",10),
 	STRING(L"newRound",8),
 	STRING(L"runAI",5),
