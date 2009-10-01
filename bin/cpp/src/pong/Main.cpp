@@ -6,6 +6,9 @@
 #ifndef INCLUDED_pong_Main
 #include <pong/Main.h>
 #endif
+#ifndef INCLUDED_pong_ui_Mouse
+#include <pong/ui/Mouse.h>
+#endif
 namespace pong{
 
 Void Main_obj::__construct()
@@ -28,6 +31,7 @@ Dynamic Main_obj::__Create(DynamicArray inArgs)
 
 Void Main_obj::main( ){
 {
+		pong::ui::Mouse_obj::getInstance();
 		pong::Game_obj::__new();
 	}
 return null();

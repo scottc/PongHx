@@ -21,7 +21,7 @@ Void Player_obj::__construct(int x_,int y_,int width_,int height_)
 	this->sprite = pong::gfx::Rectangle_obj::__new(x_,y_,width_,height_);
 	this->velocity = pong::geom::Vector_obj::__new(0,0);
 	this->score = 0;
-	this->ai = true;
+	this->ai = false;
 }
 ;
 	return null();

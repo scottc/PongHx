@@ -23,7 +23,7 @@ class Player extends pong.geom.Rectangle
 		velocity = new Vector(0,0);
 		
 		score = 0;
-		ai = true;
+		ai = false;
 	}
 	public function render() {
 		sprite.x = x;

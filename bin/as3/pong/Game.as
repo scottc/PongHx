@@ -1,5 +1,6 @@
 package pong {
 	import pong.gfx.Label;
+	import pong.ui.Mouse;
 	import pong.gfx.Stage;
 	import pong.Ball;
 	import haxe.Timer;
@@ -28,8 +29,11 @@ package pong {
 		protected function setupStage() : void {
 			this._stage = pong.gfx.Stage.getInstance();
 			this._ball = new pong.Ball(150,50,20,20);
+			this._ball.velocity.x = pong.gfx.Stage.getWidth() * 0.005;
+			this._ball.velocity.y = pong.gfx.Stage.getHeight() * 0.005;
 			this._leftPlayer = new pong.Player(30,50,20,100);
 			this._rightPlayer = new pong.Player(pong.gfx.Stage.getWidth() - 50,50,20,100);
+			this._rightPlayer.ai = true;
 			this._stage.add(this._ball.sprite);
 			this._stage.add(this._leftPlayer.sprite);
 			this._stage.add(this._rightPlayer.sprite);
@@ -53,8 +57,8 @@ package pong {
 		}
 		
 		protected function runAI(p : pong.Player) : void {
-			if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = 1;
-			else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = -1;
+			if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = pong.gfx.Stage.getHeight() * 0.005;
+			else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = -pong.gfx.Stage.getHeight() * 0.005;
 			else p.velocity.y = 0;
 		}
 		
@@ -98,10 +102,14 @@ package pong {
 		}
 		
 		protected function physicsStep() : void {
-			if(!this._leftPlayer.ai) null;
+			if(!this._leftPlayer.ai) {
+				this._leftPlayer.y = pong.ui.Mouse.y - this._leftPlayer.height / 2;
+			}
 			else if(this._ball.velocity.x < 0) this.runAI(this._leftPlayer);
 			else this._leftPlayer.velocity.y = 0;
-			if(!this._rightPlayer.ai) null;
+			if(!this._rightPlayer.ai) {
+				this._rightPlayer.y = pong.ui.Mouse.y - this._rightPlayer.height / 2;
+			}
 			else if(this._ball.velocity.x > 0) this.runAI(this._rightPlayer);
 			else this._rightPlayer.velocity.y = 0;
 			this._leftPlayer.move();

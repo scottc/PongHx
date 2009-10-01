@@ -271,6 +271,25 @@ pong.gfx.Label.prototype.text = null;
 pong.gfx.Label.prototype.x = null;
 pong.gfx.Label.prototype.y = null;
 pong.gfx.Label.prototype.__class__ = pong.gfx.Label;
+pong.ui = {}
+pong.ui.Mouse = function(p) { if( p === $_ ) return; {
+	js.Lib.document.onmousemove = $closure(pong.ui.Mouse,"mouseMove");
+	js.Lib.document.onmousedown = $closure(pong.ui.Mouse,"mousePressed");
+}}
+pong.ui.Mouse.__name__ = ["pong","ui","Mouse"];
+pong.ui.Mouse._instance = null;
+pong.ui.Mouse.getInstance = function() {
+	if(pong.ui.Mouse._instance == null) pong.ui.Mouse._instance = new pong.ui.Mouse();
+	return pong.ui.Mouse._instance;
+}
+pong.ui.Mouse.mouseMove = function(e) {
+	pong.ui.Mouse.x = (js.Lib.isIE?event.x:e.clientX);
+	pong.ui.Mouse.y = (js.Lib.isIE?event.y:e.clientY);
+}
+pong.ui.Mouse.mousePressed = function(e) {
+	null;
+}
+pong.ui.Mouse.prototype.__class__ = pong.ui.Mouse;
 pong.geom.Rectangle = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
 	this.x = x_;
 	this.y = y_;
@@ -292,7 +311,7 @@ pong.Player = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
 	this.sprite = new pong.gfx.Rectangle(x_,y_,width_,height_);
 	this.velocity = new pong.geom.Vector(0,0);
 	this.score = 0;
-	this.ai = true;
+	this.ai = false;
 }}
 pong.Player.__name__ = ["pong","Player"];
 pong.Player.__super__ = pong.geom.Rectangle;
@@ -398,10 +417,14 @@ pong.Game.prototype.newRound = function() {
 	this._ball.x = pong.gfx.Stage.getWidth() / 2 - this._ball.width / 2;
 }
 pong.Game.prototype.physicsStep = function() {
-	if(!this._leftPlayer.ai) null;
+	if(!this._leftPlayer.ai) {
+		this._leftPlayer.y = pong.ui.Mouse.y - this._leftPlayer.height / 2;
+	}
 	else if(this._ball.velocity.x < 0) this.runAI(this._leftPlayer);
 	else this._leftPlayer.velocity.y = 0;
-	if(!this._rightPlayer.ai) null;
+	if(!this._rightPlayer.ai) {
+		this._rightPlayer.y = pong.ui.Mouse.y - this._rightPlayer.height / 2;
+	}
 	else if(this._ball.velocity.x > 0) this.runAI(this._rightPlayer);
 	else this._rightPlayer.velocity.y = 0;
 	this._leftPlayer.move();
@@ -415,15 +438,18 @@ pong.Game.prototype.render = function() {
 	this._rightPlayer.render();
 }
 pong.Game.prototype.runAI = function(p) {
-	if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = 1;
-	else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = -1;
+	if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = pong.gfx.Stage.getHeight() * 0.005;
+	else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = -pong.gfx.Stage.getHeight() * 0.005;
 	else p.velocity.y = 0;
 }
 pong.Game.prototype.setupStage = function() {
 	this._stage = pong.gfx.Stage.getInstance();
 	this._ball = new pong.Ball(150,50,20,20);
+	this._ball.velocity.x = pong.gfx.Stage.getWidth() * 0.005;
+	this._ball.velocity.y = pong.gfx.Stage.getHeight() * 0.005;
 	this._leftPlayer = new pong.Player(30,50,20,100);
 	this._rightPlayer = new pong.Player(pong.gfx.Stage.getWidth() - 50,50,20,100);
+	this._rightPlayer.ai = true;
 	this._stage.add(this._ball.sprite);
 	this._stage.add(this._leftPlayer.sprite);
 	this._stage.add(this._rightPlayer.sprite);
@@ -670,7 +696,6 @@ pong.gfx.Stage.prototype.drawBackground = function() {
 	pong.gfx.Stage.ELEMENT.style.overflow = "hidden";
 }
 pong.gfx.Stage.prototype.__class__ = pong.gfx.Stage;
-pong.ui = {}
 pong.ui.Keyboard = function(p) { if( p === $_ ) return; {
 	null;
 }}
@@ -679,6 +704,7 @@ pong.ui.Keyboard.prototype.__class__ = pong.ui.Keyboard;
 pong.Main = function() { }
 pong.Main.__name__ = ["pong","Main"];
 pong.Main.main = function() {
+	pong.ui.Mouse.getInstance();
 	new pong.Game();
 }
 pong.Main.prototype.__class__ = pong.Main;
@@ -786,6 +812,8 @@ js.Boot.__init();
 	Math.__name__ = ["Math"];
 }
 js.Lib.onerror = null;
+pong.ui.Mouse.x = 0;
+pong.ui.Mouse.y = 0;
 haxe.Timer.arr = new Array();
 pong.gfx.Stage._ID = "pong";
 $Main.init = pong.Main.main();

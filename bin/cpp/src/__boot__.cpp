@@ -10,6 +10,7 @@
 #include <Std.h>
 #include <pong/Player.h>
 #include <pong/geom/Rectangle.h>
+#include <pong/ui/Mouse.h>
 #include <pong/gfx/Label.h>
 #include <pong/geom/Vector.h>
 
@@ -26,11 +27,13 @@ pong::Game_obj::__register();
 Std_obj::__register();
 pong::Player_obj::__register();
 pong::geom::Rectangle_obj::__register();
+pong::ui::Mouse_obj::__register();
 pong::gfx::Label_obj::__register();
 pong::geom::Vector_obj::__register();
 Std_obj::__init__();
 pong::geom::Vector_obj::__boot();
 pong::gfx::Label_obj::__boot();
+pong::ui::Mouse_obj::__boot();
 pong::geom::Rectangle_obj::__boot();
 pong::Player_obj::__boot();
 Std_obj::__boot();

@@ -6,6 +6,7 @@ import pong.gfx.Label;
 import pong.gfx.Rectangle;
 
 import pong.ui.Keyboard;
+import pong.ui.Mouse;
 
 class Game
 {
@@ -40,9 +41,13 @@ class Game
 		_stage = Stage.getInstance();
 		
 		_ball = new Ball(150, 50, 20, 20);
+		_ball.velocity.x = Stage.width * 0.005;
+		_ball.velocity.y = Stage.height * 0.005;
 		
 		_leftPlayer = new Player(30, 50, 20, 100);
-		_rightPlayer = new Player(Stage.width-50, 50, 20, 100);
+		
+		_rightPlayer = new Player(Stage.width - 50, 50, 20, 100);
+		_rightPlayer.ai = true;
 		
 		_stage.add(_ball.sprite);
 		_stage.add(_leftPlayer.sprite);
@@ -73,9 +78,9 @@ class Game
 	private function runAI(p:Player) {
 		//make AI chase ball...
 		if (p.y + p.height/2 < _ball.y + _ball.height/2)
-			p.velocity.y = 1;
+			p.velocity.y = Stage.height * 0.005;
 		else if (p.y + p.height/2 > _ball.y + _ball.height/2)
-			p.velocity.y = -1;
+			p.velocity.y = -Stage.height * 0.005;
 		else
 			p.velocity.y = 0;
 	}
@@ -131,15 +136,15 @@ class Game
 	}
 	private function physicsStep():Void{
 		//IF human, get user input... ELSE run ai
-		if (!_leftPlayer.ai){
-			//
+		if (!_leftPlayer.ai) {
+			_leftPlayer.y = Mouse.y - _leftPlayer.height / 2;
 		}else if (_ball.velocity.x < 0)
 			runAI(_leftPlayer);
 		else
 			_leftPlayer.velocity.y = 0;
 			
 		if (!_rightPlayer.ai){
-			//
+			_rightPlayer.y = Mouse.y - _rightPlayer.height / 2;
 		}else if(_ball.velocity.x > 0)
 			runAI(_rightPlayer);
 		else

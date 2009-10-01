@@ -9,7 +9,7 @@ package pong {
 			this.sprite = new pong.gfx.Rectangle(x_,y_,width_,height_);
 			this.velocity = new pong.geom.Vector(0,0);
 			this.score = 0;
-			this.ai = true;
+			this.ai = false;
 		}}
 		
 		public var sprite : pong.gfx.Rectangle;
