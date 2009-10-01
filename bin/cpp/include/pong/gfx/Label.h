@@ -36,19 +36,19 @@ class Label_obj : public virtual hxObject
 		virtual String getText( );
 		Dynamic getText_dyn();
 
-		virtual Void setText( String v);
+		virtual String setText( String v);
 		Dynamic setText_dyn();
 
-		virtual int getX( );
+		virtual double getX( );
 		Dynamic getX_dyn();
 
-		virtual Void setX( double v);
+		virtual int setX( double v);
 		Dynamic setX_dyn();
 
-		virtual Void getY( );
+		virtual double getY( );
 		Dynamic getY_dyn();
 
-		virtual Void setY( double v);
+		virtual int setY( double v);
 		Dynamic setY_dyn();
 
 };

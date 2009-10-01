@@ -34,49 +34,42 @@ String Label_obj::getText( ){
 
 DEFINE_DYNAMIC_FUNC0(Label_obj,getText,return )
 
-Void Label_obj::setText( String v){
-{
-		String foo = v;
-	}
-return null();
+String Label_obj::setText( String v){
+	String foo = v;
+	return STRING(L"",0);
 }
 
 
-DEFINE_DYNAMIC_FUNC1(Label_obj,setText,(void))
+DEFINE_DYNAMIC_FUNC1(Label_obj,setText,return )
 
-int Label_obj::getX( ){
+double Label_obj::getX( ){
+	return 0;
 	return 0;
 }
 
 
 DEFINE_DYNAMIC_FUNC0(Label_obj,getX,return )
 
-Void Label_obj::setX( double v){
-{
-	}
-return null();
+int Label_obj::setX( double v){
+	return 0;
 }
 
 
-DEFINE_DYNAMIC_FUNC1(Label_obj,setX,(void))
+DEFINE_DYNAMIC_FUNC1(Label_obj,setX,return )
 
-Void Label_obj::getY( ){
-{
-	}
-return null();
+double Label_obj::getY( ){
+	return 0;
 }
 
 
-DEFINE_DYNAMIC_FUNC0(Label_obj,getY,(void))
+DEFINE_DYNAMIC_FUNC0(Label_obj,getY,return )
 
-Void Label_obj::setY( double v){
-{
-	}
-return null();
+int Label_obj::setY( double v){
+	return 0;
 }
 
 
-DEFINE_DYNAMIC_FUNC1(Label_obj,setY,(void))
+DEFINE_DYNAMIC_FUNC1(Label_obj,setY,return )
 
 
 Label_obj::Label_obj()

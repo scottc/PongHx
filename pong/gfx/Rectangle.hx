@@ -17,8 +17,6 @@ class Rectangle
 	#if flash
 	#elseif js
 		public var element:HtmlDom;
-		
-		private static var _num:Int = 0;
 	
 		public var x(getX,setX):Float;
 		public var y(getY,setY):Float;
@@ -47,13 +45,7 @@ class Rectangle
 			super();
 			drawRect();
 		#elseif js
-			if (_num == null)
-				_num = 0;
-			else
-				_num++;
-		
 			element = Stage.ELEMENT.cloneNode(false);
-			element.id = "Rectangle_" + Std.string(_num);
 			element.style.position = "absolute";
 			drawRect();
 		#elseif cpp

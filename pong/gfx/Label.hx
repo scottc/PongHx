@@ -11,11 +11,11 @@ class Label
 {
 	#if flash
 	#elseif js
-		private var _div:HtmlDom;
+		public var element:HtmlDom;
 	
-		public var text/*(getText,setText)*/:String;
-		public var x/*(getX,setX)*/:Float;
-		public var y/*(getY,setY)*/:Float;		
+		public var text(getText,setText):String;
+		public var x(getX,setX):Float;
+		public var y(getY,setY):Float;		
 	#else
 		public var text:String;
 		public var x:Float;
@@ -31,50 +31,56 @@ class Label
 			width = 40;
 			selectable = false;
 		#elseif js
-			_div = _div.cloneNode(false);
-			_div.style.position = "absolute";
-			_div.style.width = "40px";
-			_div.style.color = "#fff";
+			element = Stage.ELEMENT.cloneNode(false);
+			element.style.position = "absolute";
+			element.style.background = "none";
+			element.style.width = "40px";
+			element.style.color = "#fff";
 		#end
 	}
 	
 	//getters and setters
-	public function getText() {
+	public function getText():String{
 		#if js
-			return _div.innerHTML;
+			return element.innerHTML;
 		#else
 			return "";
 		#end
 	}
 	public function setText(v:String){
 		#if js
-			_div.innerHTML = v;
+			element.innerHTML = v;
 		#else
 			var foo:String = v;
 		#end
+		return "";
 	}
 	
-	public function getX() {
+	public function getX():Float{
 		#if js
-			return _div.style.left;
+			//return _div.style.left;
 		#else
 			return 0;
 		#end
+		return 0;
 	}
 	public function setX(v:Float) {
 		#if js
-			_div.style.left = Std.string(v);
+			element.style.left = Std.string(v);
 		#end
+		return 0;
 	}
 	
-	public function getY() {
+	public function getY():Float {
 		#if js
-			return _div.style.top;
+			//return _div.style.top;
 		#end
+		return 0;
 	}
 	public function setY(v:Float) {
 		#if js
-			_div.style.top = Std.string(v);
+			element.style.top = Std.string(v);
 		#end
+		return 0;
 	}
 }

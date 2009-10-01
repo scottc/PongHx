@@ -13,24 +13,26 @@ package pong.gfx {
 			return "";
 		}
 		
-		public function setText(v : String) : void {
+		public function setText(v : String) : String {
 			var foo : String = v;
+			return "";
 		}
 		
-		public function getX() : int {
+		public function getX() : Number {
+			return 0;
 			return 0;
 		}
 		
-		public function setX(v : Number) : void {
-			null;
+		public function setX(v : Number) : int {
+			return 0;
 		}
 		
-		public function getY() : void {
-			null;
+		public function getY() : Number {
+			return 0;
 		}
 		
-		public function setY(v : Number) : void {
-			null;
+		public function setY(v : Number) : int {
+			return 0;
 		}
 		
 	}

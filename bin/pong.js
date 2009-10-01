@@ -238,30 +238,34 @@ js.Lib.setErrorHandler = function(f) {
 js.Lib.prototype.__class__ = js.Lib;
 pong.gfx = {}
 pong.gfx.Label = function(p) { if( p === $_ ) return; {
-	this._div = this._div.cloneNode(false);
-	this._div.style.position = "absolute";
-	this._div.style.width = "40px";
-	this._div.style.color = "#fff";
+	this.element = pong.gfx.Stage.ELEMENT.cloneNode(false);
+	this.element.style.position = "absolute";
+	this.element.style.background = "none";
+	this.element.style.width = "40px";
+	this.element.style.color = "#fff";
 }}
 pong.gfx.Label.__name__ = ["pong","gfx","Label"];
-pong.gfx.Label.prototype._div = null;
+pong.gfx.Label.prototype.element = null;
 pong.gfx.Label.prototype.getText = function() {
-	return this._div.innerHTML;
+	return this.element.innerHTML;
 }
 pong.gfx.Label.prototype.getX = function() {
-	return this._div.style.left;
+	return 0;
 }
 pong.gfx.Label.prototype.getY = function() {
-	return this._div.style.top;
+	return 0;
 }
 pong.gfx.Label.prototype.setText = function(v) {
-	this._div.innerHTML = v;
+	this.element.innerHTML = v;
+	return "";
 }
 pong.gfx.Label.prototype.setX = function(v) {
-	this._div.style.left = Std.string(v);
+	this.element.style.left = Std.string(v);
+	return 0;
 }
 pong.gfx.Label.prototype.setY = function(v) {
-	this._div.style.top = Std.string(v);
+	this.element.style.top = Std.string(v);
+	return 0;
 }
 pong.gfx.Label.prototype.text = null;
 pong.gfx.Label.prototype.x = null;
@@ -371,11 +375,11 @@ pong.Game.prototype.doCollisions = function() {
 		this._ball.velocity.y *= -1;
 	}
 	if(this._ball.x < 0 - this._ball.width) {
-		this._rightScoreLabel.text = Std.string(++this._rightPlayer.score);
+		this._rightScoreLabel.setText(Std.string(++this._rightPlayer.score));
 		this.newRound();
 	}
 	if(this._ball.x > pong.gfx.Stage.getWidth()) {
-		this._leftScoreLabel.text = Std.string(++this._leftPlayer.score);
+		this._leftScoreLabel.setText(Std.string(++this._leftPlayer.score));
 		this.newRound();
 	}
 	if(this._ball.isOverlapping(this._leftPlayer)) {
@@ -424,13 +428,13 @@ pong.Game.prototype.setupStage = function() {
 	this._stage.add(this._leftPlayer.sprite);
 	this._stage.add(this._rightPlayer.sprite);
 	this._leftScoreLabel = new pong.gfx.Label();
-	this._leftScoreLabel.text = "0";
-	this._leftScoreLabel.y = 10;
-	this._leftScoreLabel.x = pong.gfx.Stage.getWidth() * 0.5 - 20;
+	this._leftScoreLabel.setText("0");
+	this._leftScoreLabel.setY(10);
+	this._leftScoreLabel.setX(pong.gfx.Stage.getWidth() * 0.5 - 20);
 	this._rightScoreLabel = new pong.gfx.Label();
-	this._rightScoreLabel.text = "0";
-	this._rightScoreLabel.y = 10;
-	this._rightScoreLabel.x = pong.gfx.Stage.getWidth() * 0.5 + 10;
+	this._rightScoreLabel.setText("0");
+	this._rightScoreLabel.setY(10);
+	this._rightScoreLabel.setX(pong.gfx.Stage.getWidth() * 0.5 + 10);
 	this._stage.add(this._leftScoreLabel);
 	this._stage.add(this._rightScoreLabel);
 }
@@ -575,10 +579,7 @@ pong.gfx.Rectangle = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
 	this._y = y_;
 	this._width = width_;
 	this._height = height_;
-	if(pong.gfx.Rectangle._num == null) pong.gfx.Rectangle._num = 0;
-	else pong.gfx.Rectangle._num++;
 	this.element = pong.gfx.Stage.ELEMENT.cloneNode(false);
-	this.element.id = "Rectangle_" + Std.string(pong.gfx.Rectangle._num);
 	this.element.style.position = "absolute";
 	this.drawRect();
 }}
@@ -786,6 +787,5 @@ js.Boot.__init();
 }
 js.Lib.onerror = null;
 haxe.Timer.arr = new Array();
-pong.gfx.Rectangle._num = 0;
 pong.gfx.Stage._ID = "pong";
 $Main.init = pong.Main.main();
