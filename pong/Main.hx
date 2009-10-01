@@ -17,12 +17,8 @@ class Main
 			flash.Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
 			flash.Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 		#end
-		#if js
-			new Game("pong");
-		#else
-			new Game();
-		#end
 		
+		new Game();
 	}
 	
 }

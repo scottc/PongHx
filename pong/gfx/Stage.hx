@@ -16,15 +16,28 @@ class Stage
 		private var _sp:Sprite;
 	#elseif js
 		private var _div:HtmlDom;
+		private static var _ID:String = "pong";
 	#end
 	
-	public function new(?id_:String){
+	
+	private static var _instance:Stage;
+	
+	/**
+	 * Singleton pattern
+	 * @return The Instance of this class.
+	 */
+	public static function getInstance():Stage {
+	if (_instance == null) _instance = new Stage();
+		return _instance;
+	}
+	
+	public function new(){
 		#if flash
 			_sp = flash.Lib.current;
 		#elseif js
-			_div = js.Lib.document.getElementById(id_);
+			_div = js.Lib.document.getElementById(_ID);
 			if( _div == null )
-				js.Lib.alert("Unknown element : "+id_);
+				js.Lib.alert("Unknown element : "+_ID);
 		#end
 		drawBackground();
 	}

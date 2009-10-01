@@ -24,17 +24,8 @@ class Game
 	
 	private var _id:String;
 	
-	public function new(
-	#if js
-		id_:String
-	#end
-	) 
+	public function new() 
 	{	
-		#if js
-		 _id = id_;
-		#end
-		
-		
 		_physicsTicker = new Timer(25);
 		_physicsTicker.run = physicsStep;
 		
@@ -46,12 +37,7 @@ class Game
 		_ball.y -= 100;
 	}
 	private function setupStage():Void {
-		#if js
-			_stage = new Stage(_id);
-		#else
-			_stage = new Stage();
-		#end
-		
+		_stage = Stage.getInstance();
 		
 		_ball = new Ball(150, 50, 20, 20);
 		
@@ -143,7 +129,6 @@ class Game
 			_ball.velocity.x *= -1;
 		}
 	}
-	
 	private function physicsStep():Void{
 		//IF human, get user input... ELSE run ai
 		if (!_leftPlayer.ai){
