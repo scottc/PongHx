@@ -18,7 +18,7 @@ class Main
 			flash.Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 		#end
 		
-		pong.ui.Mouse.getInstance();//initalise mouse
+		pong.ui.Mouse.initialize();//initalise mouse
 		new Game();
 	}
 	

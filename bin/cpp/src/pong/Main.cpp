@@ -31,7 +31,7 @@ Dynamic Main_obj::__Create(DynamicArray inArgs)
 
 Void Main_obj::main( ){
 {
-		pong::ui::Mouse_obj::getInstance();
+		pong::ui::Mouse_obj::initialize();
 		pong::Game_obj::__new();
 	}
 return null();

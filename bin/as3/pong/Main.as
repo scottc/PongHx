@@ -8,7 +8,7 @@ package pong {
 		static public function main() : void {
 			flash.Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
 			flash.Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
-			pong.ui.Mouse.getInstance();
+			pong.ui.Mouse.initialize();
 			new pong.Game();
 		}
 		

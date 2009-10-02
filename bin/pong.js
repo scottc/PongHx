@@ -272,15 +272,11 @@ pong.gfx.Label.prototype.x = null;
 pong.gfx.Label.prototype.y = null;
 pong.gfx.Label.prototype.__class__ = pong.gfx.Label;
 pong.ui = {}
-pong.ui.Mouse = function(p) { if( p === $_ ) return; {
+pong.ui.Mouse = function() { }
+pong.ui.Mouse.__name__ = ["pong","ui","Mouse"];
+pong.ui.Mouse.initialize = function() {
 	js.Lib.document.onmousemove = $closure(pong.ui.Mouse,"mouseMove");
 	js.Lib.document.onmousedown = $closure(pong.ui.Mouse,"mousePressed");
-}}
-pong.ui.Mouse.__name__ = ["pong","ui","Mouse"];
-pong.ui.Mouse._instance = null;
-pong.ui.Mouse.getInstance = function() {
-	if(pong.ui.Mouse._instance == null) pong.ui.Mouse._instance = new pong.ui.Mouse();
-	return pong.ui.Mouse._instance;
 }
 pong.ui.Mouse.mouseMove = function(e) {
 	pong.ui.Mouse.x = (js.Lib.isIE?event.x:e.clientX);
@@ -704,7 +700,7 @@ pong.ui.Keyboard.prototype.__class__ = pong.ui.Keyboard;
 pong.Main = function() { }
 pong.Main.__name__ = ["pong","Main"];
 pong.Main.main = function() {
-	pong.ui.Mouse.getInstance();
+	pong.ui.Mouse.initialize();
 	new pong.Game();
 }
 pong.Main.prototype.__class__ = pong.Main;

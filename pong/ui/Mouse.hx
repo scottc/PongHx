@@ -16,19 +16,7 @@ class Mouse
 	public static var x:Int = 0;
 	public static var y:Int = 0;
 	
-	private static var _instance:Mouse;
-	
-	/**
-	 * Singleton pattern
-	 * @return The Instance of this class.
-	 */
-	public static function getInstance():Mouse {
-	if (_instance == null) _instance = new Mouse();
-		return _instance;
-	}
-	
-	public function new() 
-	{
+	public static function initialize() {
 		#if js
 			untyped js.Lib.document.onmousemove = mouseMove;
 			js.Lib.document.onmousedown = mousePressed;
