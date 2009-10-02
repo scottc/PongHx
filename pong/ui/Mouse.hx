@@ -6,6 +6,7 @@
 package pong.ui;
 
 #if flash
+	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 #end
 
@@ -31,17 +32,23 @@ class Mouse
 		#if js
 			untyped js.Lib.document.onmousemove = mouseMove;
 			js.Lib.document.onmousedown = mousePressed;
+		#elseif flash
+			flash.Lib.current.addEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
 		#end
 	}
-	#if js
-	static function mouseMove( e )
+	
+	static function mouseMove( ?e )
 	{
+		#if js
 		x = if ( js.Lib.isIE ) untyped event.x; else e.clientX;
 		y = if ( js.Lib.isIE ) untyped event.y; else e.clientY;
+		#elseif flash
+		x = e.stageX;
+		y = e.stageY;
+		#end
 	}
-	static function mousePressed( e )
+	static function mousePressed(?e)
 	{
 
 	}
-	#end
 }
