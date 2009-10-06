@@ -29,8 +29,8 @@ package pong {
 		protected function setupStage() : void {
 			this._stage = pong.gfx.Stage.getInstance();
 			this._ball = new pong.Ball(150,50,20,20);
-			this._ball.velocity.x = pong.gfx.Stage.getWidth() * 0.005;
-			this._ball.velocity.y = pong.gfx.Stage.getHeight() * 0.005;
+			this._ball.velocity.x = pong.gfx.Stage.getWidth() * 0.01;
+			this._ball.velocity.y = pong.gfx.Stage.getHeight() * 0.01;
 			this._leftPlayer = new pong.Player(30,50,20,100);
 			this._rightPlayer = new pong.Player(pong.gfx.Stage.getWidth() - 50,50,20,100);
 			this._rightPlayer.ai = true;
@@ -57,8 +57,8 @@ package pong {
 		}
 		
 		protected function runAI(p : pong.Player) : void {
-			if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = pong.gfx.Stage.getHeight() * 0.005;
-			else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = -pong.gfx.Stage.getHeight() * 0.005;
+			if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = pong.gfx.Stage.getHeight() * 0.007;
+			else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = -pong.gfx.Stage.getHeight() * 0.008;
 			else p.velocity.y = 0;
 		}
 		

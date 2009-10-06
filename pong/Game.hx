@@ -41,8 +41,8 @@ class Game
 		_stage = Stage.getInstance();
 		
 		_ball = new Ball(150, 50, 20, 20);
-		_ball.velocity.x = Stage.width * 0.005;
-		_ball.velocity.y = Stage.height * 0.005;
+		_ball.velocity.x = Stage.width * 0.01;
+		_ball.velocity.y = Stage.height * 0.01;
 		
 		_leftPlayer = new Player(30, 50, 20, 100);
 		
@@ -78,9 +78,9 @@ class Game
 	private function runAI(p:Player) {
 		//make AI chase ball...
 		if (p.y + p.height/2 < _ball.y + _ball.height/2)
-			p.velocity.y = Stage.height * 0.005;
+			p.velocity.y = Stage.height * 0.007;
 		else if (p.y + p.height/2 > _ball.y + _ball.height/2)
-			p.velocity.y = -Stage.height * 0.005;
+			p.velocity.y = -Stage.height * 0.008;
 		else
 			p.velocity.y = 0;
 	}

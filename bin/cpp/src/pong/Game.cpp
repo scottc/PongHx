@@ -67,8 +67,8 @@ Void Game_obj::setupStage( ){
 {
 		this->_stage = pong::gfx::Stage_obj::getInstance();
 		this->_ball = pong::Ball_obj::__new(150,50,20,20);
-		this->_ball->velocity->x = pong::gfx::Stage_obj::getWidth() * 0.005;
-		this->_ball->velocity->y = pong::gfx::Stage_obj::getHeight() * 0.005;
+		this->_ball->velocity->x = pong::gfx::Stage_obj::getWidth() * 0.01;
+		this->_ball->velocity->y = pong::gfx::Stage_obj::getHeight() * 0.01;
 		this->_leftPlayer = pong::Player_obj::__new(30,50,20,100);
 		this->_rightPlayer = pong::Player_obj::__new(pong::gfx::Stage_obj::getWidth() - 50,50,20,100);
 		this->_rightPlayer->ai = true;
@@ -108,10 +108,10 @@ DEFINE_DYNAMIC_FUNC0(Game_obj,newRound,(void))
 Void Game_obj::runAI( pong::Player p){
 {
 		if (p->y + double(p->height) / double(2) < this->_ball->y + double(this->_ball->height) / double(2))
-			p->velocity->y = pong::gfx::Stage_obj::getHeight() * 0.005;
+			p->velocity->y = pong::gfx::Stage_obj::getHeight() * 0.007;
 		else
 			if (p->y + double(p->height) / double(2) > this->_ball->y + double(this->_ball->height) / double(2))
-			p->velocity->y = -pong::gfx::Stage_obj::getHeight() * 0.005;
+			p->velocity->y = -pong::gfx::Stage_obj::getHeight() * 0.008;
 		else
 			p->velocity->y = 0;
 ;
