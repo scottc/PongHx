@@ -44,7 +44,7 @@ class Stage
 		drawBackground();
 	}
 	public function add(object:Dynamic) {
-		_displayObjects.push(object);
+		//_displayObjects.push(object);
 		#if flash
 			_SP.addChild(object);
 		#elseif js
