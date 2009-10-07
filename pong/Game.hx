@@ -17,8 +17,8 @@ class Game
 	
 	private var _ball:Ball;
 	
-	private var _leftPlayer:Player;
-	private var _rightPlayer:Player;
+	private var _leftPaddle:Paddle;
+	private var _rightPaddle:Paddle;
 	
 	private var _leftScoreLabel:Label;
 	private var _rightScoreLabel:Label;
@@ -35,23 +35,20 @@ class Game
 		
 		setupStage();
 		newRound();
-		_ball.y -= 100;
 	}
 	private function setupStage():Void {
 		_stage = Stage.getInstance();
 		
 		_ball = new Ball(150, 50, 20, 20);
-		_ball.velocity.x = Stage.width * 0.01;
-		_ball.velocity.y = Stage.height * 0.01;
 		
-		_leftPlayer = new Player(30, 50, 20, 100);
+		_leftPaddle = new Paddle(30, 50, 20, 100);
 		
-		_rightPlayer = new Player(Stage.width - 50, 50, 20, 100);
-		_rightPlayer.ai = true;
+		_rightPaddle = new Paddle(Stage.width - 50, 50, 20, 100);
+		_rightPaddle.ai = true;
 		
 		_stage.add(_ball.sprite);
-		_stage.add(_leftPlayer.sprite);
-		_stage.add(_rightPlayer.sprite);
+		_stage.add(_leftPaddle.sprite);
+		_stage.add(_rightPaddle.sprite);
 		
 		_leftScoreLabel = new Label();
 		_leftScoreLabel.text = "0";
@@ -67,39 +64,44 @@ class Game
 		_stage.add(_rightScoreLabel);
 	}
 	private function newRound():Void {
-		//reset player locations
-		_leftPlayer.y = Stage.height / 2 - _leftPlayer.height / 2;
-		_rightPlayer.y = Stage.height / 2 - _rightPlayer.height / 2;
+		_ball.acceleration = 0.0001;
+		
+		_ball.velocity.x = Stage.width * -0.01;
+		_ball.velocity.y = Stage.height * 0.01;
+		
+		//reset Paddle locations
+		_leftPaddle.y = Stage.height / 2 - _leftPaddle.height / 2;
+		_rightPaddle.y = Stage.height / 2 - _rightPaddle.height / 2;
 		
 		//reset ball location
 		_ball.y = Stage.height / 2 - _ball.height / 2;
 		_ball.x = Stage.width / 2 - _ball.width / 2;
 	}
-	private function runAI(p:Player) {
+	private function runAI(p:Paddle) {
 		//make AI chase ball...
 		if (p.y + p.height/2 < _ball.y + _ball.height/2)
-			p.velocity.y = Stage.height * 0.007;
+			p.velocity.y = Stage.height * 0.01;
 		else if (p.y + p.height/2 > _ball.y + _ball.height/2)
-			p.velocity.y = -Stage.height * 0.008;
+			p.velocity.y = -Stage.height * 0.01;
 		else
 			p.velocity.y = 0;
 	}
 	private function doCollisions() {
-		//players/walls
-		//Stops Left player when reaches Bottom/Top of screen
-		if(_leftPlayer.y +_leftPlayer.height > Stage.height -10){
-			_leftPlayer.y = Stage.height - _leftPlayer.height -10;
+		//Paddles/walls
+		//Stops Left Paddle when reaches Bottom/Top of screen
+		if(_leftPaddle.y +_leftPaddle.height > Stage.height -10){
+			_leftPaddle.y = Stage.height - _leftPaddle.height -10;
 		}
-		if (_leftPlayer.y < 10) {
-			_leftPlayer.y = 10; 
+		if (_leftPaddle.y < 10) {
+			_leftPaddle.y = 10; 
 		}
 		
-		//Stops Right player when reaches Bottom/Top of screen
-		if(_rightPlayer.y +_rightPlayer.height > Stage.height -10){
-			_rightPlayer.y = Stage.height - _rightPlayer.height -10;
+		//Stops Right Paddle when reaches Bottom/Top of screen
+		if(_rightPaddle.y +_rightPaddle.height > Stage.height -10){
+			_rightPaddle.y = Stage.height - _rightPaddle.height -10;
 		}
-		if (_rightPlayer.y < 10) {
-			_rightPlayer.y = 10; 
+		if (_rightPaddle.y < 10) {
+			_rightPaddle.y = 10; 
 		}
 				
 		//ball/walls
@@ -113,45 +115,45 @@ class Game
 			_ball.y = 10;
 			_ball.velocity.y *= -1;
 		}
-		//Resets game and Adds 1 to Right/Left Player when ball reaches Left/Right side of Screen
+		//Resets game and Adds 1 to Right/Left Paddle when ball reaches Left/Right side of Screen
 		if (_ball.x < 0 - _ball.width) {
-			_rightScoreLabel.text = Std.string(++_rightPlayer.score);//update score and set text
+			_rightScoreLabel.text = Std.string(++_rightPaddle.score);//update score and set text
 			newRound();
 		}
 		
 		if (_ball.x > Stage.width) {
-			_leftScoreLabel.text = Std.string(++_leftPlayer.score);
+			_leftScoreLabel.text = Std.string(++_leftPaddle.score);
 			newRound();
 		}
 		
-		//check ball vs players
-		if (_ball.isOverlapping(_leftPlayer)) {
-			_ball.x = _leftPlayer.x + _leftPlayer.width; //cap the ball
+		//check ball vs Paddles
+		if (_ball.isOverlapping(_leftPaddle)) {
+			_ball.x = _leftPaddle.x + _leftPaddle.width; //cap the ball
 			_ball.velocity.x *= -1; //reverse the ball's direction
 		}
-		if (_ball.isOverlapping(_rightPlayer)) {
-			_ball.x = _rightPlayer.x - _ball.width;
+		if (_ball.isOverlapping(_rightPaddle)) {
+			_ball.x = _rightPaddle.x - _ball.width;
 			_ball.velocity.x *= -1;
 		}
 	}
 	private function physicsStep():Void{
 		//IF human, get user input... ELSE run ai
-		if (!_leftPlayer.ai) {
-			_leftPlayer.y = Mouse.y - _leftPlayer.height / 2;
+		if (!_leftPaddle.ai) {
+			_leftPaddle.y = Mouse.y - _leftPaddle.height / 2;
 		}else if (_ball.velocity.x < 0)
-			runAI(_leftPlayer);
+			runAI(_leftPaddle);
 		else
-			_leftPlayer.velocity.y = 0;
+			_leftPaddle.velocity.y = 0;
 			
-		if (!_rightPlayer.ai){
-			_rightPlayer.y = Mouse.y - _rightPlayer.height / 2;
+		if (!_rightPaddle.ai){
+			_rightPaddle.y = Mouse.y - _rightPaddle.height / 2;
 		}else if(_ball.velocity.x > 0)
-			runAI(_rightPlayer);
+			runAI(_rightPaddle);
 		else
-			_rightPlayer.velocity.y = 0;
+			_rightPaddle.velocity.y = 0;
 		
-		_leftPlayer.move();
-		_rightPlayer.move();
+		_leftPaddle.move();
+		_rightPaddle.move();
 		_ball.move();
 		
 		doCollisions();
@@ -159,8 +161,8 @@ class Game
 	private function render():Void {
 		//tell the game objects to render themselves
 		_ball.render();
-		_leftPlayer.render();
-		_rightPlayer.render();
+		_leftPaddle.render();
+		_rightPaddle.render();
 	}
 	
 }

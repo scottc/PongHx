@@ -7,7 +7,7 @@ package pong;
 
 import pong.geom.Vector;
 
-class Player extends pong.geom.Rectangle
+class Paddle extends pong.geom.Rectangle
 {
 	public var sprite:pong.gfx.Rectangle;
 	public var score:Int;
@@ -20,7 +20,7 @@ class Player extends pong.geom.Rectangle
 		super(x_, y_, width_, height_);
 		sprite = new pong.gfx.Rectangle(x_, y_, width_, height_);
 		
-		velocity = new Vector(0,0);
+		velocity = new Vector(0, 0);
 		
 		score = 0;
 		ai = false;
@@ -28,9 +28,6 @@ class Player extends pong.geom.Rectangle
 	public function render() {
 		sprite.x = x;
 		sprite.y = y;
-		
-		//width = _position.width;
-		//height = _position.height;
 	}
 	public function move() {
 		x += velocity.x;
