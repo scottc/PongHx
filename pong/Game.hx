@@ -39,11 +39,13 @@ class Game
 	private function setupStage():Void {
 		_stage = Stage.getInstance();
 		
-		_ball = new Ball(150, 50, 20, 20);
 		
-		_leftPaddle = new Paddle(30, 50, 20, 100);
 		
-		_rightPaddle = new Paddle(Stage.width - 50, 50, 20, 100);
+		_ball = new Ball(150, 50, Stage.width*0.02, Stage.width*0.02);
+		
+		_leftPaddle = new Paddle(Stage.width*0.05, 50, Stage.width*0.02, Stage.height*0.15);
+		
+		_rightPaddle = new Paddle(Stage.width*0.95, 50, Stage.width*0.02, Stage.height*0.15);
 		_rightPaddle.ai = true;
 		
 		_stage.add(_ball.sprite);
@@ -82,7 +84,7 @@ class Game
 		if (p.y + p.height/2 < _ball.y + _ball.height/2)
 			p.velocity.y = Stage.height * 0.01;
 		else if (p.y + p.height/2 > _ball.y + _ball.height/2)
-			p.velocity.y = -Stage.height * 0.01;
+			p.velocity.y = Stage.height * -0.01;
 		else
 			p.velocity.y = 0;
 	}

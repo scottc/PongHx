@@ -12,6 +12,8 @@ class Stage
 	public static var width(getWidth, null):Int;
 	public static var height(getHeight, null):Int;
 	
+	private var _displayObjects:Array<Dynamic>;
+	
 	#if flash
 	private static var _SP:Sprite;
 	#elseif js
@@ -42,6 +44,7 @@ class Stage
 		drawBackground();
 	}
 	public function add(object:Dynamic) {
+		_displayObjects.push(object);
 		#if flash
 			_SP.addChild(object);
 		#elseif js
@@ -95,5 +98,12 @@ class Stage
 		#elseif cpp
 			return -1;
 		#end
+	}
+	//on resize event
+	private function resizeObjects() {
+		for (i in _displayObjects) {
+			_displayObjects[i].width *= 1;//multiply by new scale.
+			_displayObjects[i].height *= 1;
+		}
 	}
 }

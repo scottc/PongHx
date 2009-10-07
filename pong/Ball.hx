@@ -15,7 +15,7 @@ class Ball extends pong.geom.Rectangle
 	
 	public var acceleration:Float;
 
-	public function new(x_:Int, y_:Int, width_:Int, height_:Int) 
+	public function new(x_:Float, y_:Float, width_:Float, height_:Float) 
 	{
 		super(x_, y_, width_, height_);
 		sprite = new pong.gfx.Rectangle(x_, y_, width_, height_);
