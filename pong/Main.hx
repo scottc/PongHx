@@ -1,8 +1,5 @@
 ﻿package pong;
 
-//import js.Lib;
-//import gfx.Rectangle;
-
 /**
  * ...
  * @author scott

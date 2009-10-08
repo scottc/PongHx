@@ -64,44 +64,6 @@ Dynamic Game_obj::__Create(DynamicArray inArgs)
 	result->__construct();
 	return result;}
 
-double Game_obj::getFrameRate( ){
-	return this->_frameRate;
-}
-
-
-DEFINE_DYNAMIC_FUNC0(Game_obj,getFrameRate,return )
-
-double Game_obj::getPhysicsRate( ){
-	return this->_physicsRate;
-}
-
-
-DEFINE_DYNAMIC_FUNC0(Game_obj,getPhysicsRate,return )
-
-double Game_obj::setFrameRate( double v){
-	this->_physicsRate = v;
-	if (this->_physicsTicker != null())
-		this->_physicsTicker->stop();
-	this->_physicsTicker = haxe::Timer_obj::__new(Math_obj::floor(double(1000) / double(this->_physicsRate)));
-	this->_physicsTicker->run = this->physicsStep_dyn();
-	return v;
-}
-
-
-DEFINE_DYNAMIC_FUNC1(Game_obj,setFrameRate,return )
-
-double Game_obj::setPhysicsRate( double v){
-	this->_frameRate = v;
-	if (this->_graphicsTicker != null())
-		this->_graphicsTicker->stop();
-	this->_graphicsTicker = haxe::Timer_obj::__new(Math_obj::floor(double(1000) / double(this->_frameRate)));
-	this->_graphicsTicker->run = this->render_dyn();
-	return v;
-}
-
-
-DEFINE_DYNAMIC_FUNC1(Game_obj,setPhysicsRate,return )
-
 Void Game_obj::setupStage( ){
 {
 		this->_stage = pong::gfx::Stage_obj::getInstance();
@@ -131,7 +93,10 @@ DEFINE_DYNAMIC_FUNC0(Game_obj,setupStage,(void))
 
 Void Game_obj::newRound( ){
 {
-		this->_ball->acceleration = 0.0001;
+		this->_leftPaddle->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_leftPaddle->height) / double(2);
+		this->_rightPaddle->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_rightPaddle->height) / double(2);
+		this->_ball->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_ball->height) / double(2);
+		this->_ball->x = double(pong::gfx::Stage_obj::getWidth()) / double(2) - double(this->_ball->width) / double(2);
 		this->_ball->velocity->x = pong::gfx::Stage_obj::getWidth() * Math_obj::random() - pong::gfx::Stage_obj::getWidth() * 0.5;
 		this->_ball->velocity->y = pong::gfx::Stage_obj::getHeight() * Math_obj::random() - pong::gfx::Stage_obj::getHeight() * 0.5;
 		struct _Function_1{
@@ -143,10 +108,6 @@ Void Game_obj::newRound( ){
 			}
 		};
 		this->_ball->velocity = _Function_1::Block(this);
-		this->_leftPaddle->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_leftPaddle->height) / double(2);
-		this->_rightPaddle->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_rightPaddle->height) / double(2);
-		this->_ball->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_ball->height) / double(2);
-		this->_ball->x = double(pong::gfx::Stage_obj::getWidth()) / double(2) - double(this->_ball->width) / double(2);
 	}
 return null();
 }
@@ -282,18 +243,55 @@ return null();
 
 DEFINE_DYNAMIC_FUNC0(Game_obj,render,(void))
 
+double Game_obj::getFrameRate( ){
+	return this->_frameRate;
+}
+
+
+DEFINE_DYNAMIC_FUNC0(Game_obj,getFrameRate,return )
+
+double Game_obj::getPhysicsRate( ){
+	return this->_physicsRate;
+}
+
+
+DEFINE_DYNAMIC_FUNC0(Game_obj,getPhysicsRate,return )
+
+double Game_obj::setFrameRate( double v){
+	this->_physicsRate = v;
+	if (this->_physicsTicker != null())
+		this->_physicsTicker->stop();
+	this->_physicsTicker = haxe::Timer_obj::__new(Math_obj::floor(double(1000) / double(this->_physicsRate)));
+	this->_physicsTicker->run = this->physicsStep_dyn();
+	return v;
+}
+
+
+DEFINE_DYNAMIC_FUNC1(Game_obj,setFrameRate,return )
+
+double Game_obj::setPhysicsRate( double v){
+	this->_frameRate = v;
+	if (this->_graphicsTicker != null())
+		this->_graphicsTicker->stop();
+	this->_graphicsTicker = haxe::Timer_obj::__new(Math_obj::floor(double(1000) / double(this->_frameRate)));
+	this->_graphicsTicker->run = this->render_dyn();
+	return v;
+}
+
+
+DEFINE_DYNAMIC_FUNC1(Game_obj,setPhysicsRate,return )
+
 
 Game_obj::Game_obj()
 {
-	InitMember(_graphicsTicker);
-	InitMember(_physicsTicker);
 	InitMember(_stage);
 	InitMember(_ball);
 	InitMember(_leftPaddle);
 	InitMember(_rightPaddle);
 	InitMember(_leftScoreLabel);
 	InitMember(_rightScoreLabel);
-	InitMember(_id);
+	InitMember(_graphicsTicker);
+	InitMember(_physicsTicker);
 	InitMember(_frameRate);
 	InitMember(_physicsRate);
 	InitMember(frameRate);
@@ -302,15 +300,14 @@ Game_obj::Game_obj()
 
 void Game_obj::__Mark()
 {
-	MarkMember(_graphicsTicker);
-	MarkMember(_physicsTicker);
 	MarkMember(_stage);
 	MarkMember(_ball);
 	MarkMember(_leftPaddle);
 	MarkMember(_rightPaddle);
 	MarkMember(_leftScoreLabel);
 	MarkMember(_rightScoreLabel);
-	MarkMember(_id);
+	MarkMember(_graphicsTicker);
+	MarkMember(_physicsTicker);
 	MarkMember(_frameRate);
 	MarkMember(_physicsRate);
 	MarkMember(frameRate);
@@ -320,9 +317,6 @@ void Game_obj::__Mark()
 Dynamic Game_obj::__Field(const String &inName)
 {
 	switch(inName.length) {
-	case 3:
-		if (!memcmp(inName.__s,L"_id",sizeof(wchar_t)*3) ) { return _id; }
-		break;
 	case 5:
 		if (!memcmp(inName.__s,L"_ball",sizeof(wchar_t)*5) ) { return _ball; }
 		if (!memcmp(inName.__s,L"runAI",sizeof(wchar_t)*5) ) { return runAI_dyn(); }
@@ -349,9 +343,9 @@ Dynamic Game_obj::__Field(const String &inName)
 	case 12:
 		if (!memcmp(inName.__s,L"_rightPaddle",sizeof(wchar_t)*12) ) { return _rightPaddle; }
 		if (!memcmp(inName.__s,L"_physicsRate",sizeof(wchar_t)*12) ) { return _physicsRate; }
+		if (!memcmp(inName.__s,L"doCollisions",sizeof(wchar_t)*12) ) { return doCollisions_dyn(); }
 		if (!memcmp(inName.__s,L"getFrameRate",sizeof(wchar_t)*12) ) { return getFrameRate_dyn(); }
 		if (!memcmp(inName.__s,L"setFrameRate",sizeof(wchar_t)*12) ) { return setFrameRate_dyn(); }
-		if (!memcmp(inName.__s,L"doCollisions",sizeof(wchar_t)*12) ) { return doCollisions_dyn(); }
 		break;
 	case 14:
 		if (!memcmp(inName.__s,L"_physicsTicker",sizeof(wchar_t)*14) ) { return _physicsTicker; }
@@ -359,8 +353,8 @@ Dynamic Game_obj::__Field(const String &inName)
 		if (!memcmp(inName.__s,L"setPhysicsRate",sizeof(wchar_t)*14) ) { return setPhysicsRate_dyn(); }
 		break;
 	case 15:
-		if (!memcmp(inName.__s,L"_graphicsTicker",sizeof(wchar_t)*15) ) { return _graphicsTicker; }
 		if (!memcmp(inName.__s,L"_leftScoreLabel",sizeof(wchar_t)*15) ) { return _leftScoreLabel; }
+		if (!memcmp(inName.__s,L"_graphicsTicker",sizeof(wchar_t)*15) ) { return _graphicsTicker; }
 		break;
 	case 16:
 		if (!memcmp(inName.__s,L"_rightScoreLabel",sizeof(wchar_t)*16) ) { return _rightScoreLabel; }
@@ -371,23 +365,18 @@ Dynamic Game_obj::__Field(const String &inName)
 	return super::__Field(inName);
 }
 
-static int __id__graphicsTicker = __hxcpp_field_to_id("_graphicsTicker");
-static int __id__physicsTicker = __hxcpp_field_to_id("_physicsTicker");
 static int __id__stage = __hxcpp_field_to_id("_stage");
 static int __id__ball = __hxcpp_field_to_id("_ball");
 static int __id__leftPaddle = __hxcpp_field_to_id("_leftPaddle");
 static int __id__rightPaddle = __hxcpp_field_to_id("_rightPaddle");
 static int __id__leftScoreLabel = __hxcpp_field_to_id("_leftScoreLabel");
 static int __id__rightScoreLabel = __hxcpp_field_to_id("_rightScoreLabel");
-static int __id__id = __hxcpp_field_to_id("_id");
+static int __id__graphicsTicker = __hxcpp_field_to_id("_graphicsTicker");
+static int __id__physicsTicker = __hxcpp_field_to_id("_physicsTicker");
 static int __id__frameRate = __hxcpp_field_to_id("_frameRate");
 static int __id__physicsRate = __hxcpp_field_to_id("_physicsRate");
 static int __id_frameRate = __hxcpp_field_to_id("frameRate");
 static int __id_physicsRate = __hxcpp_field_to_id("physicsRate");
-static int __id_getFrameRate = __hxcpp_field_to_id("getFrameRate");
-static int __id_getPhysicsRate = __hxcpp_field_to_id("getPhysicsRate");
-static int __id_setFrameRate = __hxcpp_field_to_id("setFrameRate");
-static int __id_setPhysicsRate = __hxcpp_field_to_id("setPhysicsRate");
 static int __id_setupStage = __hxcpp_field_to_id("setupStage");
 static int __id_newRound = __hxcpp_field_to_id("newRound");
 static int __id_runAI = __hxcpp_field_to_id("runAI");
@@ -395,27 +384,26 @@ static int __id_doCollisions = __hxcpp_field_to_id("doCollisions");
 static int __id_ballPaddleCollision = __hxcpp_field_to_id("ballPaddleCollision");
 static int __id_physicsStep = __hxcpp_field_to_id("physicsStep");
 static int __id_render = __hxcpp_field_to_id("render");
+static int __id_getFrameRate = __hxcpp_field_to_id("getFrameRate");
+static int __id_getPhysicsRate = __hxcpp_field_to_id("getPhysicsRate");
+static int __id_setFrameRate = __hxcpp_field_to_id("setFrameRate");
+static int __id_setPhysicsRate = __hxcpp_field_to_id("setPhysicsRate");
 
 
 Dynamic Game_obj::__IField(int inFieldID)
 {
-	if (inFieldID==__id__graphicsTicker) return _graphicsTicker;
-	if (inFieldID==__id__physicsTicker) return _physicsTicker;
 	if (inFieldID==__id__stage) return _stage;
 	if (inFieldID==__id__ball) return _ball;
 	if (inFieldID==__id__leftPaddle) return _leftPaddle;
 	if (inFieldID==__id__rightPaddle) return _rightPaddle;
 	if (inFieldID==__id__leftScoreLabel) return _leftScoreLabel;
 	if (inFieldID==__id__rightScoreLabel) return _rightScoreLabel;
-	if (inFieldID==__id__id) return _id;
+	if (inFieldID==__id__graphicsTicker) return _graphicsTicker;
+	if (inFieldID==__id__physicsTicker) return _physicsTicker;
 	if (inFieldID==__id__frameRate) return _frameRate;
 	if (inFieldID==__id__physicsRate) return _physicsRate;
 	if (inFieldID==__id_frameRate) return frameRate;
 	if (inFieldID==__id_physicsRate) return physicsRate;
-	if (inFieldID==__id_getFrameRate) return getFrameRate_dyn();
-	if (inFieldID==__id_getPhysicsRate) return getPhysicsRate_dyn();
-	if (inFieldID==__id_setFrameRate) return setFrameRate_dyn();
-	if (inFieldID==__id_setPhysicsRate) return setPhysicsRate_dyn();
 	if (inFieldID==__id_setupStage) return setupStage_dyn();
 	if (inFieldID==__id_newRound) return newRound_dyn();
 	if (inFieldID==__id_runAI) return runAI_dyn();
@@ -423,15 +411,16 @@ Dynamic Game_obj::__IField(int inFieldID)
 	if (inFieldID==__id_ballPaddleCollision) return ballPaddleCollision_dyn();
 	if (inFieldID==__id_physicsStep) return physicsStep_dyn();
 	if (inFieldID==__id_render) return render_dyn();
+	if (inFieldID==__id_getFrameRate) return getFrameRate_dyn();
+	if (inFieldID==__id_getPhysicsRate) return getPhysicsRate_dyn();
+	if (inFieldID==__id_setFrameRate) return setFrameRate_dyn();
+	if (inFieldID==__id_setPhysicsRate) return setPhysicsRate_dyn();
 	return super::__IField(inFieldID);
 }
 
 Dynamic Game_obj::__SetField(const String &inName,const Dynamic &inValue)
 {
 	switch(inName.length) {
-	case 3:
-		if (!memcmp(inName.__s,L"_id",sizeof(wchar_t)*3) ) { _id=inValue.Cast<String >();return inValue; }
-		break;
 	case 5:
 		if (!memcmp(inName.__s,L"_ball",sizeof(wchar_t)*5) ) { _ball=inValue.Cast<pong::Ball >();return inValue; }
 		break;
@@ -456,8 +445,8 @@ Dynamic Game_obj::__SetField(const String &inName,const Dynamic &inValue)
 		if (!memcmp(inName.__s,L"_physicsTicker",sizeof(wchar_t)*14) ) { _physicsTicker=inValue.Cast<haxe::Timer >();return inValue; }
 		break;
 	case 15:
-		if (!memcmp(inName.__s,L"_graphicsTicker",sizeof(wchar_t)*15) ) { _graphicsTicker=inValue.Cast<haxe::Timer >();return inValue; }
 		if (!memcmp(inName.__s,L"_leftScoreLabel",sizeof(wchar_t)*15) ) { _leftScoreLabel=inValue.Cast<pong::gfx::Label >();return inValue; }
+		if (!memcmp(inName.__s,L"_graphicsTicker",sizeof(wchar_t)*15) ) { _graphicsTicker=inValue.Cast<haxe::Timer >();return inValue; }
 		break;
 	case 16:
 		if (!memcmp(inName.__s,L"_rightScoreLabel",sizeof(wchar_t)*16) ) { _rightScoreLabel=inValue.Cast<pong::gfx::Label >();return inValue; }
@@ -467,15 +456,14 @@ Dynamic Game_obj::__SetField(const String &inName,const Dynamic &inValue)
 
 void Game_obj::__GetFields(Array<String> &outFields)
 {
-	outFields->push(STRING(L"_graphicsTicker",15));
-	outFields->push(STRING(L"_physicsTicker",14));
 	outFields->push(STRING(L"_stage",6));
 	outFields->push(STRING(L"_ball",5));
 	outFields->push(STRING(L"_leftPaddle",11));
 	outFields->push(STRING(L"_rightPaddle",12));
 	outFields->push(STRING(L"_leftScoreLabel",15));
 	outFields->push(STRING(L"_rightScoreLabel",16));
-	outFields->push(STRING(L"_id",3));
+	outFields->push(STRING(L"_graphicsTicker",15));
+	outFields->push(STRING(L"_physicsTicker",14));
 	outFields->push(STRING(L"_frameRate",10));
 	outFields->push(STRING(L"_physicsRate",12));
 	outFields->push(STRING(L"frameRate",9));
@@ -487,23 +475,18 @@ static String sStaticFields[] = {
 	String(null()) };
 
 static String sMemberFields[] = {
-	STRING(L"_graphicsTicker",15),
-	STRING(L"_physicsTicker",14),
 	STRING(L"_stage",6),
 	STRING(L"_ball",5),
 	STRING(L"_leftPaddle",11),
 	STRING(L"_rightPaddle",12),
 	STRING(L"_leftScoreLabel",15),
 	STRING(L"_rightScoreLabel",16),
-	STRING(L"_id",3),
+	STRING(L"_graphicsTicker",15),
+	STRING(L"_physicsTicker",14),
 	STRING(L"_frameRate",10),
 	STRING(L"_physicsRate",12),
 	STRING(L"frameRate",9),
 	STRING(L"physicsRate",11),
-	STRING(L"getFrameRate",12),
-	STRING(L"getPhysicsRate",14),
-	STRING(L"setFrameRate",12),
-	STRING(L"setPhysicsRate",14),
 	STRING(L"setupStage",10),
 	STRING(L"newRound",8),
 	STRING(L"runAI",5),
@@ -511,6 +494,10 @@ static String sMemberFields[] = {
 	STRING(L"ballPaddleCollision",19),
 	STRING(L"physicsStep",11),
 	STRING(L"render",6),
+	STRING(L"getFrameRate",12),
+	STRING(L"getPhysicsRate",14),
+	STRING(L"setFrameRate",12),
+	STRING(L"setPhysicsRate",14),
 	String(null()) };
 
 static void sMarkStatics() {

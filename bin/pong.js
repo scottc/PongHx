@@ -352,7 +352,6 @@ pong.Game.__name__ = ["pong","Game"];
 pong.Game.prototype._ball = null;
 pong.Game.prototype._frameRate = null;
 pong.Game.prototype._graphicsTicker = null;
-pong.Game.prototype._id = null;
 pong.Game.prototype._leftPaddle = null;
 pong.Game.prototype._leftScoreLabel = null;
 pong.Game.prototype._physicsRate = null;
@@ -406,14 +405,13 @@ pong.Game.prototype.getPhysicsRate = function() {
 	return this._physicsRate;
 }
 pong.Game.prototype.newRound = function() {
-	this._ball.acceleration = 0.0001;
-	this._ball.velocity.x = pong.gfx.Stage.getWidth() * Math.random() - pong.gfx.Stage.getWidth() * 0.5;
-	this._ball.velocity.y = pong.gfx.Stage.getHeight() * Math.random() - pong.gfx.Stage.getHeight() * 0.5;
-	this._ball.velocity = this._ball.velocity.normalize(pong.gfx.Stage.getWidth() * 0.01);
 	this._leftPaddle.y = pong.gfx.Stage.getHeight() / 2 - this._leftPaddle.height / 2;
 	this._rightPaddle.y = pong.gfx.Stage.getHeight() / 2 - this._rightPaddle.height / 2;
 	this._ball.y = pong.gfx.Stage.getHeight() / 2 - this._ball.height / 2;
 	this._ball.x = pong.gfx.Stage.getWidth() / 2 - this._ball.width / 2;
+	this._ball.velocity.x = pong.gfx.Stage.getWidth() * Math.random() - pong.gfx.Stage.getWidth() * 0.5;
+	this._ball.velocity.y = pong.gfx.Stage.getHeight() * Math.random() - pong.gfx.Stage.getHeight() * 0.5;
+	this._ball.velocity = this._ball.velocity.normalize(pong.gfx.Stage.getWidth() * 0.01);
 }
 pong.Game.prototype.physicsRate = null;
 pong.Game.prototype.physicsStep = function() {

@@ -35,31 +35,18 @@ class Game_obj : public virtual hxObject
 		void __Mark();
 		String __ToString() const { return STRING(L"Game",4); }
 
-		haxe::Timer _graphicsTicker;
-		haxe::Timer _physicsTicker;
 		pong::gfx::Stage _stage;
 		pong::Ball _ball;
 		pong::Paddle _leftPaddle;
 		pong::Paddle _rightPaddle;
 		pong::gfx::Label _leftScoreLabel;
 		pong::gfx::Label _rightScoreLabel;
-		String _id;
+		haxe::Timer _graphicsTicker;
+		haxe::Timer _physicsTicker;
 		double _frameRate;
 		double _physicsRate;
 		double frameRate;
 		double physicsRate;
-		virtual double getFrameRate( );
-		Dynamic getFrameRate_dyn();
-
-		virtual double getPhysicsRate( );
-		Dynamic getPhysicsRate_dyn();
-
-		virtual double setFrameRate( double v);
-		Dynamic setFrameRate_dyn();
-
-		virtual double setPhysicsRate( double v);
-		Dynamic setPhysicsRate_dyn();
-
 		virtual Void setupStage( );
 		Dynamic setupStage_dyn();
 
@@ -80,6 +67,18 @@ class Game_obj : public virtual hxObject
 
 		virtual Void render( );
 		Dynamic render_dyn();
+
+		virtual double getFrameRate( );
+		Dynamic getFrameRate_dyn();
+
+		virtual double getPhysicsRate( );
+		Dynamic getPhysicsRate_dyn();
+
+		virtual double setFrameRate( double v);
+		Dynamic setFrameRate_dyn();
+
+		virtual double setPhysicsRate( double v);
+		Dynamic setPhysicsRate_dyn();
 
 };
 

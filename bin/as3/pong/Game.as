@@ -16,15 +16,14 @@ package pong {
 			this.render();
 		}}
 		
-		protected var _graphicsTicker : haxe.Timer;
-		protected var _physicsTicker : haxe.Timer;
 		protected var _stage : pong.gfx.Stage;
 		protected var _ball : pong.Ball;
 		protected var _leftPaddle : pong.Paddle;
 		protected var _rightPaddle : pong.Paddle;
 		protected var _leftScoreLabel : pong.gfx.Label;
 		protected var _rightScoreLabel : pong.gfx.Label;
-		protected var _id : String;
+		protected var _graphicsTicker : haxe.Timer;
+		protected var _physicsTicker : haxe.Timer;
 		protected var _frameRate : Number;
 		protected var _physicsRate : Number;
 		public function get frameRate() : Number { return getFrameRate(); }
@@ -33,30 +32,6 @@ package pong {
 		public function get physicsRate() : Number { return getFrameRate(); }
 		public function set physicsRate( __v : Number ) : void { setPhysicsRate(__v); }
 		protected var $physicsRate : Number;
-		public function getFrameRate() : Number {
-			return this._frameRate;
-		}
-		
-		protected function getPhysicsRate() : Number {
-			return this._physicsRate;
-		}
-		
-		public function setFrameRate(v : Number) : Number {
-			this._physicsRate = v;
-			if(this._physicsTicker != null) this._physicsTicker.stop();
-			this._physicsTicker = new haxe.Timer(Math.floor(1000 / this._physicsRate));
-			this._physicsTicker.run = this.physicsStep;
-			return v;
-		}
-		
-		public function setPhysicsRate(v : Number) : Number {
-			this._frameRate = v;
-			if(this._graphicsTicker != null) this._graphicsTicker.stop();
-			this._graphicsTicker = new haxe.Timer(Math.floor(1000 / this._frameRate));
-			this._graphicsTicker.run = this.render;
-			return v;
-		}
-		
 		protected function setupStage() : void {
 			this._stage = pong.gfx.Stage.getInstance();
 			this._ball = new pong.Ball(150,50,pong.gfx.Stage.getWidth() * 0.02,pong.gfx.Stage.getWidth() * 0.02);
@@ -79,14 +54,13 @@ package pong {
 		}
 		
 		protected function newRound() : void {
-			this._ball.acceleration = 0.0001;
-			this._ball.velocity.x = pong.gfx.Stage.getWidth() * Math.random() - pong.gfx.Stage.getWidth() * 0.5;
-			this._ball.velocity.y = pong.gfx.Stage.getHeight() * Math.random() - pong.gfx.Stage.getHeight() * 0.5;
-			this._ball.velocity = this._ball.velocity.normalize(pong.gfx.Stage.getWidth() * 0.01);
 			this._leftPaddle.y = pong.gfx.Stage.getHeight() / 2 - this._leftPaddle.height / 2;
 			this._rightPaddle.y = pong.gfx.Stage.getHeight() / 2 - this._rightPaddle.height / 2;
 			this._ball.y = pong.gfx.Stage.getHeight() / 2 - this._ball.height / 2;
 			this._ball.x = pong.gfx.Stage.getWidth() / 2 - this._ball.width / 2;
+			this._ball.velocity.x = pong.gfx.Stage.getWidth() * Math.random() - pong.gfx.Stage.getWidth() * 0.5;
+			this._ball.velocity.y = pong.gfx.Stage.getHeight() * Math.random() - pong.gfx.Stage.getHeight() * 0.5;
+			this._ball.velocity = this._ball.velocity.normalize(pong.gfx.Stage.getWidth() * 0.01);
 		}
 		
 		protected function runAI(p : pong.Paddle) : void {
@@ -156,6 +130,30 @@ package pong {
 			this._ball.render();
 			this._leftPaddle.render();
 			this._rightPaddle.render();
+		}
+		
+		public function getFrameRate() : Number {
+			return this._frameRate;
+		}
+		
+		protected function getPhysicsRate() : Number {
+			return this._physicsRate;
+		}
+		
+		public function setFrameRate(v : Number) : Number {
+			this._physicsRate = v;
+			if(this._physicsTicker != null) this._physicsTicker.stop();
+			this._physicsTicker = new haxe.Timer(Math.floor(1000 / this._physicsRate));
+			this._physicsTicker.run = this.physicsStep;
+			return v;
+		}
+		
+		public function setPhysicsRate(v : Number) : Number {
+			this._frameRate = v;
+			if(this._graphicsTicker != null) this._graphicsTicker.stop();
+			this._graphicsTicker = new haxe.Timer(Math.floor(1000 / this._frameRate));
+			this._graphicsTicker.run = this.render;
+			return v;
 		}
 		
 	}

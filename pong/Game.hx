@@ -12,9 +12,6 @@ import pong.ui.Mouse;
 
 class Game
 {
-	private var _graphicsTicker:Timer;
-	private var _physicsTicker:Timer;
-	
 	private var _stage:Stage;
 	
 	private var _ball:Ball;
@@ -25,7 +22,8 @@ class Game
 	private var _leftScoreLabel:Label;
 	private var _rightScoreLabel:Label;
 	
-	private var _id:String;
+	private var _graphicsTicker:Timer;
+	private var _physicsTicker:Timer;
 	
 	private var _frameRate:Float;
 	private var _physicsRate:Float;
@@ -40,26 +38,6 @@ class Game
 		setupStage();
 		newRound();
 		render();
-	}
-	private function getFrameRate():Float{
-		return _frameRate;
-	}
-	private function getPhysicsRate():Float{
-		return _physicsRate;
-	}
-	private function setFrameRate(v:Float) {
-		_physicsRate = v;
-		if(_physicsTicker != null)_physicsTicker.stop();
-		_physicsTicker = new Timer(Math.floor(1000 / _physicsRate));// 1 sec / framerate = ms needed, per frame.
-		_physicsTicker.run = physicsStep;
-		return v;
-	}
-	private function setPhysicsRate(v:Float) {
-		_frameRate = v;
-		if(_graphicsTicker != null)_graphicsTicker.stop();
-		_graphicsTicker = new Timer(Math.floor(1000 / _frameRate));
-		_graphicsTicker.run = render;
-		return v;
 	}
 	private function setupStage():Void {
 		_stage = Stage.getInstance();
@@ -89,13 +67,6 @@ class Game
 		_stage.add(_rightScoreLabel);
 	}
 	private function newRound():Void {
-		_ball.acceleration = 0.0001;
-		
-		_ball.velocity.x = Stage.width * Math.random() - Stage.width * 0.5;
-		_ball.velocity.y = Stage.height * Math.random() - Stage.height * 0.5;
-		
-		_ball.velocity = _ball.velocity.normalize(Stage.width * 0.01);
-		
 		//reset Paddle locations
 		_leftPaddle.y = Stage.height / 2 - _leftPaddle.height / 2;
 		_rightPaddle.y = Stage.height / 2 - _rightPaddle.height / 2;
@@ -103,6 +74,13 @@ class Game
 		//reset ball location
 		_ball.y = Stage.height / 2 - _ball.height / 2;
 		_ball.x = Stage.width / 2 - _ball.width / 2;
+		
+		//give ball new random direction
+		_ball.velocity.x = Stage.width * Math.random() - Stage.width * 0.5;
+		_ball.velocity.y = Stage.height * Math.random() - Stage.height * 0.5;
+		
+		//set the ball's speed
+		_ball.velocity = _ball.velocity.normalize(Stage.width * 0.01);
 	}
 	private function runAI(p:Paddle) {
 		//make AI chase ball...
@@ -173,7 +151,7 @@ class Game
 		}
 	}
 	private function physicsStep():Void{
-		//IF human, get user input... ELSE run ai
+		//get user input
 		if (!_leftPaddle.ai) {
 			_leftPaddle.y = Mouse.y - _leftPaddle.height / 2;
 		}else if (_ball.velocity.x < 0)
@@ -188,10 +166,12 @@ class Game
 		else
 			_rightPaddle.velocity.y = 0;
 		
+		//move objects
 		_leftPaddle.move();
 		_rightPaddle.move();
 		_ball.move();
 		
+		//do collisions
 		doCollisions();
 	}
 	private function render():Void {
@@ -201,4 +181,21 @@ class Game
 		_rightPaddle.render();
 	}
 	
+	private function getFrameRate():Float { return _frameRate; }
+	private function getPhysicsRate():Float { return _physicsRate; }
+	
+	private function setFrameRate(v:Float) {
+		_physicsRate = v;
+		if(_physicsTicker != null)_physicsTicker.stop();
+		_physicsTicker = new Timer(Math.floor(1000 / _physicsRate));// 1 sec / framerate = ms needed, per frame.
+		_physicsTicker.run = physicsStep;
+		return v;
+	}
+	private function setPhysicsRate(v:Float) {
+		_frameRate = v;
+		if(_graphicsTicker != null)_graphicsTicker.stop();
+		_graphicsTicker = new Timer(Math.floor(1000 / _frameRate));
+		_graphicsTicker.run = render;
+		return v;
+	}
 }
