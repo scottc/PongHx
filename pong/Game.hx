@@ -41,8 +41,6 @@ class Game
 	private function setupStage():Void {
 		_stage = Stage.getInstance();
 		
-		
-		
 		_ball = new Ball(150, 50, Stage.width*0.02, Stage.width*0.02);
 		
 		_leftPaddle = new Paddle(Stage.width*0.05, 50, Stage.width*0.02, Stage.height*0.15);
@@ -70,8 +68,10 @@ class Game
 	private function newRound():Void {
 		_ball.acceleration = 0.0001;
 		
-		_ball.velocity.x = Stage.width * -0.01;
-		_ball.velocity.y = Stage.height * 0.01;
+		_ball.velocity.x = Stage.width * Math.random() - Stage.width * 0.5;
+		_ball.velocity.y = Stage.height * Math.random() - Stage.height * 0.5;
+		
+		_ball.velocity = _ball.velocity.normalize(Stage.width * 0.01);
 		
 		//reset Paddle locations
 		_leftPaddle.y = Stage.height / 2 - _leftPaddle.height / 2;

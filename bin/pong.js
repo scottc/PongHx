@@ -399,8 +399,9 @@ pong.Game.prototype.doCollisions = function() {
 }
 pong.Game.prototype.newRound = function() {
 	this._ball.acceleration = 0.0001;
-	this._ball.velocity.x = pong.gfx.Stage.getWidth() * -0.01;
-	this._ball.velocity.y = pong.gfx.Stage.getHeight() * 0.01;
+	this._ball.velocity.x = pong.gfx.Stage.getWidth() * Math.random() - pong.gfx.Stage.getWidth() * 0.5;
+	this._ball.velocity.y = pong.gfx.Stage.getHeight() * Math.random() - pong.gfx.Stage.getHeight() * 0.5;
+	this._ball.velocity = this._ball.velocity.normalize(pong.gfx.Stage.getWidth() * 0.01);
 	this._leftPaddle.y = pong.gfx.Stage.getHeight() / 2 - this._leftPaddle.height / 2;
 	this._rightPaddle.y = pong.gfx.Stage.getHeight() / 2 - this._rightPaddle.height / 2;
 	this._ball.y = pong.gfx.Stage.getHeight() / 2 - this._ball.height / 2;

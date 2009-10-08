@@ -95,8 +95,17 @@ DEFINE_DYNAMIC_FUNC0(Game_obj,setupStage,(void))
 Void Game_obj::newRound( ){
 {
 		this->_ball->acceleration = 0.0001;
-		this->_ball->velocity->x = pong::gfx::Stage_obj::getWidth() * -0.01;
-		this->_ball->velocity->y = pong::gfx::Stage_obj::getHeight() * 0.01;
+		this->_ball->velocity->x = pong::gfx::Stage_obj::getWidth() * Math_obj::random() - pong::gfx::Stage_obj::getWidth() * 0.5;
+		this->_ball->velocity->y = pong::gfx::Stage_obj::getHeight() * Math_obj::random() - pong::gfx::Stage_obj::getHeight() * 0.5;
+		struct _Function_1{
+			static pong::geom::Vector Block( pong::Game_obj *__this)/* DEF (ret block)(not intern) */{
+				pong::geom::Vector _g = __this->_ball->velocity;
+				double l = pong::gfx::Stage_obj::getWidth() * 0.01;
+				double d = Math_obj::sqrt(_g->x * _g->x + _g->y * _g->y);
+				return d == 0 ? Void( pong::geom::Vector_obj::__new(0,0) ) : Void( pong::geom::Vector_obj::__new(double(_g->x) / double(d) * l,double(_g->y) / double(d) * l) );
+			}
+		};
+		this->_ball->velocity = _Function_1::Block(this);
 		this->_leftPaddle->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_leftPaddle->height) / double(2);
 		this->_rightPaddle->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_rightPaddle->height) / double(2);
 		this->_ball->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_ball->height) / double(2);
