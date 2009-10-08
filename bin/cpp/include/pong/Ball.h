@@ -19,10 +19,10 @@ class Ball_obj : public pong::geom::Rectangle_obj
 
 	protected:
 		Ball_obj();
-		Void __construct(int x_,int y_,int width_,int height_);
+		Void __construct(double x_,double y_,double width_,double height_);
 
 	public:
-		static hxObjectPtr<Ball_obj > __new(int x_,int y_,int width_,int height_);
+		static hxObjectPtr<Ball_obj > __new(double x_,double y_,double width_,double height_);
 		static Dynamic __CreateEmpty();
 		static Dynamic __Create(DynamicArray inArgs);
 		~Ball_obj();
@@ -35,6 +35,7 @@ class Ball_obj : public pong::geom::Rectangle_obj
 
 		pong::gfx::Rectangle sprite;
 		pong::geom::Vector velocity;
+		double acceleration;
 		virtual Void render( );
 		Dynamic render_dyn();
 

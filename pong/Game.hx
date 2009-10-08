@@ -5,6 +5,8 @@ import pong.gfx.Stage;
 import pong.gfx.Label;
 import pong.gfx.Rectangle;
 
+import pong.geom.Vector;
+
 import pong.ui.Keyboard;
 import pong.ui.Mouse;
 
@@ -131,11 +133,23 @@ class Game
 		//check ball vs Paddles
 		if (_ball.isOverlapping(_leftPaddle)) {
 			_ball.x = _leftPaddle.x + _leftPaddle.width; //cap the ball
-			_ball.velocity.x *= -1; //reverse the ball's direction
+			//find new direction
+			var newDirection:Vector = new Vector(
+												 (_ball.x + _ball.width * 0.5)-(_leftPaddle.x + _leftPaddle.width * 0.5),
+												 (_ball.y + _ball.height * 0.5)-(_leftPaddle.y + _leftPaddle.height * 0.5)
+												);
+			//make sure the new vector is the same length aka speed.
+			_ball.velocity = newDirection.normalize(_ball.velocity.length());
 		}
 		if (_ball.isOverlapping(_rightPaddle)) {
 			_ball.x = _rightPaddle.x - _ball.width;
-			_ball.velocity.x *= -1;
+			//find new direction
+			var newDirection:Vector = new Vector(
+												 (_ball.x + _ball.width * 0.5)-(_rightPaddle.x + _rightPaddle.width * 0.5),
+												 (_ball.y + _ball.height * 0.5)-(_rightPaddle.y + _rightPaddle.height * 0.5)
+												);
+			//make sure the new vector is the same length aka speed.
+			_ball.velocity = newDirection.normalize(_ball.velocity.length());
 		}
 	}
 	private function physicsStep():Void{

@@ -6,7 +6,7 @@
 DECLARE_CLASS1(haxe,Timer)
 DECLARE_CLASS1(pong,Ball)
 DECLARE_CLASS1(pong,Game)
-DECLARE_CLASS1(pong,Player)
+DECLARE_CLASS1(pong,Paddle)
 DECLARE_CLASS2(pong,geom,Rectangle)
 DECLARE_CLASS2(pong,gfx,Label)
 DECLARE_CLASS2(pong,gfx,Stage)
@@ -39,8 +39,8 @@ class Game_obj : public virtual hxObject
 		haxe::Timer _physicsTicker;
 		pong::gfx::Stage _stage;
 		pong::Ball _ball;
-		pong::Player _leftPlayer;
-		pong::Player _rightPlayer;
+		pong::Paddle _leftPaddle;
+		pong::Paddle _rightPaddle;
 		pong::gfx::Label _leftScoreLabel;
 		pong::gfx::Label _rightScoreLabel;
 		String _id;
@@ -50,7 +50,7 @@ class Game_obj : public virtual hxObject
 		virtual Void newRound( );
 		Dynamic newRound_dyn();
 
-		virtual Void runAI( pong::Player p);
+		virtual Void runAI( pong::Paddle p);
 		Dynamic runAI_dyn();
 
 		virtual Void doCollisions( );

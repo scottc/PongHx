@@ -8,6 +8,7 @@ package pong.gfx {
 			this.drawBackground();
 		}}
 		
+		protected var _displayObjects : Array;
 		public function add(object : *) : void {
 			_SP.addChild(object);
 		}
@@ -25,6 +26,18 @@ package pong.gfx {
 			bg.graphics.moveTo(getWidth() / 2,10);
 			bg.graphics.lineTo(getWidth() / 2,getHeight() - 10);
 			this.add(bg);
+		}
+		
+		protected function resizeObjects() : void {
+			{
+				var _g : int = 0, _g1 : Array = this._displayObjects;
+				while(_g < _g1.length) {
+					var i : * = _g1[_g];
+					++_g;
+					this._displayObjects[i].width *= 1;
+					this._displayObjects[i].height *= 1;
+				}
+			}
 		}
 		
 		static public function get width() : int { return getWidth(); }

@@ -32,6 +32,33 @@ class Vector_obj : public virtual hxObject
 
 		double x;
 		double y;
+		virtual pong::geom::Vector clone( );
+		Dynamic clone_dyn();
+
+		virtual Void set( double x_,double y_);
+		Dynamic set_dyn();
+
+		virtual pong::geom::Vector plus( pong::geom::Vector v);
+		Dynamic plus_dyn();
+
+		virtual pong::geom::Vector minus( pong::geom::Vector v);
+		Dynamic minus_dyn();
+
+		virtual pong::geom::Vector multiply( double n);
+		Dynamic multiply_dyn();
+
+		virtual double dotProduct( pong::geom::Vector v);
+		Dynamic dotProduct_dyn();
+
+		virtual double crossProduct( pong::geom::Vector v);
+		Dynamic crossProduct_dyn();
+
+		virtual double length( );
+		Dynamic length_dyn();
+
+		virtual pong::geom::Vector normalize( Dynamic l);
+		Dynamic normalize_dyn();
+
 };
 
 } // end namespace pong

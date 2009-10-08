@@ -28,8 +28,7 @@ class Ball extends pong.geom.Rectangle
 		sprite.y = y;
 	}
 	public function move() {
-		velocity.x *= 1 + acceleration;
-		velocity.y *= 1 + acceleration;
+		velocity.multiply(acceleration);
 		
 		x += velocity.x;
 		y += velocity.y;

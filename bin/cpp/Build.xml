@@ -21,6 +21,15 @@
   <file name="src/pong/gfx/Rectangle.cpp">
    <depend name="include/pong/gfx/Rectangle.h"/>
   </file>
+  <file name="src/pong/Paddle.cpp">
+   <depend name="include/pong/Paddle.h"/>
+   <depend name="include/pong/geom/Rectangle.h"/>
+   <depend name="include/pong/geom/Vector.h"/>
+   <depend name="include/pong/gfx/Rectangle.h"/>
+  </file>
+  <file name="src/pong/geom/Rectangle.cpp">
+   <depend name="include/pong/geom/Rectangle.h"/>
+  </file>
   <file name="src/haxe/Timer.cpp">
    <depend name="include/haxe/Timer.h"/>
   </file>
@@ -29,7 +38,7 @@
    <depend name="include/haxe/Timer.h"/>
    <depend name="include/pong/Ball.h"/>
    <depend name="include/pong/Game.h"/>
-   <depend name="include/pong/Player.h"/>
+   <depend name="include/pong/Paddle.h"/>
    <depend name="include/pong/geom/Rectangle.h"/>
    <depend name="include/pong/geom/Vector.h"/>
    <depend name="include/pong/gfx/Label.h"/>
@@ -39,15 +48,6 @@
   </file>
   <file name="src/Std.cpp">
    <depend name="include/Std.h"/>
-  </file>
-  <file name="src/pong/Player.cpp">
-   <depend name="include/pong/Player.h"/>
-   <depend name="include/pong/geom/Rectangle.h"/>
-   <depend name="include/pong/geom/Vector.h"/>
-   <depend name="include/pong/gfx/Rectangle.h"/>
-  </file>
-  <file name="src/pong/geom/Rectangle.cpp">
-   <depend name="include/pong/geom/Rectangle.h"/>
   </file>
   <file name="src/pong/ui/Mouse.cpp">
    <depend name="include/pong/ui/Mouse.h"/>

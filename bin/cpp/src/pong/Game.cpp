@@ -1,5 +1,8 @@
 #include <hxObject.h>
 
+#ifndef INCLUDED_hxMath
+#include <hxMath.h>
+#endif
 #ifndef INCLUDED_Std
 #include <Std.h>
 #endif
@@ -12,8 +15,8 @@
 #ifndef INCLUDED_pong_Game
 #include <pong/Game.h>
 #endif
-#ifndef INCLUDED_pong_Player
-#include <pong/Player.h>
+#ifndef INCLUDED_pong_Paddle
+#include <pong/Paddle.h>
 #endif
 #ifndef INCLUDED_pong_geom_Rectangle
 #include <pong/geom/Rectangle.h>
@@ -44,7 +47,6 @@ Void Game_obj::__construct()
 	this->_graphicsTicker->run = this->render_dyn();
 	this->setupStage();
 	this->newRound();
-	hxSubEq(this->_ball->y,100);
 }
 ;
 	return null();
@@ -66,15 +68,13 @@ Dynamic Game_obj::__Create(DynamicArray inArgs)
 Void Game_obj::setupStage( ){
 {
 		this->_stage = pong::gfx::Stage_obj::getInstance();
-		this->_ball = pong::Ball_obj::__new(150,50,20,20);
-		this->_ball->velocity->x = pong::gfx::Stage_obj::getWidth() * 0.01;
-		this->_ball->velocity->y = pong::gfx::Stage_obj::getHeight() * 0.01;
-		this->_leftPlayer = pong::Player_obj::__new(30,50,20,100);
-		this->_rightPlayer = pong::Player_obj::__new(pong::gfx::Stage_obj::getWidth() - 50,50,20,100);
-		this->_rightPlayer->ai = true;
+		this->_ball = pong::Ball_obj::__new(150,50,pong::gfx::Stage_obj::getWidth() * 0.02,pong::gfx::Stage_obj::getWidth() * 0.02);
+		this->_leftPaddle = pong::Paddle_obj::__new(pong::gfx::Stage_obj::getWidth() * 0.05,50,pong::gfx::Stage_obj::getWidth() * 0.02,pong::gfx::Stage_obj::getHeight() * 0.15);
+		this->_rightPaddle = pong::Paddle_obj::__new(pong::gfx::Stage_obj::getWidth() * 0.95,50,pong::gfx::Stage_obj::getWidth() * 0.02,pong::gfx::Stage_obj::getHeight() * 0.15);
+		this->_rightPaddle->ai = true;
 		this->_stage->add(this->_ball->sprite);
-		this->_stage->add(this->_leftPlayer->sprite);
-		this->_stage->add(this->_rightPlayer->sprite);
+		this->_stage->add(this->_leftPaddle->sprite);
+		this->_stage->add(this->_rightPaddle->sprite);
 		this->_leftScoreLabel = pong::gfx::Label_obj::__new();
 		this->_leftScoreLabel->text = STRING(L"0",1);
 		this->_leftScoreLabel->y = 10;
@@ -94,8 +94,11 @@ DEFINE_DYNAMIC_FUNC0(Game_obj,setupStage,(void))
 
 Void Game_obj::newRound( ){
 {
-		this->_leftPlayer->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_leftPlayer->height) / double(2);
-		this->_rightPlayer->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_rightPlayer->height) / double(2);
+		this->_ball->acceleration = 0.0001;
+		this->_ball->velocity->x = pong::gfx::Stage_obj::getWidth() * -0.01;
+		this->_ball->velocity->y = pong::gfx::Stage_obj::getHeight() * 0.01;
+		this->_leftPaddle->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_leftPaddle->height) / double(2);
+		this->_rightPaddle->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_rightPaddle->height) / double(2);
 		this->_ball->y = double(pong::gfx::Stage_obj::getHeight()) / double(2) - double(this->_ball->height) / double(2);
 		this->_ball->x = double(pong::gfx::Stage_obj::getWidth()) / double(2) - double(this->_ball->width) / double(2);
 	}
@@ -105,13 +108,13 @@ return null();
 
 DEFINE_DYNAMIC_FUNC0(Game_obj,newRound,(void))
 
-Void Game_obj::runAI( pong::Player p){
+Void Game_obj::runAI( pong::Paddle p){
 {
 		if (p->y + double(p->height) / double(2) < this->_ball->y + double(this->_ball->height) / double(2))
-			p->velocity->y = pong::gfx::Stage_obj::getHeight() * 0.007;
+			p->velocity->y = pong::gfx::Stage_obj::getHeight() * 0.01;
 		else
 			if (p->y + double(p->height) / double(2) > this->_ball->y + double(this->_ball->height) / double(2))
-			p->velocity->y = -pong::gfx::Stage_obj::getHeight() * 0.008;
+			p->velocity->y = pong::gfx::Stage_obj::getHeight() * -0.01;
 		else
 			p->velocity->y = 0;
 ;
@@ -125,17 +128,17 @@ DEFINE_DYNAMIC_FUNC1(Game_obj,runAI,(void))
 
 Void Game_obj::doCollisions( ){
 {
-		if (this->_leftPlayer->y + this->_leftPlayer->height > pong::gfx::Stage_obj::getHeight() - 10){
-			this->_leftPlayer->y = pong::gfx::Stage_obj::getHeight() - this->_leftPlayer->height - 10;
+		if (this->_leftPaddle->y + this->_leftPaddle->height > pong::gfx::Stage_obj::getHeight() - 10){
+			this->_leftPaddle->y = pong::gfx::Stage_obj::getHeight() - this->_leftPaddle->height - 10;
 		}
-		if (this->_leftPlayer->y < 10){
-			this->_leftPlayer->y = 10;
+		if (this->_leftPaddle->y < 10){
+			this->_leftPaddle->y = 10;
 		}
-		if (this->_rightPlayer->y + this->_rightPlayer->height > pong::gfx::Stage_obj::getHeight() - 10){
-			this->_rightPlayer->y = pong::gfx::Stage_obj::getHeight() - this->_rightPlayer->height - 10;
+		if (this->_rightPaddle->y + this->_rightPaddle->height > pong::gfx::Stage_obj::getHeight() - 10){
+			this->_rightPaddle->y = pong::gfx::Stage_obj::getHeight() - this->_rightPaddle->height - 10;
 		}
-		if (this->_rightPlayer->y < 10){
-			this->_rightPlayer->y = 10;
+		if (this->_rightPaddle->y < 10){
+			this->_rightPaddle->y = 10;
 		}
 		if (this->_ball->y + this->_ball->height > pong::gfx::Stage_obj::getHeight() - 10){
 			this->_ball->y = pong::gfx::Stage_obj::getHeight() - this->_ball->height - 10;
@@ -146,20 +149,48 @@ Void Game_obj::doCollisions( ){
 			hxMultEq(this->_ball->velocity->y,-1);
 		}
 		if (this->_ball->x < 0 - this->_ball->width){
-			this->_rightScoreLabel->text = Std_obj::string(++this->_rightPlayer->score);
+			this->_rightScoreLabel->text = Std_obj::string(++this->_rightPaddle->score);
 			this->newRound();
 		}
 		if (this->_ball->x > pong::gfx::Stage_obj::getWidth()){
-			this->_leftScoreLabel->text = Std_obj::string(++this->_leftPlayer->score);
+			this->_leftScoreLabel->text = Std_obj::string(++this->_leftPaddle->score);
 			this->newRound();
 		}
-		if (this->_ball->isOverlapping(this->_leftPlayer)){
-			this->_ball->x = this->_leftPlayer->x + this->_leftPlayer->width;
-			hxMultEq(this->_ball->velocity->x,-1);
+		if (this->_ball->isOverlapping(this->_leftPaddle)){
+			this->_ball->x = this->_leftPaddle->x + this->_leftPaddle->width;
+			pong::geom::Vector newDirection = pong::geom::Vector_obj::__new((this->_ball->x + this->_ball->width * 0.5) - (this->_leftPaddle->x + this->_leftPaddle->width * 0.5),(this->_ball->y + this->_ball->height * 0.5) - (this->_leftPaddle->y + this->_leftPaddle->height * 0.5));
+			struct _Function_1{
+				static pong::geom::Vector Block( pong::Game_obj *__this,pong::geom::Vector &newDirection)/* DEF (ret block)(not intern) */{
+					struct _Function_2{
+						static double Block( pong::Game_obj *__this)/* DEF (ret block)(not intern) */{
+							pong::geom::Vector _g = __this->_ball->velocity;
+							return Math_obj::sqrt(_g->x * _g->x + _g->y * _g->y);
+						}
+					};
+					double l = _Function_2::Block(__this);
+					double d = Math_obj::sqrt(newDirection->x * newDirection->x + newDirection->y * newDirection->y);
+					return d == 0 ? Void( pong::geom::Vector_obj::__new(0,0) ) : Void( pong::geom::Vector_obj::__new(double(newDirection->x) / double(d) * l,double(newDirection->y) / double(d) * l) );
+				}
+			};
+			this->_ball->velocity = _Function_1::Block(this,newDirection);
 		}
-		if (this->_ball->isOverlapping(this->_rightPlayer)){
-			this->_ball->x = this->_rightPlayer->x - this->_ball->width;
-			hxMultEq(this->_ball->velocity->x,-1);
+		if (this->_ball->isOverlapping(this->_rightPaddle)){
+			this->_ball->x = this->_rightPaddle->x - this->_ball->width;
+			pong::geom::Vector newDirection = pong::geom::Vector_obj::__new((this->_ball->x + this->_ball->width * 0.5) - (this->_rightPaddle->x + this->_rightPaddle->width * 0.5),(this->_ball->y + this->_ball->height * 0.5) - (this->_rightPaddle->y + this->_rightPaddle->height * 0.5));
+			struct _Function_1{
+				static pong::geom::Vector Block( pong::Game_obj *__this,pong::geom::Vector &newDirection)/* DEF (ret block)(not intern) */{
+					struct _Function_2{
+						static double Block( pong::Game_obj *__this)/* DEF (ret block)(not intern) */{
+							pong::geom::Vector _g = __this->_ball->velocity;
+							return Math_obj::sqrt(_g->x * _g->x + _g->y * _g->y);
+						}
+					};
+					double l = _Function_2::Block(__this);
+					double d = Math_obj::sqrt(newDirection->x * newDirection->x + newDirection->y * newDirection->y);
+					return d == 0 ? Void( pong::geom::Vector_obj::__new(0,0) ) : Void( pong::geom::Vector_obj::__new(double(newDirection->x) / double(d) * l,double(newDirection->y) / double(d) * l) );
+				}
+			};
+			this->_ball->velocity = _Function_1::Block(this,newDirection);
 		}
 	}
 return null();
@@ -170,28 +201,28 @@ DEFINE_DYNAMIC_FUNC0(Game_obj,doCollisions,(void))
 
 Void Game_obj::physicsStep( ){
 {
-		if (!this->_leftPlayer->ai){
-			this->_leftPlayer->y = pong::ui::Mouse_obj::y - double(this->_leftPlayer->height) / double(2);
+		if (!this->_leftPaddle->ai){
+			this->_leftPaddle->y = pong::ui::Mouse_obj::y - double(this->_leftPaddle->height) / double(2);
 		}
 		else
 			if (this->_ball->velocity->x < 0)
-			this->runAI(this->_leftPlayer);
+			this->runAI(this->_leftPaddle);
 		else
-			this->_leftPlayer->velocity->y = 0;
+			this->_leftPaddle->velocity->y = 0;
 ;
 ;
-		if (!this->_rightPlayer->ai){
-			this->_rightPlayer->y = pong::ui::Mouse_obj::y - double(this->_rightPlayer->height) / double(2);
+		if (!this->_rightPaddle->ai){
+			this->_rightPaddle->y = pong::ui::Mouse_obj::y - double(this->_rightPaddle->height) / double(2);
 		}
 		else
 			if (this->_ball->velocity->x > 0)
-			this->runAI(this->_rightPlayer);
+			this->runAI(this->_rightPaddle);
 		else
-			this->_rightPlayer->velocity->y = 0;
+			this->_rightPaddle->velocity->y = 0;
 ;
 ;
-		this->_leftPlayer->move();
-		this->_rightPlayer->move();
+		this->_leftPaddle->move();
+		this->_rightPaddle->move();
 		this->_ball->move();
 		this->doCollisions();
 	}
@@ -204,8 +235,8 @@ DEFINE_DYNAMIC_FUNC0(Game_obj,physicsStep,(void))
 Void Game_obj::render( ){
 {
 		this->_ball->render();
-		this->_leftPlayer->render();
-		this->_rightPlayer->render();
+		this->_leftPaddle->render();
+		this->_rightPaddle->render();
 	}
 return null();
 }
@@ -220,8 +251,8 @@ Game_obj::Game_obj()
 	InitMember(_physicsTicker);
 	InitMember(_stage);
 	InitMember(_ball);
-	InitMember(_leftPlayer);
-	InitMember(_rightPlayer);
+	InitMember(_leftPaddle);
+	InitMember(_rightPaddle);
 	InitMember(_leftScoreLabel);
 	InitMember(_rightScoreLabel);
 	InitMember(_id);
@@ -233,8 +264,8 @@ void Game_obj::__Mark()
 	MarkMember(_physicsTicker);
 	MarkMember(_stage);
 	MarkMember(_ball);
-	MarkMember(_leftPlayer);
-	MarkMember(_rightPlayer);
+	MarkMember(_leftPaddle);
+	MarkMember(_rightPaddle);
 	MarkMember(_leftScoreLabel);
 	MarkMember(_rightScoreLabel);
 	MarkMember(_id);
@@ -261,11 +292,11 @@ Dynamic Game_obj::__Field(const String &inName)
 		if (!memcmp(inName.__s,L"setupStage",sizeof(wchar_t)*10) ) { return setupStage_dyn(); }
 		break;
 	case 11:
-		if (!memcmp(inName.__s,L"_leftPlayer",sizeof(wchar_t)*11) ) { return _leftPlayer; }
+		if (!memcmp(inName.__s,L"_leftPaddle",sizeof(wchar_t)*11) ) { return _leftPaddle; }
 		if (!memcmp(inName.__s,L"physicsStep",sizeof(wchar_t)*11) ) { return physicsStep_dyn(); }
 		break;
 	case 12:
-		if (!memcmp(inName.__s,L"_rightPlayer",sizeof(wchar_t)*12) ) { return _rightPlayer; }
+		if (!memcmp(inName.__s,L"_rightPaddle",sizeof(wchar_t)*12) ) { return _rightPaddle; }
 		if (!memcmp(inName.__s,L"doCollisions",sizeof(wchar_t)*12) ) { return doCollisions_dyn(); }
 		break;
 	case 14:
@@ -285,8 +316,8 @@ static int __id__graphicsTicker = __hxcpp_field_to_id("_graphicsTicker");
 static int __id__physicsTicker = __hxcpp_field_to_id("_physicsTicker");
 static int __id__stage = __hxcpp_field_to_id("_stage");
 static int __id__ball = __hxcpp_field_to_id("_ball");
-static int __id__leftPlayer = __hxcpp_field_to_id("_leftPlayer");
-static int __id__rightPlayer = __hxcpp_field_to_id("_rightPlayer");
+static int __id__leftPaddle = __hxcpp_field_to_id("_leftPaddle");
+static int __id__rightPaddle = __hxcpp_field_to_id("_rightPaddle");
 static int __id__leftScoreLabel = __hxcpp_field_to_id("_leftScoreLabel");
 static int __id__rightScoreLabel = __hxcpp_field_to_id("_rightScoreLabel");
 static int __id__id = __hxcpp_field_to_id("_id");
@@ -304,8 +335,8 @@ Dynamic Game_obj::__IField(int inFieldID)
 	if (inFieldID==__id__physicsTicker) return _physicsTicker;
 	if (inFieldID==__id__stage) return _stage;
 	if (inFieldID==__id__ball) return _ball;
-	if (inFieldID==__id__leftPlayer) return _leftPlayer;
-	if (inFieldID==__id__rightPlayer) return _rightPlayer;
+	if (inFieldID==__id__leftPaddle) return _leftPaddle;
+	if (inFieldID==__id__rightPaddle) return _rightPaddle;
 	if (inFieldID==__id__leftScoreLabel) return _leftScoreLabel;
 	if (inFieldID==__id__rightScoreLabel) return _rightScoreLabel;
 	if (inFieldID==__id__id) return _id;
@@ -331,10 +362,10 @@ Dynamic Game_obj::__SetField(const String &inName,const Dynamic &inValue)
 		if (!memcmp(inName.__s,L"_stage",sizeof(wchar_t)*6) ) { _stage=inValue.Cast<pong::gfx::Stage >();return inValue; }
 		break;
 	case 11:
-		if (!memcmp(inName.__s,L"_leftPlayer",sizeof(wchar_t)*11) ) { _leftPlayer=inValue.Cast<pong::Player >();return inValue; }
+		if (!memcmp(inName.__s,L"_leftPaddle",sizeof(wchar_t)*11) ) { _leftPaddle=inValue.Cast<pong::Paddle >();return inValue; }
 		break;
 	case 12:
-		if (!memcmp(inName.__s,L"_rightPlayer",sizeof(wchar_t)*12) ) { _rightPlayer=inValue.Cast<pong::Player >();return inValue; }
+		if (!memcmp(inName.__s,L"_rightPaddle",sizeof(wchar_t)*12) ) { _rightPaddle=inValue.Cast<pong::Paddle >();return inValue; }
 		break;
 	case 14:
 		if (!memcmp(inName.__s,L"_physicsTicker",sizeof(wchar_t)*14) ) { _physicsTicker=inValue.Cast<haxe::Timer >();return inValue; }
@@ -355,8 +386,8 @@ void Game_obj::__GetFields(Array<String> &outFields)
 	outFields->push(STRING(L"_physicsTicker",14));
 	outFields->push(STRING(L"_stage",6));
 	outFields->push(STRING(L"_ball",5));
-	outFields->push(STRING(L"_leftPlayer",11));
-	outFields->push(STRING(L"_rightPlayer",12));
+	outFields->push(STRING(L"_leftPaddle",11));
+	outFields->push(STRING(L"_rightPaddle",12));
 	outFields->push(STRING(L"_leftScoreLabel",15));
 	outFields->push(STRING(L"_rightScoreLabel",16));
 	outFields->push(STRING(L"_id",3));
@@ -371,8 +402,8 @@ static String sMemberFields[] = {
 	STRING(L"_physicsTicker",14),
 	STRING(L"_stage",6),
 	STRING(L"_ball",5),
-	STRING(L"_leftPlayer",11),
-	STRING(L"_rightPlayer",12),
+	STRING(L"_leftPaddle",11),
+	STRING(L"_rightPaddle",12),
 	STRING(L"_leftScoreLabel",15),
 	STRING(L"_rightScoreLabel",16),
 	STRING(L"_id",3),

@@ -30,11 +30,15 @@ class Stage_obj : public virtual hxObject
 		void __Mark();
 		String __ToString() const { return STRING(L"Stage",5); }
 
+		Array<Dynamic > _displayObjects;
 		virtual Void add( Dynamic object);
 		Dynamic add_dyn();
 
 		virtual Void drawBackground( );
 		Dynamic drawBackground_dyn();
+
+		virtual Void resizeObjects( );
+		Dynamic resizeObjects_dyn();
 
 		static int width;
 		static int height;

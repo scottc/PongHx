@@ -27,6 +27,9 @@ class Vector
 	public inline function minus(v:Vector):Vector{
 		return new Vector(x - v.x, y - v.y);
 	}
+	public inline function multiply(n:Float):Vector{
+		return new Vector(x * n, y * n);
+	}
 	public inline function dotProduct(v:Vector) {
 		return x * v.x + y * v.y;
 	}
@@ -40,7 +43,7 @@ class Vector
 		var d:Float = Math.sqrt(x * x + y * y);
 		if (d == 0)
 			return new Vector(0, 0);
-			
-		return new Vector(y / d * l, x / d * l);
+		else
+		return new Vector(x / d * l, y / d * l);
 	}
 }
