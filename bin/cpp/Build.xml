@@ -17,6 +17,7 @@
    <depend name="include/pong/geom/Rectangle.h"/>
    <depend name="include/pong/geom/Vector.h"/>
    <depend name="include/pong/gfx/Rectangle.h"/>
+   <depend name="include/pong/gfx/Stage.h"/>
   </file>
   <file name="src/pong/gfx/Rectangle.cpp">
    <depend name="include/pong/gfx/Rectangle.h"/>

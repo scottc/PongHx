@@ -15,6 +15,9 @@
 #ifndef INCLUDED_pong_gfx_Rectangle
 #include <pong/gfx/Rectangle.h>
 #endif
+#ifndef INCLUDED_pong_gfx_Stage
+#include <pong/gfx/Stage.h>
+#endif
 namespace pong{
 
 Void Ball_obj::__construct(double x_,double y_,double width_,double height_)
@@ -23,7 +26,7 @@ Void Ball_obj::__construct(double x_,double y_,double width_,double height_)
 	super::__construct(x_,y_,width_,height_);
 	this->sprite = pong::gfx::Rectangle_obj::__new(x_,y_,width_,height_);
 	this->velocity = pong::geom::Vector_obj::__new(0,0);
-	this->acceleration = 0;
+	this->acceleration = pong::gfx::Stage_obj::getWidth() * 0.01;
 }
 ;
 	return null();

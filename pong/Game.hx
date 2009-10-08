@@ -27,16 +27,39 @@ class Game
 	
 	private var _id:String;
 	
+	private var _frameRate:Float;
+	private var _physicsRate:Float;
+	public var frameRate(getFrameRate, setFrameRate):Float;//target frames per second
+	public var physicsRate(getFrameRate, setPhysicsRate):Float;//target physics steps per second
+	
 	public function new() 
 	{	
-		_physicsTicker = new Timer(25);
-		_physicsTicker.run = physicsStep;
-		
-		_graphicsTicker = new Timer(25);
-		_graphicsTicker.run = render;		
+		frameRate = 60;
+		physicsRate = 60;
 		
 		setupStage();
 		newRound();
+		render();
+	}
+	private function getFrameRate():Float{
+		return _frameRate;
+	}
+	private function getPhysicsRate():Float{
+		return _physicsRate;
+	}
+	private function setFrameRate(v:Float) {
+		_physicsRate = v;
+		if(_physicsTicker != null)_physicsTicker.stop();
+		_physicsTicker = new Timer(Math.floor(1000 / _physicsRate));// 1 sec / framerate = ms needed, per frame.
+		_physicsTicker.run = physicsStep;
+		return v;
+	}
+	private function setPhysicsRate(v:Float) {
+		_frameRate = v;
+		if(_graphicsTicker != null)_graphicsTicker.stop();
+		_graphicsTicker = new Timer(Math.floor(1000 / _frameRate));
+		_graphicsTicker.run = render;
+		return v;
 	}
 	private function setupStage():Void {
 		_stage = Stage.getInstance();

@@ -21,13 +21,14 @@ class Ball extends pong.geom.Rectangle
 		sprite = new pong.gfx.Rectangle(x_, y_, width_, height_);
 		
 		velocity = new Vector(0, 0);
-		acceleration = 0;
+		acceleration = pong.gfx.Stage.width * 0.01;
 	}
 	public function render() {
 		sprite.x = x;
 		sprite.y = y;
 	}
 	public function move() {
+		//velocity.multiply(1 + acceleration);
 		velocity.normalize(1 + acceleration);
 		
 		x += velocity.x;

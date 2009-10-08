@@ -1,9 +1,13 @@
 package pong.gfx {
+	import flash.display.StageAlign;
 	import flash.Lib;
 	import flash.display.Sprite;
+	import flash.display.StageScaleMode;
 	import flash.Boot;
 	public class Stage {
 		public function Stage() : void { if( !flash.Boot.skip_constructor ) {
+			flash.Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
+			flash.Lib.current.stage.align = flash.display.StageAlign.TOP_LEFT;
 			pong.gfx.Stage._SP = flash.Lib.current;
 			this.drawBackground();
 		}}

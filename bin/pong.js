@@ -342,19 +342,20 @@ Std.random = function(x) {
 }
 Std.prototype.__class__ = Std;
 pong.Game = function(p) { if( p === $_ ) return; {
-	this._physicsTicker = new haxe.Timer(25);
-	this._physicsTicker.run = $closure(this,"physicsStep");
-	this._graphicsTicker = new haxe.Timer(25);
-	this._graphicsTicker.run = $closure(this,"render");
+	this.setFrameRate(60);
+	this.setPhysicsRate(60);
 	this.setupStage();
 	this.newRound();
+	this.render();
 }}
 pong.Game.__name__ = ["pong","Game"];
 pong.Game.prototype._ball = null;
+pong.Game.prototype._frameRate = null;
 pong.Game.prototype._graphicsTicker = null;
 pong.Game.prototype._id = null;
 pong.Game.prototype._leftPaddle = null;
 pong.Game.prototype._leftScoreLabel = null;
+pong.Game.prototype._physicsRate = null;
 pong.Game.prototype._physicsTicker = null;
 pong.Game.prototype._rightPaddle = null;
 pong.Game.prototype._rightScoreLabel = null;
@@ -397,6 +398,13 @@ pong.Game.prototype.doCollisions = function() {
 	this.ballPaddleCollision(this._leftPaddle);
 	this.ballPaddleCollision(this._rightPaddle);
 }
+pong.Game.prototype.frameRate = null;
+pong.Game.prototype.getFrameRate = function() {
+	return this._frameRate;
+}
+pong.Game.prototype.getPhysicsRate = function() {
+	return this._physicsRate;
+}
 pong.Game.prototype.newRound = function() {
 	this._ball.acceleration = 0.0001;
 	this._ball.velocity.x = pong.gfx.Stage.getWidth() * Math.random() - pong.gfx.Stage.getWidth() * 0.5;
@@ -407,6 +415,7 @@ pong.Game.prototype.newRound = function() {
 	this._ball.y = pong.gfx.Stage.getHeight() / 2 - this._ball.height / 2;
 	this._ball.x = pong.gfx.Stage.getWidth() / 2 - this._ball.width / 2;
 }
+pong.Game.prototype.physicsRate = null;
 pong.Game.prototype.physicsStep = function() {
 	if(!this._leftPaddle.ai) {
 		this._leftPaddle.y = pong.ui.Mouse.y - this._leftPaddle.height / 2;
@@ -432,6 +441,20 @@ pong.Game.prototype.runAI = function(p) {
 	if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = pong.gfx.Stage.getHeight() * 0.01;
 	else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = pong.gfx.Stage.getHeight() * -0.01;
 	else p.velocity.y = 0;
+}
+pong.Game.prototype.setFrameRate = function(v) {
+	this._physicsRate = v;
+	if(this._physicsTicker != null) this._physicsTicker.stop();
+	this._physicsTicker = new haxe.Timer(Math.floor(1000 / this._physicsRate));
+	this._physicsTicker.run = $closure(this,"physicsStep");
+	return v;
+}
+pong.Game.prototype.setPhysicsRate = function(v) {
+	this._frameRate = v;
+	if(this._graphicsTicker != null) this._graphicsTicker.stop();
+	this._graphicsTicker = new haxe.Timer(Math.floor(1000 / this._frameRate));
+	this._graphicsTicker.run = $closure(this,"render");
+	return v;
 }
 pong.Game.prototype.setupStage = function() {
 	this._stage = pong.gfx.Stage.getInstance();
@@ -672,7 +695,7 @@ pong.Ball = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
 	pong.geom.Rectangle.apply(this,[x_,y_,width_,height_]);
 	this.sprite = new pong.gfx.Rectangle(x_,y_,width_,height_);
 	this.velocity = new pong.geom.Vector(0,0);
-	this.acceleration = 0;
+	this.acceleration = pong.gfx.Stage.getWidth() * 0.01;
 }}
 pong.Ball.__name__ = ["pong","Ball"];
 pong.Ball.__super__ = pong.geom.Rectangle;

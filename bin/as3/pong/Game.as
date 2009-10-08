@@ -9,12 +9,11 @@ package pong {
 	import flash.Boot;
 	public class Game {
 		public function Game() : void { if( !flash.Boot.skip_constructor ) {
-			this._physicsTicker = new haxe.Timer(25);
-			this._physicsTicker.run = this.physicsStep;
-			this._graphicsTicker = new haxe.Timer(25);
-			this._graphicsTicker.run = this.render;
+			this.setFrameRate(60);
+			this.setPhysicsRate(60);
 			this.setupStage();
 			this.newRound();
+			this.render();
 		}}
 		
 		protected var _graphicsTicker : haxe.Timer;
@@ -26,6 +25,38 @@ package pong {
 		protected var _leftScoreLabel : pong.gfx.Label;
 		protected var _rightScoreLabel : pong.gfx.Label;
 		protected var _id : String;
+		protected var _frameRate : Number;
+		protected var _physicsRate : Number;
+		public function get frameRate() : Number { return getFrameRate(); }
+		public function set frameRate( __v : Number ) : void { setFrameRate(__v); }
+		protected var $frameRate : Number;
+		public function get physicsRate() : Number { return getFrameRate(); }
+		public function set physicsRate( __v : Number ) : void { setPhysicsRate(__v); }
+		protected var $physicsRate : Number;
+		public function getFrameRate() : Number {
+			return this._frameRate;
+		}
+		
+		protected function getPhysicsRate() : Number {
+			return this._physicsRate;
+		}
+		
+		public function setFrameRate(v : Number) : Number {
+			this._physicsRate = v;
+			if(this._physicsTicker != null) this._physicsTicker.stop();
+			this._physicsTicker = new haxe.Timer(Math.floor(1000 / this._physicsRate));
+			this._physicsTicker.run = this.physicsStep;
+			return v;
+		}
+		
+		public function setPhysicsRate(v : Number) : Number {
+			this._frameRate = v;
+			if(this._graphicsTicker != null) this._graphicsTicker.stop();
+			this._graphicsTicker = new haxe.Timer(Math.floor(1000 / this._frameRate));
+			this._graphicsTicker.run = this.render;
+			return v;
+		}
+		
 		protected function setupStage() : void {
 			this._stage = pong.gfx.Stage.getInstance();
 			this._ball = new pong.Ball(150,50,pong.gfx.Stage.getWidth() * 0.02,pong.gfx.Stage.getWidth() * 0.02);

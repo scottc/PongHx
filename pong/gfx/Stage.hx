@@ -35,6 +35,8 @@ class Stage
 	
 	public function new(){
 		#if flash
+			flash.Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
+			flash.Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 			_SP = flash.Lib.current;
 		#elseif js
 			ELEMENT = js.Lib.document.getElementById(_ID);

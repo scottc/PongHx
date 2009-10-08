@@ -41,12 +41,11 @@ namespace pong{
 Void Game_obj::__construct()
 {
 {
-	this->_physicsTicker = haxe::Timer_obj::__new(25);
-	this->_physicsTicker->run = this->physicsStep_dyn();
-	this->_graphicsTicker = haxe::Timer_obj::__new(25);
-	this->_graphicsTicker->run = this->render_dyn();
+	this->setFrameRate(60);
+	this->setPhysicsRate(60);
 	this->setupStage();
 	this->newRound();
+	this->render();
 }
 ;
 	return null();
@@ -64,6 +63,44 @@ Dynamic Game_obj::__Create(DynamicArray inArgs)
 {  hxObjectPtr<Game_obj > result = new Game_obj();
 	result->__construct();
 	return result;}
+
+double Game_obj::getFrameRate( ){
+	return this->_frameRate;
+}
+
+
+DEFINE_DYNAMIC_FUNC0(Game_obj,getFrameRate,return )
+
+double Game_obj::getPhysicsRate( ){
+	return this->_physicsRate;
+}
+
+
+DEFINE_DYNAMIC_FUNC0(Game_obj,getPhysicsRate,return )
+
+double Game_obj::setFrameRate( double v){
+	this->_physicsRate = v;
+	if (this->_physicsTicker != null())
+		this->_physicsTicker->stop();
+	this->_physicsTicker = haxe::Timer_obj::__new(Math_obj::floor(double(1000) / double(this->_physicsRate)));
+	this->_physicsTicker->run = this->physicsStep_dyn();
+	return v;
+}
+
+
+DEFINE_DYNAMIC_FUNC1(Game_obj,setFrameRate,return )
+
+double Game_obj::setPhysicsRate( double v){
+	this->_frameRate = v;
+	if (this->_graphicsTicker != null())
+		this->_graphicsTicker->stop();
+	this->_graphicsTicker = haxe::Timer_obj::__new(Math_obj::floor(double(1000) / double(this->_frameRate)));
+	this->_graphicsTicker->run = this->render_dyn();
+	return v;
+}
+
+
+DEFINE_DYNAMIC_FUNC1(Game_obj,setPhysicsRate,return )
 
 Void Game_obj::setupStage( ){
 {
@@ -257,6 +294,10 @@ Game_obj::Game_obj()
 	InitMember(_leftScoreLabel);
 	InitMember(_rightScoreLabel);
 	InitMember(_id);
+	InitMember(_frameRate);
+	InitMember(_physicsRate);
+	InitMember(frameRate);
+	InitMember(physicsRate);
 }
 
 void Game_obj::__Mark()
@@ -270,6 +311,10 @@ void Game_obj::__Mark()
 	MarkMember(_leftScoreLabel);
 	MarkMember(_rightScoreLabel);
 	MarkMember(_id);
+	MarkMember(_frameRate);
+	MarkMember(_physicsRate);
+	MarkMember(frameRate);
+	MarkMember(physicsRate);
 }
 
 Dynamic Game_obj::__Field(const String &inName)
@@ -289,19 +334,29 @@ Dynamic Game_obj::__Field(const String &inName)
 	case 8:
 		if (!memcmp(inName.__s,L"newRound",sizeof(wchar_t)*8) ) { return newRound_dyn(); }
 		break;
+	case 9:
+		if (!memcmp(inName.__s,L"frameRate",sizeof(wchar_t)*9) ) { return frameRate; }
+		break;
 	case 10:
+		if (!memcmp(inName.__s,L"_frameRate",sizeof(wchar_t)*10) ) { return _frameRate; }
 		if (!memcmp(inName.__s,L"setupStage",sizeof(wchar_t)*10) ) { return setupStage_dyn(); }
 		break;
 	case 11:
 		if (!memcmp(inName.__s,L"_leftPaddle",sizeof(wchar_t)*11) ) { return _leftPaddle; }
+		if (!memcmp(inName.__s,L"physicsRate",sizeof(wchar_t)*11) ) { return physicsRate; }
 		if (!memcmp(inName.__s,L"physicsStep",sizeof(wchar_t)*11) ) { return physicsStep_dyn(); }
 		break;
 	case 12:
 		if (!memcmp(inName.__s,L"_rightPaddle",sizeof(wchar_t)*12) ) { return _rightPaddle; }
+		if (!memcmp(inName.__s,L"_physicsRate",sizeof(wchar_t)*12) ) { return _physicsRate; }
+		if (!memcmp(inName.__s,L"getFrameRate",sizeof(wchar_t)*12) ) { return getFrameRate_dyn(); }
+		if (!memcmp(inName.__s,L"setFrameRate",sizeof(wchar_t)*12) ) { return setFrameRate_dyn(); }
 		if (!memcmp(inName.__s,L"doCollisions",sizeof(wchar_t)*12) ) { return doCollisions_dyn(); }
 		break;
 	case 14:
 		if (!memcmp(inName.__s,L"_physicsTicker",sizeof(wchar_t)*14) ) { return _physicsTicker; }
+		if (!memcmp(inName.__s,L"getPhysicsRate",sizeof(wchar_t)*14) ) { return getPhysicsRate_dyn(); }
+		if (!memcmp(inName.__s,L"setPhysicsRate",sizeof(wchar_t)*14) ) { return setPhysicsRate_dyn(); }
 		break;
 	case 15:
 		if (!memcmp(inName.__s,L"_graphicsTicker",sizeof(wchar_t)*15) ) { return _graphicsTicker; }
@@ -325,6 +380,14 @@ static int __id__rightPaddle = __hxcpp_field_to_id("_rightPaddle");
 static int __id__leftScoreLabel = __hxcpp_field_to_id("_leftScoreLabel");
 static int __id__rightScoreLabel = __hxcpp_field_to_id("_rightScoreLabel");
 static int __id__id = __hxcpp_field_to_id("_id");
+static int __id__frameRate = __hxcpp_field_to_id("_frameRate");
+static int __id__physicsRate = __hxcpp_field_to_id("_physicsRate");
+static int __id_frameRate = __hxcpp_field_to_id("frameRate");
+static int __id_physicsRate = __hxcpp_field_to_id("physicsRate");
+static int __id_getFrameRate = __hxcpp_field_to_id("getFrameRate");
+static int __id_getPhysicsRate = __hxcpp_field_to_id("getPhysicsRate");
+static int __id_setFrameRate = __hxcpp_field_to_id("setFrameRate");
+static int __id_setPhysicsRate = __hxcpp_field_to_id("setPhysicsRate");
 static int __id_setupStage = __hxcpp_field_to_id("setupStage");
 static int __id_newRound = __hxcpp_field_to_id("newRound");
 static int __id_runAI = __hxcpp_field_to_id("runAI");
@@ -345,6 +408,14 @@ Dynamic Game_obj::__IField(int inFieldID)
 	if (inFieldID==__id__leftScoreLabel) return _leftScoreLabel;
 	if (inFieldID==__id__rightScoreLabel) return _rightScoreLabel;
 	if (inFieldID==__id__id) return _id;
+	if (inFieldID==__id__frameRate) return _frameRate;
+	if (inFieldID==__id__physicsRate) return _physicsRate;
+	if (inFieldID==__id_frameRate) return frameRate;
+	if (inFieldID==__id_physicsRate) return physicsRate;
+	if (inFieldID==__id_getFrameRate) return getFrameRate_dyn();
+	if (inFieldID==__id_getPhysicsRate) return getPhysicsRate_dyn();
+	if (inFieldID==__id_setFrameRate) return setFrameRate_dyn();
+	if (inFieldID==__id_setPhysicsRate) return setPhysicsRate_dyn();
 	if (inFieldID==__id_setupStage) return setupStage_dyn();
 	if (inFieldID==__id_newRound) return newRound_dyn();
 	if (inFieldID==__id_runAI) return runAI_dyn();
@@ -367,11 +438,19 @@ Dynamic Game_obj::__SetField(const String &inName,const Dynamic &inValue)
 	case 6:
 		if (!memcmp(inName.__s,L"_stage",sizeof(wchar_t)*6) ) { _stage=inValue.Cast<pong::gfx::Stage >();return inValue; }
 		break;
+	case 9:
+		if (!memcmp(inName.__s,L"frameRate",sizeof(wchar_t)*9) ) { frameRate=inValue.Cast<double >();return inValue; }
+		break;
+	case 10:
+		if (!memcmp(inName.__s,L"_frameRate",sizeof(wchar_t)*10) ) { _frameRate=inValue.Cast<double >();return inValue; }
+		break;
 	case 11:
 		if (!memcmp(inName.__s,L"_leftPaddle",sizeof(wchar_t)*11) ) { _leftPaddle=inValue.Cast<pong::Paddle >();return inValue; }
+		if (!memcmp(inName.__s,L"physicsRate",sizeof(wchar_t)*11) ) { physicsRate=inValue.Cast<double >();return inValue; }
 		break;
 	case 12:
 		if (!memcmp(inName.__s,L"_rightPaddle",sizeof(wchar_t)*12) ) { _rightPaddle=inValue.Cast<pong::Paddle >();return inValue; }
+		if (!memcmp(inName.__s,L"_physicsRate",sizeof(wchar_t)*12) ) { _physicsRate=inValue.Cast<double >();return inValue; }
 		break;
 	case 14:
 		if (!memcmp(inName.__s,L"_physicsTicker",sizeof(wchar_t)*14) ) { _physicsTicker=inValue.Cast<haxe::Timer >();return inValue; }
@@ -397,6 +476,10 @@ void Game_obj::__GetFields(Array<String> &outFields)
 	outFields->push(STRING(L"_leftScoreLabel",15));
 	outFields->push(STRING(L"_rightScoreLabel",16));
 	outFields->push(STRING(L"_id",3));
+	outFields->push(STRING(L"_frameRate",10));
+	outFields->push(STRING(L"_physicsRate",12));
+	outFields->push(STRING(L"frameRate",9));
+	outFields->push(STRING(L"physicsRate",11));
 	super::__GetFields(outFields);
 };
 
@@ -413,6 +496,14 @@ static String sMemberFields[] = {
 	STRING(L"_leftScoreLabel",15),
 	STRING(L"_rightScoreLabel",16),
 	STRING(L"_id",3),
+	STRING(L"_frameRate",10),
+	STRING(L"_physicsRate",12),
+	STRING(L"frameRate",9),
+	STRING(L"physicsRate",11),
+	STRING(L"getFrameRate",12),
+	STRING(L"getPhysicsRate",14),
+	STRING(L"setFrameRate",12),
+	STRING(L"setPhysicsRate",14),
 	STRING(L"setupStage",10),
 	STRING(L"newRound",8),
 	STRING(L"runAI",5),

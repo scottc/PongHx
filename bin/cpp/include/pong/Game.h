@@ -44,6 +44,22 @@ class Game_obj : public virtual hxObject
 		pong::gfx::Label _leftScoreLabel;
 		pong::gfx::Label _rightScoreLabel;
 		String _id;
+		double _frameRate;
+		double _physicsRate;
+		double frameRate;
+		double physicsRate;
+		virtual double getFrameRate( );
+		Dynamic getFrameRate_dyn();
+
+		virtual double getPhysicsRate( );
+		Dynamic getPhysicsRate_dyn();
+
+		virtual double setFrameRate( double v);
+		Dynamic setFrameRate_dyn();
+
+		virtual double setPhysicsRate( double v);
+		Dynamic setPhysicsRate_dyn();
+
 		virtual Void setupStage( );
 		Dynamic setupStage_dyn();
 

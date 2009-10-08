@@ -13,11 +13,6 @@ class Main
 	
 	static function main() 
 	{
-		#if flash
-			flash.Lib.current.stage.scaleMode = flash.display.StageScaleMode.NO_SCALE;
-			flash.Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
-		#end
-		
 		pong.ui.Mouse.initialize();//initalise mouse
 		new Game();
 	}
