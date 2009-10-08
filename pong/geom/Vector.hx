@@ -36,4 +36,11 @@ class Vector
 	public inline function length() {
 		return Math.sqrt(x * x + y * y);
 	}
+	public inline function normalize(l:Float = 1) {
+		var d:Float = Math.sqrt(x * x + y * y);
+		if (d == 0)
+			return new Vector(0, 0);
+			
+		return new Vector(y / d * l, x / d * l);
+	}
 }
