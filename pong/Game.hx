@@ -131,23 +131,20 @@ class Game
 		}
 		
 		//check ball vs Paddles
-		if (_ball.isOverlapping(_leftPaddle)) {
-			_ball.x = _leftPaddle.x + _leftPaddle.width; //cap the ball
+		ballPaddleCollision(_leftPaddle);
+		ballPaddleCollision(_rightPaddle);
+	}
+	private function ballPaddleCollision(p:Paddle) {
+		//if collision
+		if (_ball.isOverlapping(p)) {
+			
 			//find new direction
-			var newDirection:Vector = new Vector(
-												 (_ball.x + _ball.width * 0.5)-(_leftPaddle.x + _leftPaddle.width * 0.5),
-												 (_ball.y + _ball.height * 0.5)-(_leftPaddle.y + _leftPaddle.height * 0.5)
-												);
-			//make sure the new vector is the same length aka speed.
-			_ball.velocity = newDirection.normalize(_ball.velocity.length());
-		}
-		if (_ball.isOverlapping(_rightPaddle)) {
-			_ball.x = _rightPaddle.x - _ball.width;
-			//find new direction
-			var newDirection:Vector = new Vector(
-												 (_ball.x + _ball.width * 0.5)-(_rightPaddle.x + _rightPaddle.width * 0.5),
-												 (_ball.y + _ball.height * 0.5)-(_rightPaddle.y + _rightPaddle.height * 0.5)
-												);
+			var newDirection:Vector =
+			new Vector(
+					(_ball.x + _ball.width * 0.5)-(p.x + p.width * 0.5),
+					(_ball.y + _ball.height * 0.5)-(p.y + p.height * 0.5)
+			);
+			
 			//make sure the new vector is the same length aka speed.
 			_ball.velocity = newDirection.normalize(_ball.velocity.length());
 		}

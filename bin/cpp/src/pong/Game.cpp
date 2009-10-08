@@ -156,27 +156,19 @@ Void Game_obj::doCollisions( ){
 			this->_leftScoreLabel->text = Std_obj::string(++this->_leftPaddle->score);
 			this->newRound();
 		}
-		if (this->_ball->isOverlapping(this->_leftPaddle)){
-			this->_ball->x = this->_leftPaddle->x + this->_leftPaddle->width;
-			pong::geom::Vector newDirection = pong::geom::Vector_obj::__new((this->_ball->x + this->_ball->width * 0.5) - (this->_leftPaddle->x + this->_leftPaddle->width * 0.5),(this->_ball->y + this->_ball->height * 0.5) - (this->_leftPaddle->y + this->_leftPaddle->height * 0.5));
-			struct _Function_1{
-				static pong::geom::Vector Block( pong::Game_obj *__this,pong::geom::Vector &newDirection)/* DEF (ret block)(not intern) */{
-					struct _Function_2{
-						static double Block( pong::Game_obj *__this)/* DEF (ret block)(not intern) */{
-							pong::geom::Vector _g = __this->_ball->velocity;
-							return Math_obj::sqrt(_g->x * _g->x + _g->y * _g->y);
-						}
-					};
-					double l = _Function_2::Block(__this);
-					double d = Math_obj::sqrt(newDirection->x * newDirection->x + newDirection->y * newDirection->y);
-					return d == 0 ? Void( pong::geom::Vector_obj::__new(0,0) ) : Void( pong::geom::Vector_obj::__new(double(newDirection->x) / double(d) * l,double(newDirection->y) / double(d) * l) );
-				}
-			};
-			this->_ball->velocity = _Function_1::Block(this,newDirection);
-		}
-		if (this->_ball->isOverlapping(this->_rightPaddle)){
-			this->_ball->x = this->_rightPaddle->x - this->_ball->width;
-			pong::geom::Vector newDirection = pong::geom::Vector_obj::__new((this->_ball->x + this->_ball->width * 0.5) - (this->_rightPaddle->x + this->_rightPaddle->width * 0.5),(this->_ball->y + this->_ball->height * 0.5) - (this->_rightPaddle->y + this->_rightPaddle->height * 0.5));
+		this->ballPaddleCollision(this->_leftPaddle);
+		this->ballPaddleCollision(this->_rightPaddle);
+	}
+return null();
+}
+
+
+DEFINE_DYNAMIC_FUNC0(Game_obj,doCollisions,(void))
+
+Void Game_obj::ballPaddleCollision( pong::Paddle p){
+{
+		if (this->_ball->isOverlapping(p)){
+			pong::geom::Vector newDirection = pong::geom::Vector_obj::__new((this->_ball->x + this->_ball->width * 0.5) - (p->x + p->width * 0.5),(this->_ball->y + this->_ball->height * 0.5) - (p->y + p->height * 0.5));
 			struct _Function_1{
 				static pong::geom::Vector Block( pong::Game_obj *__this,pong::geom::Vector &newDirection)/* DEF (ret block)(not intern) */{
 					struct _Function_2{
@@ -197,7 +189,7 @@ return null();
 }
 
 
-DEFINE_DYNAMIC_FUNC0(Game_obj,doCollisions,(void))
+DEFINE_DYNAMIC_FUNC1(Game_obj,ballPaddleCollision,(void))
 
 Void Game_obj::physicsStep( ){
 {
@@ -308,6 +300,9 @@ Dynamic Game_obj::__Field(const String &inName)
 		break;
 	case 16:
 		if (!memcmp(inName.__s,L"_rightScoreLabel",sizeof(wchar_t)*16) ) { return _rightScoreLabel; }
+		break;
+	case 19:
+		if (!memcmp(inName.__s,L"ballPaddleCollision",sizeof(wchar_t)*19) ) { return ballPaddleCollision_dyn(); }
 	}
 	return super::__Field(inName);
 }
@@ -325,6 +320,7 @@ static int __id_setupStage = __hxcpp_field_to_id("setupStage");
 static int __id_newRound = __hxcpp_field_to_id("newRound");
 static int __id_runAI = __hxcpp_field_to_id("runAI");
 static int __id_doCollisions = __hxcpp_field_to_id("doCollisions");
+static int __id_ballPaddleCollision = __hxcpp_field_to_id("ballPaddleCollision");
 static int __id_physicsStep = __hxcpp_field_to_id("physicsStep");
 static int __id_render = __hxcpp_field_to_id("render");
 
@@ -344,6 +340,7 @@ Dynamic Game_obj::__IField(int inFieldID)
 	if (inFieldID==__id_newRound) return newRound_dyn();
 	if (inFieldID==__id_runAI) return runAI_dyn();
 	if (inFieldID==__id_doCollisions) return doCollisions_dyn();
+	if (inFieldID==__id_ballPaddleCollision) return ballPaddleCollision_dyn();
 	if (inFieldID==__id_physicsStep) return physicsStep_dyn();
 	if (inFieldID==__id_render) return render_dyn();
 	return super::__IField(inFieldID);
@@ -411,6 +408,7 @@ static String sMemberFields[] = {
 	STRING(L"newRound",8),
 	STRING(L"runAI",5),
 	STRING(L"doCollisions",12),
+	STRING(L"ballPaddleCollision",19),
 	STRING(L"physicsStep",11),
 	STRING(L"render",6),
 	String(null()) };

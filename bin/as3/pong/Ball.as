@@ -20,7 +20,7 @@ package pong {
 		}
 		
 		public function move() : void {
-			this.velocity.multiply(this.acceleration);
+			this.velocity.normalize(1 + this.acceleration);
 			this.x += this.velocity.x;
 			this.y += this.velocity.y;
 		}

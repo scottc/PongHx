@@ -359,6 +359,12 @@ pong.Game.prototype._physicsTicker = null;
 pong.Game.prototype._rightPaddle = null;
 pong.Game.prototype._rightScoreLabel = null;
 pong.Game.prototype._stage = null;
+pong.Game.prototype.ballPaddleCollision = function(p) {
+	if(this._ball.isOverlapping(p)) {
+		var newDirection = new pong.geom.Vector((this._ball.x + this._ball.width * 0.5) - (p.x + p.width * 0.5),(this._ball.y + this._ball.height * 0.5) - (p.y + p.height * 0.5));
+		this._ball.velocity = newDirection.normalize(this._ball.velocity.length());
+	}
+}
 pong.Game.prototype.doCollisions = function() {
 	if(this._leftPaddle.y + this._leftPaddle.height > pong.gfx.Stage.getHeight() - 10) {
 		this._leftPaddle.y = pong.gfx.Stage.getHeight() - this._leftPaddle.height - 10;
@@ -388,16 +394,8 @@ pong.Game.prototype.doCollisions = function() {
 		this._leftScoreLabel.setText(Std.string(++this._leftPaddle.score));
 		this.newRound();
 	}
-	if(this._ball.isOverlapping(this._leftPaddle)) {
-		this._ball.x = this._leftPaddle.x + this._leftPaddle.width;
-		var newDirection = new pong.geom.Vector((this._ball.x + this._ball.width * 0.5) - (this._leftPaddle.x + this._leftPaddle.width * 0.5),(this._ball.y + this._ball.height * 0.5) - (this._leftPaddle.y + this._leftPaddle.height * 0.5));
-		this._ball.velocity = newDirection.normalize(this._ball.velocity.length());
-	}
-	if(this._ball.isOverlapping(this._rightPaddle)) {
-		this._ball.x = this._rightPaddle.x - this._ball.width;
-		var newDirection = new pong.geom.Vector((this._ball.x + this._ball.width * 0.5) - (this._rightPaddle.x + this._rightPaddle.width * 0.5),(this._ball.y + this._ball.height * 0.5) - (this._rightPaddle.y + this._rightPaddle.height * 0.5));
-		this._ball.velocity = newDirection.normalize(this._ball.velocity.length());
-	}
+	this.ballPaddleCollision(this._leftPaddle);
+	this.ballPaddleCollision(this._rightPaddle);
 }
 pong.Game.prototype.newRound = function() {
 	this._ball.acceleration = 0.0001;
@@ -680,7 +678,7 @@ pong.Ball.__super__ = pong.geom.Rectangle;
 for(var k in pong.geom.Rectangle.prototype ) pong.Ball.prototype[k] = pong.geom.Rectangle.prototype[k];
 pong.Ball.prototype.acceleration = null;
 pong.Ball.prototype.move = function() {
-	this.velocity.multiply(this.acceleration);
+	this.velocity.normalize(1 + this.acceleration);
 	this.x += this.velocity.x;
 	this.y += this.velocity.y;
 }

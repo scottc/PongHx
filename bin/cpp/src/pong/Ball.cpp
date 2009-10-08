@@ -1,5 +1,8 @@
 #include <hxObject.h>
 
+#ifndef INCLUDED_hxMath
+#include <hxMath.h>
+#endif
 #ifndef INCLUDED_pong_Ball
 #include <pong/Ball.h>
 #endif
@@ -54,8 +57,13 @@ Void Ball_obj::move( ){
 {
 		{
 			pong::geom::Vector _g = this->velocity;
-			double n = this->acceleration;
-			pong::geom::Vector_obj::__new(_g->x * n,_g->y * n);
+			double l = 1 + this->acceleration;
+			double d = Math_obj::sqrt(_g->x * _g->x + _g->y * _g->y);
+			if (d == 0)
+				pong::geom::Vector_obj::__new(0,0);
+			else
+				pong::geom::Vector_obj::__new(double(_g->x) / double(d) * l,double(_g->y) / double(d) * l);
+;
 		}
 		hxAddEq(this->x,this->velocity->x);
 		hxAddEq(this->y,this->velocity->y);

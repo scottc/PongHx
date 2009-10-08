@@ -56,6 +56,9 @@ class Game_obj : public virtual hxObject
 		virtual Void doCollisions( );
 		Dynamic doCollisions_dyn();
 
+		virtual Void ballPaddleCollision( pong::Paddle p);
+		Dynamic ballPaddleCollision_dyn();
+
 		virtual Void physicsStep( );
 		Dynamic physicsStep_dyn();
 

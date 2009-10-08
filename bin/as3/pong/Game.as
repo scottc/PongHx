@@ -92,15 +92,14 @@ package pong {
 				this._leftScoreLabel.text = Std.string(++this._leftPaddle.score);
 				this.newRound();
 			}
-			if(this._ball.isOverlapping(this._leftPaddle)) {
-				this._ball.x = this._leftPaddle.x + this._leftPaddle.width;
-				var newDirection : pong.geom.Vector = new pong.geom.Vector((this._ball.x + this._ball.width * 0.5) - (this._leftPaddle.x + this._leftPaddle.width * 0.5),(this._ball.y + this._ball.height * 0.5) - (this._leftPaddle.y + this._leftPaddle.height * 0.5));
+			this.ballPaddleCollision(this._leftPaddle);
+			this.ballPaddleCollision(this._rightPaddle);
+		}
+		
+		protected function ballPaddleCollision(p : pong.Paddle) : void {
+			if(this._ball.isOverlapping(p)) {
+				var newDirection : pong.geom.Vector = new pong.geom.Vector((this._ball.x + this._ball.width * 0.5) - (p.x + p.width * 0.5),(this._ball.y + this._ball.height * 0.5) - (p.y + p.height * 0.5));
 				this._ball.velocity = newDirection.normalize(this._ball.velocity.length());
-			}
-			if(this._ball.isOverlapping(this._rightPaddle)) {
-				this._ball.x = this._rightPaddle.x - this._ball.width;
-				var newDirection2 : pong.geom.Vector = new pong.geom.Vector((this._ball.x + this._ball.width * 0.5) - (this._rightPaddle.x + this._rightPaddle.width * 0.5),(this._ball.y + this._ball.height * 0.5) - (this._rightPaddle.y + this._rightPaddle.height * 0.5));
-				this._ball.velocity = newDirection2.normalize(this._ball.velocity.length());
 			}
 		}
 		
