@@ -2,6 +2,7 @@
 
 #include <pong/Main.h>
 #include <pong/ui/Keyboard.h>
+#include <pong/gfx/PongBackground.h>
 #include <pong/gfx/Stage.h>
 #include <pong/Ball.h>
 #include <pong/gfx/Rectangle.h>
@@ -19,6 +20,7 @@ void __boot_all()
 RegisterResources( GetResources() );
 pong::Main_obj::__register();
 pong::ui::Keyboard_obj::__register();
+pong::gfx::PongBackground_obj::__register();
 pong::gfx::Stage_obj::__register();
 pong::Ball_obj::__register();
 pong::gfx::Rectangle_obj::__register();
@@ -42,6 +44,7 @@ pong::Paddle_obj::__boot();
 pong::gfx::Rectangle_obj::__boot();
 pong::Ball_obj::__boot();
 pong::gfx::Stage_obj::__boot();
+pong::gfx::PongBackground_obj::__boot();
 pong::ui::Keyboard_obj::__boot();
 pong::Main_obj::__boot();
 }

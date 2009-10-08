@@ -4,10 +4,15 @@
   <file name="src/pong/Main.cpp">
    <depend name="include/pong/Game.h"/>
    <depend name="include/pong/Main.h"/>
+   <depend name="include/pong/gfx/Stage.h"/>
    <depend name="include/pong/ui/Mouse.h"/>
   </file>
   <file name="src/pong/ui/Keyboard.cpp">
    <depend name="include/pong/ui/Keyboard.h"/>
+  </file>
+  <file name="src/pong/gfx/PongBackground.cpp">
+   <depend name="include/pong/gfx/PongBackground.h"/>
+   <depend name="include/pong/gfx/Rectangle.h"/>
   </file>
   <file name="src/pong/gfx/Stage.cpp">
    <depend name="include/pong/gfx/Stage.h"/>
@@ -43,6 +48,7 @@
    <depend name="include/pong/geom/Rectangle.h"/>
    <depend name="include/pong/geom/Vector.h"/>
    <depend name="include/pong/gfx/Label.h"/>
+   <depend name="include/pong/gfx/PongBackground.h"/>
    <depend name="include/pong/gfx/Rectangle.h"/>
    <depend name="include/pong/gfx/Stage.h"/>
    <depend name="include/pong/ui/Mouse.h"/>

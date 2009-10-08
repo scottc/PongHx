@@ -341,7 +341,11 @@ Std.random = function(x) {
 	return Math.floor(Math.random() * x);
 }
 Std.prototype.__class__ = Std;
-pong.Game = function(p) { if( p === $_ ) return; {
+pong.Game = function(width_,height_) { if( width_ === $_ ) return; {
+	if(height_ == null) height_ = 300;
+	if(width_ == null) width_ = 300;
+	this.setWidth(width_);
+	this.setHeight(height_);
 	this.setFrameRate(60);
 	this.setPhysicsRate(60);
 	this.setupStage();
@@ -352,6 +356,7 @@ pong.Game.__name__ = ["pong","Game"];
 pong.Game.prototype._ball = null;
 pong.Game.prototype._frameRate = null;
 pong.Game.prototype._graphicsTicker = null;
+pong.Game.prototype._height = null;
 pong.Game.prototype._leftPaddle = null;
 pong.Game.prototype._leftScoreLabel = null;
 pong.Game.prototype._physicsRate = null;
@@ -359,6 +364,9 @@ pong.Game.prototype._physicsTicker = null;
 pong.Game.prototype._rightPaddle = null;
 pong.Game.prototype._rightScoreLabel = null;
 pong.Game.prototype._stage = null;
+pong.Game.prototype._width = null;
+pong.Game.prototype._x = null;
+pong.Game.prototype._y = null;
 pong.Game.prototype.ballPaddleCollision = function(p) {
 	if(this._ball.isOverlapping(p)) {
 		var newDirection = new pong.geom.Vector((this._ball.x + this._ball.width * 0.5) - (p.x + p.width * 0.5),(this._ball.y + this._ball.height * 0.5) - (p.y + p.height * 0.5));
@@ -366,31 +374,31 @@ pong.Game.prototype.ballPaddleCollision = function(p) {
 	}
 }
 pong.Game.prototype.doCollisions = function() {
-	if(this._leftPaddle.y + this._leftPaddle.height > pong.gfx.Stage.getHeight() - 10) {
-		this._leftPaddle.y = pong.gfx.Stage.getHeight() - this._leftPaddle.height - 10;
+	if(this._leftPaddle.y + this._leftPaddle.height > this.getHeight() - 10) {
+		this._leftPaddle.y = this.getHeight() - this._leftPaddle.height - 10;
 	}
 	if(this._leftPaddle.y < 10) {
 		this._leftPaddle.y = 10;
 	}
-	if(this._rightPaddle.y + this._rightPaddle.height > pong.gfx.Stage.getHeight() - 10) {
-		this._rightPaddle.y = pong.gfx.Stage.getHeight() - this._rightPaddle.height - 10;
+	if(this._rightPaddle.y + this._rightPaddle.height > this.getHeight() - 10) {
+		this._rightPaddle.y = this.getHeight() - this._rightPaddle.height - 10;
 	}
 	if(this._rightPaddle.y < 10) {
 		this._rightPaddle.y = 10;
 	}
-	if(this._ball.y + this._ball.height > pong.gfx.Stage.getHeight() - 10) {
-		this._ball.y = pong.gfx.Stage.getHeight() - this._ball.height - 10;
+	if(this._ball.y + this._ball.height > this.getHeight() - 10) {
+		this._ball.y = this.getHeight() - this._ball.height - 10;
 		this._ball.velocity.y *= -1;
 	}
 	if(this._ball.y < 10) {
 		this._ball.y = 10;
 		this._ball.velocity.y *= -1;
 	}
-	if(this._ball.x < 0 - this._ball.width) {
+	if(this._ball.x < -this._ball.width) {
 		this._rightScoreLabel.setText(Std.string(++this._rightPaddle.score));
 		this.newRound();
 	}
-	if(this._ball.x > pong.gfx.Stage.getWidth()) {
+	if(this._ball.x > this.getWidth()) {
 		this._leftScoreLabel.setText(Std.string(++this._leftPaddle.score));
 		this.newRound();
 	}
@@ -401,17 +409,30 @@ pong.Game.prototype.frameRate = null;
 pong.Game.prototype.getFrameRate = function() {
 	return this._frameRate;
 }
+pong.Game.prototype.getHeight = function() {
+	return this._height;
+}
 pong.Game.prototype.getPhysicsRate = function() {
 	return this._physicsRate;
 }
+pong.Game.prototype.getWidth = function() {
+	return this._width;
+}
+pong.Game.prototype.getX = function() {
+	return this._x;
+}
+pong.Game.prototype.getY = function() {
+	return this._y;
+}
+pong.Game.prototype.height = null;
 pong.Game.prototype.newRound = function() {
-	this._leftPaddle.y = pong.gfx.Stage.getHeight() / 2 - this._leftPaddle.height / 2;
-	this._rightPaddle.y = pong.gfx.Stage.getHeight() / 2 - this._rightPaddle.height / 2;
-	this._ball.y = pong.gfx.Stage.getHeight() / 2 - this._ball.height / 2;
-	this._ball.x = pong.gfx.Stage.getWidth() / 2 - this._ball.width / 2;
-	this._ball.velocity.x = pong.gfx.Stage.getWidth() * Math.random() - pong.gfx.Stage.getWidth() * 0.5;
-	this._ball.velocity.y = pong.gfx.Stage.getHeight() * Math.random() - pong.gfx.Stage.getHeight() * 0.5;
-	this._ball.velocity = this._ball.velocity.normalize(pong.gfx.Stage.getWidth() * 0.01);
+	this._leftPaddle.y = this.getHeight() / 2 - this._leftPaddle.height / 2;
+	this._rightPaddle.y = this.getHeight() / 2 - this._rightPaddle.height / 2;
+	this._ball.y = this.getHeight() / 2 - this._ball.height / 2;
+	this._ball.x = this.getWidth() / 2 - this._ball.width / 2;
+	this._ball.velocity.x = this.getWidth() * Math.random() - this.getWidth() * 0.5;
+	this._ball.velocity.y = this.getHeight() * Math.random() - this.getHeight() * 0.5;
+	this._ball.velocity = this._ball.velocity.normalize(this.getWidth() * 0.01);
 }
 pong.Game.prototype.physicsRate = null;
 pong.Game.prototype.physicsStep = function() {
@@ -436,8 +457,8 @@ pong.Game.prototype.render = function() {
 	this._rightPaddle.render();
 }
 pong.Game.prototype.runAI = function(p) {
-	if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = pong.gfx.Stage.getHeight() * 0.01;
-	else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = pong.gfx.Stage.getHeight() * -0.01;
+	if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = this.getHeight() * 0.01;
+	else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = this.getHeight() * -0.01;
 	else p.velocity.y = 0;
 }
 pong.Game.prototype.setFrameRate = function(v) {
@@ -447,6 +468,10 @@ pong.Game.prototype.setFrameRate = function(v) {
 	this._physicsTicker.run = $closure(this,"physicsStep");
 	return v;
 }
+pong.Game.prototype.setHeight = function(v) {
+	this._height = v;
+	return v;
+}
 pong.Game.prototype.setPhysicsRate = function(v) {
 	this._frameRate = v;
 	if(this._graphicsTicker != null) this._graphicsTicker.stop();
@@ -454,11 +479,24 @@ pong.Game.prototype.setPhysicsRate = function(v) {
 	this._graphicsTicker.run = $closure(this,"render");
 	return v;
 }
+pong.Game.prototype.setWidth = function(v) {
+	this._width = v;
+	return v;
+}
+pong.Game.prototype.setX = function(v) {
+	this._x = v;
+	return v;
+}
+pong.Game.prototype.setY = function(v) {
+	this._y = v;
+	return v;
+}
 pong.Game.prototype.setupStage = function() {
 	this._stage = pong.gfx.Stage.getInstance();
-	this._ball = new pong.Ball(150,50,pong.gfx.Stage.getWidth() * 0.02,pong.gfx.Stage.getWidth() * 0.02);
-	this._leftPaddle = new pong.Paddle(pong.gfx.Stage.getWidth() * 0.05,50,pong.gfx.Stage.getWidth() * 0.02,pong.gfx.Stage.getHeight() * 0.15);
-	this._rightPaddle = new pong.Paddle(pong.gfx.Stage.getWidth() * 0.95,50,pong.gfx.Stage.getWidth() * 0.02,pong.gfx.Stage.getHeight() * 0.15);
+	this._stage.add(new pong.gfx.PongBackground(this.getWidth(),this.getHeight()));
+	this._ball = new pong.Ball(150,50,this.getWidth() * 0.02,this.getWidth() * 0.02);
+	this._leftPaddle = new pong.Paddle(this.getWidth() * 0.05,50,this.getWidth() * 0.02,this.getHeight() * 0.15);
+	this._rightPaddle = new pong.Paddle(this.getWidth() * 0.93,50,this.getWidth() * 0.02,this.getHeight() * 0.15);
 	this._rightPaddle.ai = true;
 	this._stage.add(this._ball.sprite);
 	this._stage.add(this._leftPaddle.sprite);
@@ -466,14 +504,17 @@ pong.Game.prototype.setupStage = function() {
 	this._leftScoreLabel = new pong.gfx.Label();
 	this._leftScoreLabel.setText("0");
 	this._leftScoreLabel.setY(10);
-	this._leftScoreLabel.setX(pong.gfx.Stage.getWidth() * 0.5 - 20);
+	this._leftScoreLabel.setX(this.getWidth() * 0.5 - 20);
 	this._rightScoreLabel = new pong.gfx.Label();
 	this._rightScoreLabel.setText("0");
 	this._rightScoreLabel.setY(10);
-	this._rightScoreLabel.setX(pong.gfx.Stage.getWidth() * 0.5 + 10);
+	this._rightScoreLabel.setX(this.getWidth() * 0.5 + 10);
 	this._stage.add(this._leftScoreLabel);
 	this._stage.add(this._rightScoreLabel);
 }
+pong.Game.prototype.width = null;
+pong.Game.prototype.x = null;
+pong.Game.prototype.y = null;
 pong.Game.prototype.__class__ = pong.Game;
 haxe = {}
 haxe.Timer = function(time_ms) { if( time_ms === $_ ) return; {
@@ -664,6 +705,7 @@ pong.gfx.Rectangle.prototype._height = null;
 pong.gfx.Rectangle.prototype._width = null;
 pong.gfx.Rectangle.prototype._x = null;
 pong.gfx.Rectangle.prototype._y = null;
+pong.gfx.Rectangle.prototype.color = null;
 pong.gfx.Rectangle.prototype.drawRect = function() {
 	this.element.style.top = Std.string(this._y) + "px";
 	this.element.style.left = Std.string(this._x) + "px";
@@ -672,11 +714,25 @@ pong.gfx.Rectangle.prototype.drawRect = function() {
 	this.element.style.height = Std.string(this._height) + "px";
 }
 pong.gfx.Rectangle.prototype.element = null;
+pong.gfx.Rectangle.prototype.getColor = function() {
+	return this._color;
+}
+pong.gfx.Rectangle.prototype.getHeight = function() {
+	return this._height;
+}
+pong.gfx.Rectangle.prototype.getWidth = function() {
+	return this._width;
+}
 pong.gfx.Rectangle.prototype.getX = function() {
-	return 0;
+	return this._x;
 }
 pong.gfx.Rectangle.prototype.getY = function() {
-	return 0;
+	return this._y;
+}
+pong.gfx.Rectangle.prototype.setColor = function(v) {
+	this._color = v;
+	this.element.style.background = "#" + StringTools.hex(this._color,6);
+	return v;
 }
 pong.gfx.Rectangle.prototype.setX = function(val) {
 	this.element.style.left = Std.string(val) + "px";
@@ -714,7 +770,6 @@ pong.Ball.prototype.__class__ = pong.Ball;
 pong.gfx.Stage = function(p) { if( p === $_ ) return; {
 	pong.gfx.Stage.ELEMENT = js.Lib.document.getElementById(pong.gfx.Stage._ID);
 	if(pong.gfx.Stage.ELEMENT == null) js.Lib.alert("Unknown element : " + pong.gfx.Stage._ID);
-	this.drawBackground();
 }}
 pong.gfx.Stage.__name__ = ["pong","gfx","Stage"];
 pong.gfx.Stage.width = null;
@@ -735,29 +790,15 @@ pong.gfx.Stage.prototype._displayObjects = null;
 pong.gfx.Stage.prototype.add = function(object) {
 	pong.gfx.Stage.ELEMENT.appendChild(object.element);
 }
-pong.gfx.Stage.prototype.drawBackground = function() {
-	pong.gfx.Stage.ELEMENT.style.background = "#000000";
-	pong.gfx.Stage.ELEMENT.style.border = "0";
-	pong.gfx.Stage.ELEMENT.style.padding = "0";
-	pong.gfx.Stage.ELEMENT.style.margin = "0";
-	pong.gfx.Stage.ELEMENT.style.display = "block";
-	pong.gfx.Stage.ELEMENT.style.width = "100%";
-	pong.gfx.Stage.ELEMENT.style.height = "100%";
-	pong.gfx.Stage.ELEMENT.style.position = "absolute";
-	pong.gfx.Stage.ELEMENT.style.top = "0px";
-	pong.gfx.Stage.ELEMENT.style.left = "0px";
-	pong.gfx.Stage.ELEMENT.style.overflow = "hidden";
-}
-pong.gfx.Stage.prototype.resizeObjects = function() {
-	var _g = 0, _g1 = this._displayObjects;
-	while(_g < _g1.length) {
-		var i = _g1[_g];
-		++_g;
-		this._displayObjects[i].width *= 1;
-		this._displayObjects[i].height *= 1;
-	}
-}
 pong.gfx.Stage.prototype.__class__ = pong.gfx.Stage;
+pong.gfx.PongBackground = function(width_,height_) { if( width_ === $_ ) return; {
+	pong.gfx.Rectangle.apply(this,[0,0,width_,height_]);
+	this.setColor(0);
+}}
+pong.gfx.PongBackground.__name__ = ["pong","gfx","PongBackground"];
+pong.gfx.PongBackground.__super__ = pong.gfx.Rectangle;
+for(var k in pong.gfx.Rectangle.prototype ) pong.gfx.PongBackground.prototype[k] = pong.gfx.Rectangle.prototype[k];
+pong.gfx.PongBackground.prototype.__class__ = pong.gfx.PongBackground;
 pong.ui.Keyboard = function(p) { if( p === $_ ) return; {
 	null;
 }}
@@ -767,7 +808,7 @@ pong.Main = function() { }
 pong.Main.__name__ = ["pong","Main"];
 pong.Main.main = function() {
 	pong.ui.Mouse.initialize();
-	new pong.Game();
+	new pong.Game(pong.gfx.Stage.getWidth(),pong.gfx.Stage.getHeight());
 }
 pong.Main.prototype.__class__ = pong.Main;
 IntIter = function(min,max) { if( min === $_ ) return; {

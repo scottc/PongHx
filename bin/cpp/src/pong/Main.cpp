@@ -6,6 +6,9 @@
 #ifndef INCLUDED_pong_Main
 #include <pong/Main.h>
 #endif
+#ifndef INCLUDED_pong_gfx_Stage
+#include <pong/gfx/Stage.h>
+#endif
 #ifndef INCLUDED_pong_ui_Mouse
 #include <pong/ui/Mouse.h>
 #endif
@@ -32,7 +35,7 @@ Dynamic Main_obj::__Create(DynamicArray inArgs)
 Void Main_obj::main( ){
 {
 		pong::ui::Mouse_obj::initialize();
-		pong::Game_obj::__new();
+		pong::Game_obj::__new(pong::gfx::Stage_obj::getWidth(),pong::gfx::Stage_obj::getHeight());
 	}
 return null();
 }

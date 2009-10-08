@@ -21,10 +21,10 @@ class Game_obj : public virtual hxObject
 
 	protected:
 		Game_obj();
-		Void __construct();
+		Void __construct(Dynamic __o_width_,Dynamic __o_height_);
 
 	public:
-		static hxObjectPtr<Game_obj > __new();
+		static hxObjectPtr<Game_obj > __new(Dynamic __o_width_,Dynamic __o_height_);
 		static Dynamic __CreateEmpty();
 		static Dynamic __Create(DynamicArray inArgs);
 		~Game_obj();
@@ -47,6 +47,14 @@ class Game_obj : public virtual hxObject
 		double _physicsRate;
 		double frameRate;
 		double physicsRate;
+		double _x;
+		double x;
+		double _y;
+		double y;
+		double _width;
+		double width;
+		double _height;
+		double height;
 		virtual Void setupStage( );
 		Dynamic setupStage_dyn();
 
@@ -67,6 +75,30 @@ class Game_obj : public virtual hxObject
 
 		virtual Void render( );
 		Dynamic render_dyn();
+
+		virtual double getX( );
+		Dynamic getX_dyn();
+
+		virtual double getY( );
+		Dynamic getY_dyn();
+
+		virtual double getWidth( );
+		Dynamic getWidth_dyn();
+
+		virtual double getHeight( );
+		Dynamic getHeight_dyn();
+
+		virtual double setX( double v);
+		Dynamic setX_dyn();
+
+		virtual double setY( double v);
+		Dynamic setY_dyn();
+
+		virtual double setWidth( double v);
+		Dynamic setWidth_dyn();
+
+		virtual double setHeight( double v);
+		Dynamic setHeight_dyn();
 
 		virtual double getFrameRate( );
 		Dynamic getFrameRate_dyn();

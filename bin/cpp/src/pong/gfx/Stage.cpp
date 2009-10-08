@@ -9,7 +9,6 @@ namespace gfx{
 Void Stage_obj::__construct()
 {
 {
-	this->drawBackground();
 }
 ;
 	return null();
@@ -36,34 +35,6 @@ return null();
 
 
 DEFINE_DYNAMIC_FUNC1(Stage_obj,add,(void))
-
-Void Stage_obj::drawBackground( ){
-{
-	}
-return null();
-}
-
-
-DEFINE_DYNAMIC_FUNC0(Stage_obj,drawBackground,(void))
-
-Void Stage_obj::resizeObjects( ){
-{
-		{
-			int _g = 0;
-			Array<Dynamic > _g1 = this->_displayObjects;
-			while(_g < _g1->length){
-				Dynamic i = _g1->__get(_g);
-				++_g;
-				hxMultEq(this->_displayObjects[i].FieldRef(STRING(L"width",5)),1);
-				hxMultEq(this->_displayObjects[i].FieldRef(STRING(L"height",6)),1);
-			}
-		}
-	}
-return null();
-}
-
-
-DEFINE_DYNAMIC_FUNC0(Stage_obj,resizeObjects,(void))
 
 int Stage_obj::width;
 
@@ -127,12 +98,6 @@ Dynamic Stage_obj::__Field(const String &inName)
 	case 11:
 		if (!memcmp(inName.__s,L"getInstance",sizeof(wchar_t)*11) ) { return getInstance_dyn(); }
 		break;
-	case 13:
-		if (!memcmp(inName.__s,L"resizeObjects",sizeof(wchar_t)*13) ) { return resizeObjects_dyn(); }
-		break;
-	case 14:
-		if (!memcmp(inName.__s,L"drawBackground",sizeof(wchar_t)*14) ) { return drawBackground_dyn(); }
-		break;
 	case 15:
 		if (!memcmp(inName.__s,L"_displayObjects",sizeof(wchar_t)*15) ) { return _displayObjects; }
 	}
@@ -147,8 +112,6 @@ static int __id_getWidth = __hxcpp_field_to_id("getWidth");
 static int __id_getHeight = __hxcpp_field_to_id("getHeight");
 static int __id__displayObjects = __hxcpp_field_to_id("_displayObjects");
 static int __id_add = __hxcpp_field_to_id("add");
-static int __id_drawBackground = __hxcpp_field_to_id("drawBackground");
-static int __id_resizeObjects = __hxcpp_field_to_id("resizeObjects");
 
 
 Dynamic Stage_obj::__IField(int inFieldID)
@@ -161,8 +124,6 @@ Dynamic Stage_obj::__IField(int inFieldID)
 	if (inFieldID==__id_getHeight) return getHeight_dyn();
 	if (inFieldID==__id__displayObjects) return _displayObjects;
 	if (inFieldID==__id_add) return add_dyn();
-	if (inFieldID==__id_drawBackground) return drawBackground_dyn();
-	if (inFieldID==__id_resizeObjects) return resizeObjects_dyn();
 	return super::__IField(inFieldID);
 }
 
@@ -202,8 +163,6 @@ static String sStaticFields[] = {
 static String sMemberFields[] = {
 	STRING(L"_displayObjects",15),
 	STRING(L"add",3),
-	STRING(L"drawBackground",14),
-	STRING(L"resizeObjects",13),
 	String(null()) };
 
 static void sMarkStatics() {

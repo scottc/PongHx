@@ -5,10 +5,13 @@ package pong {
 	import pong.ui.Mouse;
 	import pong.gfx.Stage;
 	import pong.Ball;
+	import pong.gfx.PongBackground;
 	import haxe.Timer;
 	import flash.Boot;
 	public class Game {
-		public function Game() : void { if( !flash.Boot.skip_constructor ) {
+		public function Game(width_ : Number = 300,height_ : Number = 300) : void { if( !flash.Boot.skip_constructor ) {
+			this.setWidth(width_);
+			this.setHeight(height_);
 			this.setFrameRate(60);
 			this.setPhysicsRate(60);
 			this.setupStage();
@@ -32,11 +35,28 @@ package pong {
 		public function get physicsRate() : Number { return getFrameRate(); }
 		public function set physicsRate( __v : Number ) : void { setPhysicsRate(__v); }
 		protected var $physicsRate : Number;
+		protected var _x : Number;
+		public function get x() : Number { return getX(); }
+		public function set x( __v : Number ) : void { setX(__v); }
+		protected var $x : Number;
+		protected var _y : Number;
+		public function get y() : Number { return getY(); }
+		public function set y( __v : Number ) : void { setY(__v); }
+		protected var $y : Number;
+		protected var _width : Number;
+		public function get width() : Number { return getWidth(); }
+		public function set width( __v : Number ) : void { setWidth(__v); }
+		protected var $width : Number;
+		protected var _height : Number;
+		public function get height() : Number { return getHeight(); }
+		public function set height( __v : Number ) : void { setHeight(__v); }
+		protected var $height : Number;
 		protected function setupStage() : void {
 			this._stage = pong.gfx.Stage.getInstance();
-			this._ball = new pong.Ball(150,50,pong.gfx.Stage.getWidth() * 0.02,pong.gfx.Stage.getWidth() * 0.02);
-			this._leftPaddle = new pong.Paddle(pong.gfx.Stage.getWidth() * 0.05,50,pong.gfx.Stage.getWidth() * 0.02,pong.gfx.Stage.getHeight() * 0.15);
-			this._rightPaddle = new pong.Paddle(pong.gfx.Stage.getWidth() * 0.95,50,pong.gfx.Stage.getWidth() * 0.02,pong.gfx.Stage.getHeight() * 0.15);
+			this._stage.add(new pong.gfx.PongBackground(this.getWidth(),this.getHeight()));
+			this._ball = new pong.Ball(150,50,this.getWidth() * 0.02,this.getWidth() * 0.02);
+			this._leftPaddle = new pong.Paddle(this.getWidth() * 0.05,50,this.getWidth() * 0.02,this.getHeight() * 0.15);
+			this._rightPaddle = new pong.Paddle(this.getWidth() * 0.93,50,this.getWidth() * 0.02,this.getHeight() * 0.15);
 			this._rightPaddle.ai = true;
 			this._stage.add(this._ball.sprite);
 			this._stage.add(this._leftPaddle.sprite);
@@ -44,57 +64,57 @@ package pong {
 			this._leftScoreLabel = new pong.gfx.Label();
 			this._leftScoreLabel.text = "0";
 			this._leftScoreLabel.y = 10;
-			this._leftScoreLabel.x = pong.gfx.Stage.getWidth() * 0.5 - 20;
+			this._leftScoreLabel.x = this.getWidth() * 0.5 - 20;
 			this._rightScoreLabel = new pong.gfx.Label();
 			this._rightScoreLabel.text = "0";
 			this._rightScoreLabel.y = 10;
-			this._rightScoreLabel.x = pong.gfx.Stage.getWidth() * 0.5 + 10;
+			this._rightScoreLabel.x = this.getWidth() * 0.5 + 10;
 			this._stage.add(this._leftScoreLabel);
 			this._stage.add(this._rightScoreLabel);
 		}
 		
 		protected function newRound() : void {
-			this._leftPaddle.y = pong.gfx.Stage.getHeight() / 2 - this._leftPaddle.height / 2;
-			this._rightPaddle.y = pong.gfx.Stage.getHeight() / 2 - this._rightPaddle.height / 2;
-			this._ball.y = pong.gfx.Stage.getHeight() / 2 - this._ball.height / 2;
-			this._ball.x = pong.gfx.Stage.getWidth() / 2 - this._ball.width / 2;
-			this._ball.velocity.x = pong.gfx.Stage.getWidth() * Math.random() - pong.gfx.Stage.getWidth() * 0.5;
-			this._ball.velocity.y = pong.gfx.Stage.getHeight() * Math.random() - pong.gfx.Stage.getHeight() * 0.5;
-			this._ball.velocity = this._ball.velocity.normalize(pong.gfx.Stage.getWidth() * 0.01);
+			this._leftPaddle.y = this.getHeight() / 2 - this._leftPaddle.height / 2;
+			this._rightPaddle.y = this.getHeight() / 2 - this._rightPaddle.height / 2;
+			this._ball.y = this.getHeight() / 2 - this._ball.height / 2;
+			this._ball.x = this.getWidth() / 2 - this._ball.width / 2;
+			this._ball.velocity.x = this.getWidth() * Math.random() - this.getWidth() * 0.5;
+			this._ball.velocity.y = this.getHeight() * Math.random() - this.getHeight() * 0.5;
+			this._ball.velocity = this._ball.velocity.normalize(this.getWidth() * 0.01);
 		}
 		
 		protected function runAI(p : pong.Paddle) : void {
-			if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = pong.gfx.Stage.getHeight() * 0.01;
-			else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = pong.gfx.Stage.getHeight() * -0.01;
+			if(p.y + p.height / 2 < this._ball.y + this._ball.height / 2) p.velocity.y = this.getHeight() * 0.01;
+			else if(p.y + p.height / 2 > this._ball.y + this._ball.height / 2) p.velocity.y = this.getHeight() * -0.01;
 			else p.velocity.y = 0;
 		}
 		
 		protected function doCollisions() : void {
-			if(this._leftPaddle.y + this._leftPaddle.height > pong.gfx.Stage.getHeight() - 10) {
-				this._leftPaddle.y = pong.gfx.Stage.getHeight() - this._leftPaddle.height - 10;
+			if(this._leftPaddle.y + this._leftPaddle.height > this.getHeight() - 10) {
+				this._leftPaddle.y = this.getHeight() - this._leftPaddle.height - 10;
 			}
 			if(this._leftPaddle.y < 10) {
 				this._leftPaddle.y = 10;
 			}
-			if(this._rightPaddle.y + this._rightPaddle.height > pong.gfx.Stage.getHeight() - 10) {
-				this._rightPaddle.y = pong.gfx.Stage.getHeight() - this._rightPaddle.height - 10;
+			if(this._rightPaddle.y + this._rightPaddle.height > this.getHeight() - 10) {
+				this._rightPaddle.y = this.getHeight() - this._rightPaddle.height - 10;
 			}
 			if(this._rightPaddle.y < 10) {
 				this._rightPaddle.y = 10;
 			}
-			if(this._ball.y + this._ball.height > pong.gfx.Stage.getHeight() - 10) {
-				this._ball.y = pong.gfx.Stage.getHeight() - this._ball.height - 10;
+			if(this._ball.y + this._ball.height > this.getHeight() - 10) {
+				this._ball.y = this.getHeight() - this._ball.height - 10;
 				this._ball.velocity.y *= -1;
 			}
 			if(this._ball.y < 10) {
 				this._ball.y = 10;
 				this._ball.velocity.y *= -1;
 			}
-			if(this._ball.x < 0 - this._ball.width) {
+			if(this._ball.x < -this._ball.width) {
 				this._rightScoreLabel.text = Std.string(++this._rightPaddle.score);
 				this.newRound();
 			}
-			if(this._ball.x > pong.gfx.Stage.getWidth()) {
+			if(this._ball.x > this.getWidth()) {
 				this._leftScoreLabel.text = Std.string(++this._leftPaddle.score);
 				this.newRound();
 			}
@@ -130,6 +150,42 @@ package pong {
 			this._ball.render();
 			this._leftPaddle.render();
 			this._rightPaddle.render();
+		}
+		
+		public function getX() : Number {
+			return this._x;
+		}
+		
+		public function getY() : Number {
+			return this._y;
+		}
+		
+		public function getWidth() : Number {
+			return this._width;
+		}
+		
+		public function getHeight() : Number {
+			return this._height;
+		}
+		
+		public function setX(v : Number) : Number {
+			this._x = v;
+			return v;
+		}
+		
+		public function setY(v : Number) : Number {
+			this._y = v;
+			return v;
+		}
+		
+		public function setWidth(v : Number) : Number {
+			this._width = v;
+			return v;
+		}
+		
+		public function setHeight(v : Number) : Number {
+			this._height = v;
+			return v;
 		}
 		
 		public function getFrameRate() : Number {

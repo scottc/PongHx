@@ -25,7 +25,7 @@ class Rectangle
 		public var y:Float;
 	#end
 
-	private var _color:Int;
+	private var _color:Int; public var color(getColor, setColor):Int;
 	
 	private var _x:Float;
 	private var _y:Float;
@@ -70,16 +70,38 @@ class Rectangle
 		
 		#end
 	}
-	#if js
-	public function getX():Float { return 0; }
-	public function setX(val:Float){
+	
+	public function getX():Float { return _x; }
+	public function getY():Float { return _y; }
+	public function getColor():Int { return _color; }
+	public function getWidth():Float { return _width; }
+	public function getHeight():Float { return _height; }
+	
+	public function setColor(v:Int) {
+		_color = v;
+		#if js
+			element.style.background = "#"+StringTools.hex(_color,6);
+		#elseif flash
+			graphics.clear();
+			graphics.beginFill(_color);
+			graphics.drawRect(0,0,_width,_height);
+			graphics.endFill();
+		#end
+		return v;
+	}
+	
+	public function setX(val:Float) {
+		#if js
 		element.style.left = Std.string(val) + "px";
+		#end
 		return 0;
 	}
-	public function getY():Float { return 0; }
-	public function setY(val:Float){
+	
+	public function setY(val:Float) {
+		#if js
 		element.style.top = Std.string(val) + "px";
+		#end
 		return 0;
 	}
-	#end
+	
 }

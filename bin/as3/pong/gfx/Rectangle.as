@@ -13,6 +13,9 @@ package pong.gfx {
 		}}
 		
 		protected var _color : int;
+		public function get color() : int { return getColor(); }
+		public function set color( __v : int ) : void { setColor(__v); }
+		protected var $color : int;
 		protected var _x : Number;
 		protected var _y : Number;
 		protected var _width : Number;
@@ -24,6 +27,43 @@ package pong.gfx {
 			this.graphics.endFill();
 			this.x = this._x;
 			this.y = this._y;
+		}
+		
+		public function getX() : Number {
+			return this._x;
+		}
+		
+		public function getY() : Number {
+			return this._y;
+		}
+		
+		public function getColor() : int {
+			return this._color;
+		}
+		
+		public function getWidth() : Number {
+			return this._width;
+		}
+		
+		public function getHeight() : Number {
+			return this._height;
+		}
+		
+		public function setColor(v : int) : int {
+			this._color = v;
+			this.graphics.clear();
+			this.graphics.beginFill(this._color);
+			this.graphics.drawRect(0,0,this._width,this._height);
+			this.graphics.endFill();
+			return v;
+		}
+		
+		public function setX(val : Number) : int {
+			return 0;
+		}
+		
+		public function setY(val : Number) : int {
+			return 0;
 		}
 		
 	}

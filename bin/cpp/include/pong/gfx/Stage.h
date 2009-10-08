@@ -34,12 +34,6 @@ class Stage_obj : public virtual hxObject
 		virtual Void add( Dynamic object);
 		Dynamic add_dyn();
 
-		virtual Void drawBackground( );
-		Dynamic drawBackground_dyn();
-
-		virtual Void resizeObjects( );
-		Dynamic resizeObjects_dyn();
-
 		static int width;
 		static int height;
 		static pong::gfx::Stage _instance;

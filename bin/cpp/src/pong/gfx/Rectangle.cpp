@@ -41,12 +41,70 @@ return null();
 
 DEFINE_DYNAMIC_FUNC0(Rectangle_obj,drawRect,(void))
 
+double Rectangle_obj::getX( ){
+	return this->_x;
+}
+
+
+DEFINE_DYNAMIC_FUNC0(Rectangle_obj,getX,return )
+
+double Rectangle_obj::getY( ){
+	return this->_y;
+}
+
+
+DEFINE_DYNAMIC_FUNC0(Rectangle_obj,getY,return )
+
+int Rectangle_obj::getColor( ){
+	return this->_color;
+}
+
+
+DEFINE_DYNAMIC_FUNC0(Rectangle_obj,getColor,return )
+
+double Rectangle_obj::getWidth( ){
+	return this->_width;
+}
+
+
+DEFINE_DYNAMIC_FUNC0(Rectangle_obj,getWidth,return )
+
+double Rectangle_obj::getHeight( ){
+	return this->_height;
+}
+
+
+DEFINE_DYNAMIC_FUNC0(Rectangle_obj,getHeight,return )
+
+int Rectangle_obj::setColor( int v){
+	this->_color = v;
+	return v;
+}
+
+
+DEFINE_DYNAMIC_FUNC1(Rectangle_obj,setColor,return )
+
+int Rectangle_obj::setX( double val){
+	return 0;
+}
+
+
+DEFINE_DYNAMIC_FUNC1(Rectangle_obj,setX,return )
+
+int Rectangle_obj::setY( double val){
+	return 0;
+}
+
+
+DEFINE_DYNAMIC_FUNC1(Rectangle_obj,setY,return )
+
 
 Rectangle_obj::Rectangle_obj()
 {
 	InitMember(x);
 	InitMember(y);
 	InitMember(_color);
+	InitMember(color);
 	InitMember(_x);
 	InitMember(_y);
 	InitMember(_width);
@@ -58,6 +116,7 @@ void Rectangle_obj::__Mark()
 	MarkMember(x);
 	MarkMember(y);
 	MarkMember(_color);
+	MarkMember(color);
 	MarkMember(_x);
 	MarkMember(_y);
 	MarkMember(_width);
@@ -75,6 +134,15 @@ Dynamic Rectangle_obj::__Field(const String &inName)
 		if (!memcmp(inName.__s,L"_x",sizeof(wchar_t)*2) ) { return _x; }
 		if (!memcmp(inName.__s,L"_y",sizeof(wchar_t)*2) ) { return _y; }
 		break;
+	case 4:
+		if (!memcmp(inName.__s,L"getX",sizeof(wchar_t)*4) ) { return getX_dyn(); }
+		if (!memcmp(inName.__s,L"getY",sizeof(wchar_t)*4) ) { return getY_dyn(); }
+		if (!memcmp(inName.__s,L"setX",sizeof(wchar_t)*4) ) { return setX_dyn(); }
+		if (!memcmp(inName.__s,L"setY",sizeof(wchar_t)*4) ) { return setY_dyn(); }
+		break;
+	case 5:
+		if (!memcmp(inName.__s,L"color",sizeof(wchar_t)*5) ) { return color; }
+		break;
 	case 6:
 		if (!memcmp(inName.__s,L"_color",sizeof(wchar_t)*6) ) { return _color; }
 		if (!memcmp(inName.__s,L"_width",sizeof(wchar_t)*6) ) { return _width; }
@@ -84,6 +152,12 @@ Dynamic Rectangle_obj::__Field(const String &inName)
 		break;
 	case 8:
 		if (!memcmp(inName.__s,L"drawRect",sizeof(wchar_t)*8) ) { return drawRect_dyn(); }
+		if (!memcmp(inName.__s,L"getColor",sizeof(wchar_t)*8) ) { return getColor_dyn(); }
+		if (!memcmp(inName.__s,L"getWidth",sizeof(wchar_t)*8) ) { return getWidth_dyn(); }
+		if (!memcmp(inName.__s,L"setColor",sizeof(wchar_t)*8) ) { return setColor_dyn(); }
+		break;
+	case 9:
+		if (!memcmp(inName.__s,L"getHeight",sizeof(wchar_t)*9) ) { return getHeight_dyn(); }
 	}
 	return super::__Field(inName);
 }
@@ -91,11 +165,20 @@ Dynamic Rectangle_obj::__Field(const String &inName)
 static int __id_x = __hxcpp_field_to_id("x");
 static int __id_y = __hxcpp_field_to_id("y");
 static int __id__color = __hxcpp_field_to_id("_color");
+static int __id_color = __hxcpp_field_to_id("color");
 static int __id__x = __hxcpp_field_to_id("_x");
 static int __id__y = __hxcpp_field_to_id("_y");
 static int __id__width = __hxcpp_field_to_id("_width");
 static int __id__height = __hxcpp_field_to_id("_height");
 static int __id_drawRect = __hxcpp_field_to_id("drawRect");
+static int __id_getX = __hxcpp_field_to_id("getX");
+static int __id_getY = __hxcpp_field_to_id("getY");
+static int __id_getColor = __hxcpp_field_to_id("getColor");
+static int __id_getWidth = __hxcpp_field_to_id("getWidth");
+static int __id_getHeight = __hxcpp_field_to_id("getHeight");
+static int __id_setColor = __hxcpp_field_to_id("setColor");
+static int __id_setX = __hxcpp_field_to_id("setX");
+static int __id_setY = __hxcpp_field_to_id("setY");
 
 
 Dynamic Rectangle_obj::__IField(int inFieldID)
@@ -103,11 +186,20 @@ Dynamic Rectangle_obj::__IField(int inFieldID)
 	if (inFieldID==__id_x) return x;
 	if (inFieldID==__id_y) return y;
 	if (inFieldID==__id__color) return _color;
+	if (inFieldID==__id_color) return color;
 	if (inFieldID==__id__x) return _x;
 	if (inFieldID==__id__y) return _y;
 	if (inFieldID==__id__width) return _width;
 	if (inFieldID==__id__height) return _height;
 	if (inFieldID==__id_drawRect) return drawRect_dyn();
+	if (inFieldID==__id_getX) return getX_dyn();
+	if (inFieldID==__id_getY) return getY_dyn();
+	if (inFieldID==__id_getColor) return getColor_dyn();
+	if (inFieldID==__id_getWidth) return getWidth_dyn();
+	if (inFieldID==__id_getHeight) return getHeight_dyn();
+	if (inFieldID==__id_setColor) return setColor_dyn();
+	if (inFieldID==__id_setX) return setX_dyn();
+	if (inFieldID==__id_setY) return setY_dyn();
 	return super::__IField(inFieldID);
 }
 
@@ -121,6 +213,9 @@ Dynamic Rectangle_obj::__SetField(const String &inName,const Dynamic &inValue)
 	case 2:
 		if (!memcmp(inName.__s,L"_x",sizeof(wchar_t)*2) ) { _x=inValue.Cast<double >();return inValue; }
 		if (!memcmp(inName.__s,L"_y",sizeof(wchar_t)*2) ) { _y=inValue.Cast<double >();return inValue; }
+		break;
+	case 5:
+		if (!memcmp(inName.__s,L"color",sizeof(wchar_t)*5) ) { color=inValue.Cast<int >();return inValue; }
 		break;
 	case 6:
 		if (!memcmp(inName.__s,L"_color",sizeof(wchar_t)*6) ) { _color=inValue.Cast<int >();return inValue; }
@@ -137,6 +232,7 @@ void Rectangle_obj::__GetFields(Array<String> &outFields)
 	outFields->push(STRING(L"x",1));
 	outFields->push(STRING(L"y",1));
 	outFields->push(STRING(L"_color",6));
+	outFields->push(STRING(L"color",5));
 	outFields->push(STRING(L"_x",2));
 	outFields->push(STRING(L"_y",2));
 	outFields->push(STRING(L"_width",6));
@@ -151,11 +247,20 @@ static String sMemberFields[] = {
 	STRING(L"x",1),
 	STRING(L"y",1),
 	STRING(L"_color",6),
+	STRING(L"color",5),
 	STRING(L"_x",2),
 	STRING(L"_y",2),
 	STRING(L"_width",6),
 	STRING(L"_height",7),
 	STRING(L"drawRect",8),
+	STRING(L"getX",4),
+	STRING(L"getY",4),
+	STRING(L"getColor",8),
+	STRING(L"getWidth",8),
+	STRING(L"getHeight",9),
+	STRING(L"setColor",8),
+	STRING(L"setX",4),
+	STRING(L"setY",4),
 	String(null()) };
 
 static void sMarkStatics() {

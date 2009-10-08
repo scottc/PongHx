@@ -33,12 +33,37 @@ class Rectangle_obj : public virtual hxObject
 		double x;
 		double y;
 		int _color;
+		int color;
 		double _x;
 		double _y;
 		double _width;
 		double _height;
 		virtual Void drawRect( );
 		Dynamic drawRect_dyn();
+
+		virtual double getX( );
+		Dynamic getX_dyn();
+
+		virtual double getY( );
+		Dynamic getY_dyn();
+
+		virtual int getColor( );
+		Dynamic getColor_dyn();
+
+		virtual double getWidth( );
+		Dynamic getWidth_dyn();
+
+		virtual double getHeight( );
+		Dynamic getHeight_dyn();
+
+		virtual int setColor( int v);
+		Dynamic setColor_dyn();
+
+		virtual int setX( double val);
+		Dynamic setX_dyn();
+
+		virtual int setY( double val);
+		Dynamic setY_dyn();
 
 };
 
