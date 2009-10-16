@@ -4,6 +4,7 @@ import haxe.Timer;
 import pong.gfx.Stage;
 import pong.gfx.Label;
 import pong.gfx.Rectangle;
+import pong.gfx.PongBackground;
 
 import pong.geom.Vector;
 
@@ -21,6 +22,8 @@ class Game
 	
 	private var _leftScoreLabel:Label;
 	private var _rightScoreLabel:Label;
+	
+	private var _backGround:PongBackground;
 	
 	private var _graphicsTicker:Timer;
 	private var _physicsTicker:Timer;
@@ -50,7 +53,10 @@ class Game
 	}
 	private function setupStage():Void {
 		_stage = Stage.getInstance();
-		_stage.add(new pong.gfx.PongBackground(width, height));
+		
+		_backGround = new PongBackground(width, height);
+		
+		_stage.add(_backGround);
 		
 		_ball = new Ball(150, 50, width*0.02, width*0.02);
 		
@@ -64,12 +70,12 @@ class Game
 		_stage.add(_rightPaddle.sprite);
 		
 		_leftScoreLabel = new Label();
-		_leftScoreLabel.text = "0";
+		_leftScoreLabel.text = Std.string(_leftPaddle.score);
 		_leftScoreLabel.y = 10;
 		_leftScoreLabel.x = width * 0.5 - 20;
 		
 		_rightScoreLabel = new Label();
-		_rightScoreLabel.text = "0";
+		_rightScoreLabel.text = Std.string(_rightPaddle.score);
 		_rightScoreLabel.y = 10;
 		_rightScoreLabel.x = width * 0.5 + 10;
 		
@@ -200,18 +206,22 @@ class Game
 	
 	private function setX(v:Float) {
 		_x = v;
+		_backGround.x = v;
 		return v;
 	}
 	private function setY(v:Float) {
 		_y = v;
+		_backGround.y = v;
 		return v;
 	}
 	private function setWidth(v:Float) {
 		_width = v;
+		//_backGround.width = v;
 		return v;
 	}
 	private function setHeight(v:Float) {
 		_height = v;
+		//_backGround.height = v;
 		return v;
 	}
 	

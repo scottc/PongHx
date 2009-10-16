@@ -1,5 +1,8 @@
 #include <hxObject.h>
 
+#ifndef INCLUDED_pong_gfx_IDisplayObject
+#include <pong/gfx/IDisplayObject.h>
+#endif
 #ifndef INCLUDED_pong_gfx_PongBackground
 #include <pong/gfx/PongBackground.h>
 #endif

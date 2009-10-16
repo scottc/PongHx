@@ -1,7 +1,8 @@
 package pong.gfx {
 	import flash.display.Sprite;
 	import flash.Boot;
-	public class Rectangle extends flash.display.Sprite {
+	import pong.gfx.IDisplayObject;
+	public class Rectangle extends flash.display.Sprite implements pong.gfx.IDisplayObject{
 		public function Rectangle(x_ : Number = NaN,y_ : Number = NaN,width_ : Number = NaN,height_ : Number = NaN) : void { if( !flash.Boot.skip_constructor ) {
 			this._color = 16777215;
 			this._x = x_;
@@ -49,6 +50,16 @@ package pong.gfx {
 			return this._height;
 		}
 		
+		public function setWidth(v : Number) : Number {
+			this._width = v;
+			return v;
+		}
+		
+		public function setHeight(v : Number) : Number {
+			this._height = v;
+			return v;
+		}
+		
 		public function setColor(v : int) : int {
 			this._color = v;
 			this.graphics.clear();
@@ -58,11 +69,11 @@ package pong.gfx {
 			return v;
 		}
 		
-		public function setX(val : Number) : int {
+		public function setX(v : Number) : int {
 			return 0;
 		}
 		
-		public function setY(val : Number) : int {
+		public function setY(v : Number) : int {
 			return 0;
 		}
 		

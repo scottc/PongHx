@@ -18,7 +18,9 @@ class Stage
 	private static var _SP:Sprite;
 	#elseif js
 		public static var ELEMENT:HtmlDom;
-		private static var _ID:String = "pong";
+		public static var ELEMENT_ID:String = "pong";
+		
+		private var _element:HtmlDom;
 	#end
 	
 	
@@ -39,9 +41,10 @@ class Stage
 			flash.Lib.current.stage.align     = flash.display.StageAlign.TOP_LEFT;
 			_SP = flash.Lib.current;
 		#elseif js
-			ELEMENT = js.Lib.document.getElementById(_ID);
+			ELEMENT = js.Lib.document.getElementById(ELEMENT_ID);
 			if( ELEMENT == null )
-				js.Lib.alert("Unknown element : " + _ID);
+				js.Lib.alert("Unknown element : " + ELEMENT_ID);
+			_element = Stage.ELEMENT.cloneNode(false);
 		#end
 	}
 	public function add(object:Dynamic) {
@@ -49,10 +52,10 @@ class Stage
 		#if flash
 			_SP.addChild(object);
 		#elseif js
-			ELEMENT.appendChild(object.element);
+			_element.appendChild(object.element);
 		#end
 	}
-	private static function getWidth():Int{
+	private static inline function getWidth():Int{
 		#if flash
 			return flash.Lib.current.stage.stageWidth;
 		#elseif js
@@ -61,7 +64,7 @@ class Stage
 			return -1;
 		#end
 	}
-	private static function getHeight():Int{
+	private static inline function getHeight():Int{
 		#if flash
 			return flash.Lib.current.stage.stageHeight;
 		#elseif js

@@ -7,6 +7,7 @@
 DECLARE_CLASS1(pong,Paddle)
 DECLARE_CLASS2(pong,geom,Rectangle)
 DECLARE_CLASS2(pong,geom,Vector)
+DECLARE_CLASS2(pong,gfx,IDisplayObject)
 DECLARE_CLASS2(pong,gfx,Rectangle)
 namespace pong{
 

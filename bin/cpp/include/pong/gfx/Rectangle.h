@@ -3,12 +3,14 @@
 
 #include <hxObject.h>
 
+#include <pong/gfx/IDisplayObject.h>
+DECLARE_CLASS2(pong,gfx,IDisplayObject)
 DECLARE_CLASS2(pong,gfx,Rectangle)
 namespace pong{
 namespace gfx{
 
 
-class Rectangle_obj : public virtual hxObject
+class Rectangle_obj : public virtual hxObject, public pong::gfx::IDisplayObject_obj
 {
 	public:
 		typedef hxObject super;
@@ -32,6 +34,8 @@ class Rectangle_obj : public virtual hxObject
 
 		double x;
 		double y;
+		double width;
+		double height;
 		int _color;
 		int color;
 		double _x;
@@ -56,13 +60,19 @@ class Rectangle_obj : public virtual hxObject
 		virtual double getHeight( );
 		Dynamic getHeight_dyn();
 
+		virtual double setWidth( double v);
+		Dynamic setWidth_dyn();
+
+		virtual double setHeight( double v);
+		Dynamic setHeight_dyn();
+
 		virtual int setColor( int v);
 		Dynamic setColor_dyn();
 
-		virtual int setX( double val);
+		virtual int setX( double v);
 		Dynamic setX_dyn();
 
-		virtual int setY( double val);
+		virtual int setY( double v);
 		Dynamic setY_dyn();
 
 };

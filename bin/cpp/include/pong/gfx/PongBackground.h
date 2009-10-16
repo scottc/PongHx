@@ -4,6 +4,7 @@
 #include <hxObject.h>
 
 #include <pong/gfx/Rectangle.h>
+DECLARE_CLASS2(pong,gfx,IDisplayObject)
 DECLARE_CLASS2(pong,gfx,PongBackground)
 DECLARE_CLASS2(pong,gfx,Rectangle)
 namespace pong{

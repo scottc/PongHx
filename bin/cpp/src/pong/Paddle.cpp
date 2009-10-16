@@ -9,6 +9,9 @@
 #ifndef INCLUDED_pong_geom_Vector
 #include <pong/geom/Vector.h>
 #endif
+#ifndef INCLUDED_pong_gfx_IDisplayObject
+#include <pong/gfx/IDisplayObject.h>
+#endif
 #ifndef INCLUDED_pong_gfx_Rectangle
 #include <pong/gfx/Rectangle.h>
 #endif
@@ -42,8 +45,8 @@ Dynamic Paddle_obj::__Create(DynamicArray inArgs)
 
 Void Paddle_obj::render( ){
 {
-		this->sprite->x = this->x;
-		this->sprite->y = this->y;
+		this->sprite->setX(this->x);
+		this->sprite->setY(this->y);
 	}
 return null();
 }

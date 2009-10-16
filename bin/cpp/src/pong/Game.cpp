@@ -24,6 +24,9 @@
 #ifndef INCLUDED_pong_geom_Vector
 #include <pong/geom/Vector.h>
 #endif
+#ifndef INCLUDED_pong_gfx_IDisplayObject
+#include <pong/gfx/IDisplayObject.h>
+#endif
 #ifndef INCLUDED_pong_gfx_Label
 #include <pong/gfx/Label.h>
 #endif
@@ -74,7 +77,8 @@ Dynamic Game_obj::__Create(DynamicArray inArgs)
 Void Game_obj::setupStage( ){
 {
 		this->_stage = pong::gfx::Stage_obj::getInstance();
-		this->_stage->add(pong::gfx::PongBackground_obj::__new(this->getWidth(),this->getHeight()));
+		this->_backGround = pong::gfx::PongBackground_obj::__new(this->getWidth(),this->getHeight());
+		this->_stage->add(this->_backGround);
 		this->_ball = pong::Ball_obj::__new(150,50,this->getWidth() * 0.02,this->getWidth() * 0.02);
 		this->_leftPaddle = pong::Paddle_obj::__new(this->getWidth() * 0.05,50,this->getWidth() * 0.02,this->getHeight() * 0.15);
 		this->_rightPaddle = pong::Paddle_obj::__new(this->getWidth() * 0.93,50,this->getWidth() * 0.02,this->getHeight() * 0.15);
@@ -83,11 +87,11 @@ Void Game_obj::setupStage( ){
 		this->_stage->add(this->_leftPaddle->sprite);
 		this->_stage->add(this->_rightPaddle->sprite);
 		this->_leftScoreLabel = pong::gfx::Label_obj::__new();
-		this->_leftScoreLabel->text = STRING(L"0",1);
+		this->_leftScoreLabel->text = Std_obj::string(this->_leftPaddle->score);
 		this->_leftScoreLabel->y = 10;
 		this->_leftScoreLabel->x = this->getWidth() * 0.5 - 20;
 		this->_rightScoreLabel = pong::gfx::Label_obj::__new();
-		this->_rightScoreLabel->text = STRING(L"0",1);
+		this->_rightScoreLabel->text = Std_obj::string(this->_rightPaddle->score);
 		this->_rightScoreLabel->y = 10;
 		this->_rightScoreLabel->x = this->getWidth() * 0.5 + 10;
 		this->_stage->add(this->_leftScoreLabel);
@@ -281,6 +285,7 @@ DEFINE_DYNAMIC_FUNC0(Game_obj,getHeight,return )
 
 double Game_obj::setX( double v){
 	this->_x = v;
+	this->_backGround->setX(v);
 	return v;
 }
 
@@ -289,6 +294,7 @@ DEFINE_DYNAMIC_FUNC1(Game_obj,setX,return )
 
 double Game_obj::setY( double v){
 	this->_y = v;
+	this->_backGround->setY(v);
 	return v;
 }
 
@@ -358,6 +364,7 @@ Game_obj::Game_obj()
 	InitMember(_rightPaddle);
 	InitMember(_leftScoreLabel);
 	InitMember(_rightScoreLabel);
+	InitMember(_backGround);
 	InitMember(_graphicsTicker);
 	InitMember(_physicsTicker);
 	InitMember(_frameRate);
@@ -382,6 +389,7 @@ void Game_obj::__Mark()
 	MarkMember(_rightPaddle);
 	MarkMember(_leftScoreLabel);
 	MarkMember(_rightScoreLabel);
+	MarkMember(_backGround);
 	MarkMember(_graphicsTicker);
 	MarkMember(_physicsTicker);
 	MarkMember(_frameRate);
@@ -445,6 +453,7 @@ Dynamic Game_obj::__Field(const String &inName)
 		break;
 	case 11:
 		if (!memcmp(inName.__s,L"_leftPaddle",sizeof(wchar_t)*11) ) { return _leftPaddle; }
+		if (!memcmp(inName.__s,L"_backGround",sizeof(wchar_t)*11) ) { return _backGround; }
 		if (!memcmp(inName.__s,L"physicsRate",sizeof(wchar_t)*11) ) { return physicsRate; }
 		if (!memcmp(inName.__s,L"physicsStep",sizeof(wchar_t)*11) ) { return physicsStep_dyn(); }
 		break;
@@ -479,6 +488,7 @@ static int __id__leftPaddle = __hxcpp_field_to_id("_leftPaddle");
 static int __id__rightPaddle = __hxcpp_field_to_id("_rightPaddle");
 static int __id__leftScoreLabel = __hxcpp_field_to_id("_leftScoreLabel");
 static int __id__rightScoreLabel = __hxcpp_field_to_id("_rightScoreLabel");
+static int __id__backGround = __hxcpp_field_to_id("_backGround");
 static int __id__graphicsTicker = __hxcpp_field_to_id("_graphicsTicker");
 static int __id__physicsTicker = __hxcpp_field_to_id("_physicsTicker");
 static int __id__frameRate = __hxcpp_field_to_id("_frameRate");
@@ -522,6 +532,7 @@ Dynamic Game_obj::__IField(int inFieldID)
 	if (inFieldID==__id__rightPaddle) return _rightPaddle;
 	if (inFieldID==__id__leftScoreLabel) return _leftScoreLabel;
 	if (inFieldID==__id__rightScoreLabel) return _rightScoreLabel;
+	if (inFieldID==__id__backGround) return _backGround;
 	if (inFieldID==__id__graphicsTicker) return _graphicsTicker;
 	if (inFieldID==__id__physicsTicker) return _physicsTicker;
 	if (inFieldID==__id__frameRate) return _frameRate;
@@ -589,6 +600,7 @@ Dynamic Game_obj::__SetField(const String &inName,const Dynamic &inValue)
 		break;
 	case 11:
 		if (!memcmp(inName.__s,L"_leftPaddle",sizeof(wchar_t)*11) ) { _leftPaddle=inValue.Cast<pong::Paddle >();return inValue; }
+		if (!memcmp(inName.__s,L"_backGround",sizeof(wchar_t)*11) ) { _backGround=inValue.Cast<pong::gfx::PongBackground >();return inValue; }
 		if (!memcmp(inName.__s,L"physicsRate",sizeof(wchar_t)*11) ) { physicsRate=inValue.Cast<double >();return inValue; }
 		break;
 	case 12:
@@ -616,6 +628,7 @@ void Game_obj::__GetFields(Array<String> &outFields)
 	outFields->push(STRING(L"_rightPaddle",12));
 	outFields->push(STRING(L"_leftScoreLabel",15));
 	outFields->push(STRING(L"_rightScoreLabel",16));
+	outFields->push(STRING(L"_backGround",11));
 	outFields->push(STRING(L"_graphicsTicker",15));
 	outFields->push(STRING(L"_physicsTicker",14));
 	outFields->push(STRING(L"_frameRate",10));
@@ -643,6 +656,7 @@ static String sMemberFields[] = {
 	STRING(L"_rightPaddle",12),
 	STRING(L"_leftScoreLabel",15),
 	STRING(L"_rightScoreLabel",16),
+	STRING(L"_backGround",11),
 	STRING(L"_graphicsTicker",15),
 	STRING(L"_physicsTicker",14),
 	STRING(L"_frameRate",10),

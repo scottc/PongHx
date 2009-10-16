@@ -5,8 +5,8 @@ package pong {
 	import pong.ui.Mouse;
 	import pong.gfx.Stage;
 	import pong.Ball;
-	import pong.gfx.PongBackground;
 	import haxe.Timer;
+	import pong.gfx.PongBackground;
 	import flash.Boot;
 	public class Game {
 		public function Game(width_ : Number = 300,height_ : Number = 300) : void { if( !flash.Boot.skip_constructor ) {
@@ -25,6 +25,7 @@ package pong {
 		protected var _rightPaddle : pong.Paddle;
 		protected var _leftScoreLabel : pong.gfx.Label;
 		protected var _rightScoreLabel : pong.gfx.Label;
+		protected var _backGround : pong.gfx.PongBackground;
 		protected var _graphicsTicker : haxe.Timer;
 		protected var _physicsTicker : haxe.Timer;
 		protected var _frameRate : Number;
@@ -53,7 +54,8 @@ package pong {
 		protected var $height : Number;
 		protected function setupStage() : void {
 			this._stage = pong.gfx.Stage.getInstance();
-			this._stage.add(new pong.gfx.PongBackground(this.getWidth(),this.getHeight()));
+			this._backGround = new pong.gfx.PongBackground(this.getWidth(),this.getHeight());
+			this._stage.add(this._backGround);
 			this._ball = new pong.Ball(150,50,this.getWidth() * 0.02,this.getWidth() * 0.02);
 			this._leftPaddle = new pong.Paddle(this.getWidth() * 0.05,50,this.getWidth() * 0.02,this.getHeight() * 0.15);
 			this._rightPaddle = new pong.Paddle(this.getWidth() * 0.93,50,this.getWidth() * 0.02,this.getHeight() * 0.15);
@@ -62,11 +64,11 @@ package pong {
 			this._stage.add(this._leftPaddle.sprite);
 			this._stage.add(this._rightPaddle.sprite);
 			this._leftScoreLabel = new pong.gfx.Label();
-			this._leftScoreLabel.text = "0";
+			this._leftScoreLabel.text = Std.string(this._leftPaddle.score);
 			this._leftScoreLabel.y = 10;
 			this._leftScoreLabel.x = this.getWidth() * 0.5 - 20;
 			this._rightScoreLabel = new pong.gfx.Label();
-			this._rightScoreLabel.text = "0";
+			this._rightScoreLabel.text = Std.string(this._rightPaddle.score);
 			this._rightScoreLabel.y = 10;
 			this._rightScoreLabel.x = this.getWidth() * 0.5 + 10;
 			this._stage.add(this._leftScoreLabel);
@@ -170,11 +172,13 @@ package pong {
 		
 		public function setX(v : Number) : Number {
 			this._x = v;
+			this._backGround.x = v;
 			return v;
 		}
 		
 		public function setY(v : Number) : Number {
 			this._y = v;
+			this._backGround.y = v;
 			return v;
 		}
 		

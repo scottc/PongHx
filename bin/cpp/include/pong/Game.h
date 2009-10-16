@@ -8,7 +8,10 @@ DECLARE_CLASS1(pong,Ball)
 DECLARE_CLASS1(pong,Game)
 DECLARE_CLASS1(pong,Paddle)
 DECLARE_CLASS2(pong,geom,Rectangle)
+DECLARE_CLASS2(pong,gfx,IDisplayObject)
 DECLARE_CLASS2(pong,gfx,Label)
+DECLARE_CLASS2(pong,gfx,PongBackground)
+DECLARE_CLASS2(pong,gfx,Rectangle)
 DECLARE_CLASS2(pong,gfx,Stage)
 namespace pong{
 
@@ -41,6 +44,7 @@ class Game_obj : public virtual hxObject
 		pong::Paddle _rightPaddle;
 		pong::gfx::Label _leftScoreLabel;
 		pong::gfx::Label _rightScoreLabel;
+		pong::gfx::PongBackground _backGround;
 		haxe::Timer _graphicsTicker;
 		haxe::Timer _physicsTicker;
 		double _frameRate;
