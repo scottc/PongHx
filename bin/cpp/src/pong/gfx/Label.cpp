@@ -6,9 +6,11 @@
 namespace pong{
 namespace gfx{
 
-Void Label_obj::__construct()
+Void Label_obj::__construct(Dynamic __o_text_)
 {
+String text_ = __o_text_.Default(STRING(L"",0));
 {
+	this->text = text_;
 }
 ;
 	return null();
@@ -17,14 +19,14 @@ Void Label_obj::__construct()
 Label_obj::~Label_obj() { }
 
 Dynamic Label_obj::__CreateEmpty() { return  new Label_obj; }
-hxObjectPtr<Label_obj > Label_obj::__new()
+hxObjectPtr<Label_obj > Label_obj::__new(Dynamic __o_text_)
 {  hxObjectPtr<Label_obj > result = new Label_obj();
-	result->__construct();
+	result->__construct(__o_text_);
 	return result;}
 
 Dynamic Label_obj::__Create(DynamicArray inArgs)
 {  hxObjectPtr<Label_obj > result = new Label_obj();
-	result->__construct();
+	result->__construct(inArgs[0]);
 	return result;}
 
 String Label_obj::getText( ){

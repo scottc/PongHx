@@ -86,11 +86,11 @@ Void Game_obj::setupStage( ){
 		this->_stage->add(this->_ball->sprite);
 		this->_stage->add(this->_leftPaddle->sprite);
 		this->_stage->add(this->_rightPaddle->sprite);
-		this->_leftScoreLabel = pong::gfx::Label_obj::__new();
+		this->_leftScoreLabel = pong::gfx::Label_obj::__new(null());
 		this->_leftScoreLabel->text = Std_obj::string(this->_leftPaddle->score);
 		this->_leftScoreLabel->y = 10;
 		this->_leftScoreLabel->x = this->getWidth() * 0.5 - 20;
-		this->_rightScoreLabel = pong::gfx::Label_obj::__new();
+		this->_rightScoreLabel = pong::gfx::Label_obj::__new(null());
 		this->_rightScoreLabel->text = Std_obj::string(this->_rightPaddle->score);
 		this->_rightScoreLabel->y = 10;
 		this->_rightScoreLabel->x = this->getWidth() * 0.5 + 10;

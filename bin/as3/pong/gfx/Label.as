@@ -2,11 +2,12 @@ package pong.gfx {
 	import flash.text.TextField;
 	import flash.Boot;
 	public class Label extends flash.text.TextField {
-		public function Label() : void { if( !flash.Boot.skip_constructor ) {
+		public function Label(text_ : String = "") : void { if( !flash.Boot.skip_constructor ) {
 			super();
 			this.textColor = 16777215;
 			this.width = 40;
 			this.selectable = false;
+			this.text = text_;
 		}}
 		
 		public function getText() : String {

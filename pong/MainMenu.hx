@@ -11,5 +11,4 @@ class MainMenu
 		//new Game(Stage.width, Stage.height);
 		new Game();
 	}
-	
 }

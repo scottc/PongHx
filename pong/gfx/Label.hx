@@ -24,7 +24,7 @@ class Label
 	
 	
 	//constuctor
-	public function new() {
+	public function new(?text_:String = "") {
 		#if flash
 			super();
 			textColor = 0xffffff;
@@ -37,6 +37,7 @@ class Label
 			element.style.width = "40px";
 			element.style.color = "#fff";
 		#end
+		text = text_;
 	}
 	
 	//getters and setters

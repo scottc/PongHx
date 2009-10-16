@@ -268,12 +268,14 @@ js.Lib.setErrorHandler = function(f) {
 }
 js.Lib.prototype.__class__ = js.Lib;
 pong.gfx = {}
-pong.gfx.Label = function(p) { if( p === $_ ) return; {
+pong.gfx.Label = function(text_) { if( text_ === $_ ) return; {
+	if(text_ == null) text_ = "";
 	this.element = pong.gfx.Stage.ELEMENT.cloneNode(false);
 	this.element.style.position = "absolute";
 	this.element.style.background = "none";
 	this.element.style.width = "40px";
 	this.element.style.color = "#fff";
+	this.setText(text_);
 }}
 pong.gfx.Label.__name__ = ["pong","gfx","Label"];
 pong.gfx.Label.prototype.element = null;

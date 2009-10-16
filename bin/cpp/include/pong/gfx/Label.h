@@ -16,10 +16,10 @@ class Label_obj : public virtual hxObject
 
 	protected:
 		Label_obj();
-		Void __construct();
+		Void __construct(Dynamic __o_text_);
 
 	public:
-		static hxObjectPtr<Label_obj > __new();
+		static hxObjectPtr<Label_obj > __new(Dynamic __o_text_);
 		static Dynamic __CreateEmpty();
 		static Dynamic __Create(DynamicArray inArgs);
 		~Label_obj();
