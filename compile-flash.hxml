@@ -1,3 +1,4 @@
 -swf9 bin\pong.swf
 -main pong.Main
+-lib xinf
 -swf-header 550:400:60:FFFFFF
