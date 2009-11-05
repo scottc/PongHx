@@ -56,11 +56,12 @@ class Game extends Group
 	}
 	private function setupStage():Void {
 		//background
+		/*
 		appendChild(_backGround = new Rectangle( {
 							width: _width,
 							height: _height,
-							fill: Paint.RGBColor(0,0,0)
-						}));
+							fill: Paint.RGBColor(0.1,0.1,0.1)
+						}));*/
 		
 		_ball = new Ball(150, 50, _width*0.02, _width*0.02);
 		
@@ -172,6 +173,8 @@ class Game extends Group
 		//get user input
 		if (!_leftPaddle.ai) {
 			_leftPaddle.y = Mouse.Y - _y - _leftPaddle.height / 2;
+			//if (Keyboard.KEY[Keyboard.UP_ARROW] == true)
+				//_leftPaddle.y--;
 		}else if (_ball.velocity.x < 0)
 			runAI(_leftPaddle);
 		else

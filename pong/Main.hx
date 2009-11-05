@@ -7,14 +7,12 @@ class Main
 	
 	static function main() 
 	{
-		Root.main();
-		
 		pong.ui.Mouse.initialize();
 		pong.ui.Keyboard.initialize();
 		
+		Root.main();
+		
 		new MainMenu();
-		
-		
 	}
 	
 }
