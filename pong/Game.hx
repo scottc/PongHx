@@ -1,29 +1,27 @@
 package pong;
 
 import haxe.Timer;
-import pong.gfx.Stage;
-import pong.gfx.Label;
-import pong.gfx.Rectangle;
-import pong.gfx.PongBackground;
+
+import Xinf;
 
 import pong.geom.Vector;
 
 import pong.ui.Keyboard;
 import pong.ui.Mouse;
 
-class Game
+class Game extends Group
 {
-	private var _stage:Stage;
+	//private var _stage:Stage;
 	
 	private var _ball:Ball;
 	
 	private var _leftPaddle:Paddle;
 	private var _rightPaddle:Paddle;
 	
-	private var _leftScoreLabel:Label;
-	private var _rightScoreLabel:Label;
+	private var _leftScoreLabel:Text;
+	private var _rightScoreLabel:Text;
 	
-	private var _backGround:PongBackground;
+	private var _backGround:Rectangle;
 	
 	private var _graphicsTicker:Timer;
 	private var _physicsTicker:Timer;
@@ -41,8 +39,13 @@ class Game
 	
 	public function new(?width_:Float = 300, ?height_:Float = 300) 
 	{	
-		width = width_;
-		height = height_;
+		super();
+		
+		_x = 0;
+		_y = 0;
+		
+		_width = width_;
+		_height = height_;
 		
 		frameRate = 60;
 		physicsRate = 60;
@@ -52,74 +55,74 @@ class Game
 		render();
 	}
 	private function setupStage():Void {
-		_stage = Stage.getInstance();
+		//background
+		appendChild(_backGround = new Rectangle( {
+							width: _width,
+							height: _height,
+							fill: Paint.RGBColor(0,0,0)
+						}));
 		
-		_backGround = new PongBackground(width, height);
+		_ball = new Ball(150, 50, _width*0.02, _width*0.02);
 		
-		_stage.add(_backGround);
+		_leftPaddle = new Paddle(_width*0.05, 50, _width*0.02, _height*0.15);
 		
-		_ball = new Ball(150, 50, width*0.02, width*0.02);
-		
-		_leftPaddle = new Paddle(width*0.05, 50, width*0.02, height*0.15);
-		
-		_rightPaddle = new Paddle(width*0.93, 50, width*0.02, height*0.15);
+		_rightPaddle = new Paddle(_width*0.93, 50, _width*0.02, _height*0.15);
 		_rightPaddle.ai = true;
 		
-		_stage.add(_ball.sprite);
-		_stage.add(_leftPaddle.sprite);
-		_stage.add(_rightPaddle.sprite);
+		appendChild(_ball.display);
+		appendChild(_leftPaddle.display);
+		appendChild(_rightPaddle.display);
 		
-		_leftScoreLabel = new Label();
+		_leftScoreLabel = new Text({fill:"white"});
 		_leftScoreLabel.text = Std.string(_leftPaddle.score);
-		_leftScoreLabel.y = 10;
-		_leftScoreLabel.x = width * 0.5 - 20;
+		_leftScoreLabel.y = 10 + _y;
+		_leftScoreLabel.x = _width * 0.5 - 20 + _x;
+		appendChild(_leftScoreLabel);
 		
-		_rightScoreLabel = new Label();
+		_rightScoreLabel = new Text({fill:"white"});
 		_rightScoreLabel.text = Std.string(_rightPaddle.score);
-		_rightScoreLabel.y = 10;
-		_rightScoreLabel.x = width * 0.5 + 10;
-		
-		_stage.add(_leftScoreLabel);
-		_stage.add(_rightScoreLabel);
+		_rightScoreLabel.y = 10 + _y;
+		_rightScoreLabel.x = _width * 0.5 + 10 + _x;
+		appendChild(_rightScoreLabel);
 	}
 	private function newRound():Void {
 		//reset Paddle locations
-		_leftPaddle.y = height / 2 - _leftPaddle.height / 2;
-		_rightPaddle.y = height / 2 - _rightPaddle.height / 2;
+		_leftPaddle.y = _height / 2 - _leftPaddle.height / 2;
+		_rightPaddle.y = _height / 2 - _rightPaddle.height / 2;
 		
 		//reset ball location
-		_ball.y = height / 2 - _ball.height / 2;
-		_ball.x = width / 2 - _ball.width / 2;
+		_ball.y = _height / 2 - _ball.height / 2;
+		_ball.x = _width / 2 - _ball.width / 2;
 		
 		//give ball new random direction
-		_ball.velocity.x = width * Math.random() - width * 0.5;
-		_ball.velocity.y = height * Math.random() - height * 0.5;
+		_ball.velocity.x = _width * Math.random() - _width * 0.5;
+		_ball.velocity.y = _height * Math.random() - _height * 0.5;
 		
 		//set the ball's speed
-		_ball.velocity = _ball.velocity.normalize(width * 0.01);
+		_ball.velocity = _ball.velocity.normalize(_width * 0.01);
 	}
 	private function runAI(p:Paddle) {
 		//make AI chase ball...
 		if (p.y + p.height/2 < _ball.y + _ball.height/2)
-			p.velocity.y = height * 0.01;
+			p.velocity.y = _height * 0.01;
 		else if (p.y + p.height/2 > _ball.y + _ball.height/2)
-			p.velocity.y = height * -0.01;
+			p.velocity.y = _height * -0.01;
 		else
 			p.velocity.y = 0;
 	}
 	private function doCollisions() {
 		//Paddles/walls
 		//Stops Left Paddle when reaches Bottom/Top of screen
-		if(_leftPaddle.y +_leftPaddle.height > height -10){
-			_leftPaddle.y = height - _leftPaddle.height -10;
+		if(_leftPaddle.y +_leftPaddle.height > _height -10){
+			_leftPaddle.y = _height - _leftPaddle.height -10;
 		}
 		if (_leftPaddle.y < 10) {
 			_leftPaddle.y = 10; 
 		}
 		
 		//Stops Right Paddle when reaches Bottom/Top of screen
-		if(_rightPaddle.y +_rightPaddle.height > height -10){
-			_rightPaddle.y = height - _rightPaddle.height -10;
+		if(_rightPaddle.y +_rightPaddle.height > _height -10){
+			_rightPaddle.y = _height - _rightPaddle.height -10;
 		}
 		if (_rightPaddle.y < 10) {
 			_rightPaddle.y = 10; 
@@ -127,8 +130,8 @@ class Game
 				
 		//ball/walls
 		//Makes ball rebound when ball hits Bottom/Top of Screen
-		if (_ball.y + _ball.height > height -10) {
-			_ball.y = height - _ball.height -10;
+		if (_ball.y + _ball.height > _height -10) {
+			_ball.y = _height - _ball.height -10;
 			_ball.velocity.y *= -1;
 		}
 			
@@ -142,7 +145,7 @@ class Game
 			newRound();
 		}
 		
-		if (_ball.x > width) {
+		if (_ball.x > _width) {
 			_leftScoreLabel.text = Std.string(++_leftPaddle.score);
 			newRound();
 		}
@@ -161,7 +164,6 @@ class Game
 					(_ball.x + _ball.width * 0.5)-(p.x + p.width * 0.5),
 					(_ball.y + _ball.height * 0.5)-(p.y + p.height * 0.5)
 			);
-			
 			//make sure the new vector is the same length aka speed.
 			_ball.velocity = newDirection.normalize(_ball.velocity.length());
 		}
@@ -169,14 +171,14 @@ class Game
 	private function physicsStep():Void{
 		//get user input
 		if (!_leftPaddle.ai) {
-			_leftPaddle.y = Mouse.y - _leftPaddle.height / 2;
+			_leftPaddle.y = Mouse.Y - _y - _leftPaddle.height / 2;
 		}else if (_ball.velocity.x < 0)
 			runAI(_leftPaddle);
 		else
 			_leftPaddle.velocity.y = 0;
 			
 		if (!_rightPaddle.ai){
-			_rightPaddle.y = Mouse.y - _rightPaddle.height / 2;
+			_rightPaddle.y = Mouse.Y - _y - _rightPaddle.height / 2;
 		}else if(_ball.velocity.x > 0)
 			runAI(_rightPaddle);
 		else
@@ -191,13 +193,15 @@ class Game
 		doCollisions();
 	}
 	private function render():Void {
-		//tell the game objects to render themselves
-		_ball.render();
-		_leftPaddle.render();
-		_rightPaddle.render();
+		_ball.display.x = _ball.x + _x;
+		_ball.display.y = _ball.y + _y;
+		
+		_leftPaddle.display.x = _leftPaddle.x + _x;
+		_leftPaddle.display.y = _leftPaddle.y + _y;
+		
+		_rightPaddle.display.x = _rightPaddle.x + _x;
+		_rightPaddle.display.y = _rightPaddle.y + _y;
 	}
-	
-	
 	
 	private function getX():Float { return _x; }
 	private function getY():Float { return _y; }
@@ -206,22 +210,39 @@ class Game
 	
 	private function setX(v:Float) {
 		_x = v;
-		_backGround.x = v;
+		
+		_backGround.x = _x;
+		_rightScoreLabel.x = _width * 0.5 + 10 + _x;
+		_leftScoreLabel.x = _width * 0.5 - 20 + _x;
+		
+		
 		return v;
 	}
 	private function setY(v:Float) {
 		_y = v;
-		_backGround.y = v;
+		
+		_backGround.y = _y;
+		_leftScoreLabel.y = 10 + _y;
+		_rightScoreLabel.y = 10 + _y;
+		
 		return v;
 	}
 	private function setWidth(v:Float) {
 		_width = v;
-		//_backGround.width = v;
+		
+		_backGround.width = v;
+		_rightScoreLabel.x = _width * 0.5 + 10 + _x;
+		_leftScoreLabel.x = _width * 0.5 - 20 + _x;
+		
 		return v;
 	}
 	private function setHeight(v:Float) {
 		_height = v;
-		//_backGround.height = v;
+		
+		_backGround.height = v;
+		_rightScoreLabel.x = _width * 0.5 + 10 + _x;
+		_leftScoreLabel.x = _width * 0.5 - 20 + _x;
+		
 		return v;
 	}
 	

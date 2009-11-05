@@ -1,42 +1,33 @@
-﻿/**
- * ...
- * @author scott
- */
+﻿package pong.ui;
 
-package pong.ui;
-
-#if flash
-	import flash.display.Sprite;
-	import flash.events.MouseEvent;
-#end
-
+import Xinf;
 
 class Mouse
 {
-	public static var x:Int = 0;
-	public static var y:Int = 0;
+	//public static var BUTTON:ArrayList<Bool>;
+	
+	public static var X:Int = 0;
+	public static var Y:Int = 0;
 	
 	public static function initialize() {
-		#if js
-			untyped js.Lib.document.onmousemove = mouseMove;
-			js.Lib.document.onmousedown = mousePressed;
-		#elseif flash
-			flash.Lib.current.addEventListener(MouseEvent.MOUSE_MOVE, mouseMove);
-		#end
+		Root.addEventListener( MouseEvent.MOUSE_UP, onMouseUp );
+		Root.addEventListener( MouseEvent.MOUSE_DOWN, onMouseDown );
+		Root.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 	}
 	
-	static function mouseMove( ?e )
+	static function onMouseMove( e:MouseEvent )
 	{
-		#if js
-		x = if ( js.Lib.isIE ) untyped event.x; else e.clientX;
-		y = if ( js.Lib.isIE ) untyped event.y; else e.clientY;
-		#elseif flash
-		x = e.stageX;
-		y = e.stageY;
-		#end
+		X = Math.floor(e.x);
+		Y = Math.floor(e.y);
 	}
-	static function mousePressed(?e)
+	static function onMouseDown(e:MouseEvent)
 	{
-
+		//BUTTON[e.button] = true;
+		trace("Mouse " + e.button + " is Down");
+	}
+	static function onMouseUp(e:MouseEvent )
+	{
+		//BUTTON[e.button] = false;
+		trace("Mouse " + e.button + " is Up");
 	}
 }
