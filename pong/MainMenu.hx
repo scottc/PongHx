@@ -1,6 +1,5 @@
 ﻿package pong;
 
-//import pong.ui.Stage;
 import Xinf;
 
 class MainMenu 
@@ -8,9 +7,14 @@ class MainMenu
 	//constructor
 	public function new() 
 	{
-		var g = new Game(550, 400);
+		var g = new Game(Root.width, Root.height);
 
 		Root.appendChild(g);
+		
+		Root.addEventListener( GeometryEvent.STAGE_SCALED,
+								function(e:GeometryEvent) {
+									g.width = Root.width; g.height = Root.height;
+								} );
 		
 		//var g = new Game(200, 200);
 		//g.width = 300;

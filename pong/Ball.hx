@@ -28,7 +28,7 @@ class Ball extends pong.geom.Rectangle
 			});
 		
 		velocity = new Vector(0, 0);
-		acceleration = pong.ui.Stage.WIDTH * 0.01;
+		acceleration = Root.width * 0.01;
 	}
 	public function render() {
 		display.x = x;
