@@ -28,8 +28,8 @@ class Game extends Group
 	
 	private var _frameRate:Float;
 	private var _physicsRate:Float;
-	public var frameRate(getFrameRate, setFrameRate):Float;//target frames per second
-	public var physicsRate(getFrameRate, setPhysicsRate):Float;//target physics steps per second
+	//public var frameRate(getFrameRate, setFrameRate):Float;//target frames per second
+	public var physicsRate(getPhysicsRate, setPhysicsRate):Float;//target physics steps per second
 	
 	private var _x:Float; public var x(getX, setX):Float;
 	private var _y:Float; public var y(getY, setY):Float;
@@ -47,7 +47,8 @@ class Game extends Group
 		_width = width_;
 		_height = height_;
 		
-		frameRate = 60;
+		//frameRate = 60;
+		Root.addEventListener( FrameEvent.ENTER_FRAME, render);
 		physicsRate = 60;
 		
 		setupStage();
@@ -56,12 +57,12 @@ class Game extends Group
 	}
 	private function setupStage():Void {
 		//background
-		/*
+		
 		appendChild(_backGround = new Rectangle( {
 							width: _width,
 							height: _height,
 							fill: Paint.RGBColor(0.1,0.1,0.1)
-						}));*/
+						}));
 		
 		_ball = new Ball(150, 50, _width*0.02, _width*0.02);
 		
@@ -195,7 +196,7 @@ class Game extends Group
 		//do collisions
 		doCollisions();
 	}
-	private function render():Void {
+	private function render(?e:FrameEvent = null):Void {
 		_ball.display.x = _ball.x + _x;
 		_ball.display.y = _ball.y + _y;
 		
@@ -236,7 +237,8 @@ class Game extends Group
 		_backGround.width = v;
 		_rightScoreLabel.x = _width * 0.5 + 10 + _x;
 		_leftScoreLabel.x = _width * 0.5 - 20 + _x;
-		
+		_leftPaddle.x = _width * 0.05;
+		_rightPaddle.x = _width * 0.93;
 		return v;
 	}
 	private function setHeight(v:Float) {
@@ -249,21 +251,21 @@ class Game extends Group
 		return v;
 	}
 	
-	private function getFrameRate():Float { return _frameRate; }
+	//private function getFrameRate():Float { return _frameRate; }
 	private function getPhysicsRate():Float { return _physicsRate; }
 	
-	private function setFrameRate(v:Float) {
+	private function setPhysicsRate(v:Float) {
 		_physicsRate = v;
 		if(_physicsTicker != null)_physicsTicker.stop();
 		_physicsTicker = new Timer(Math.floor(1000 / _physicsRate));// 1 sec / framerate = ms needed, per frame.
 		_physicsTicker.run = physicsStep;
 		return v;
-	}
-	private function setPhysicsRate(v:Float) {
+	}/*
+	private function setFrameRate(v:Float) {
 		_frameRate = v;
 		if(_graphicsTicker != null)_graphicsTicker.stop();
 		_graphicsTicker = new Timer(Math.floor(1000 / _frameRate));
-		_graphicsTicker.run = render;
+		//_graphicsTicker.run = render;
 		return v;
-	}
+	}*/
 }
