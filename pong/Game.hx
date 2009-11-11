@@ -37,9 +37,13 @@ class Game extends Group
 	private var _width:Float; public var width(getWidth, setWidth):Float;
 	private var _height:Float; public var height(getHeight, setHeight):Float;
 	
+	private var _pause:Bool; public var pause(getPause, setPause):Bool;
+	
 	public function new(?width_:Float = 300, ?height_:Float = 300) 
 	{	
 		super();
+		
+		_pause = false;
 		
 		_x = 0;
 		_y = 0;
@@ -57,19 +61,19 @@ class Game extends Group
 	}
 	private function setupStage():Void {
 		//background
-		
-		appendChild(_backGround = new Rectangle( {
+		_backGround = new Rectangle( {
 							width: _width,
 							height: _height,
 							fill: Paint.RGBColor(0.1,0.1,0.1)
-						}));
+						});
+		appendChild(_backGround);
 		
 		_ball = new Ball(150, 50, _width*0.02, _width*0.02);
 		
 		_leftPaddle = new Paddle(_width*0.05, 50, _width*0.02, _height*0.15);
 		
 		_rightPaddle = new Paddle(_width*0.93, 50, _width*0.02, _height*0.15);
-		_rightPaddle.ai = true;
+		_rightPaddle.ai = Paddle.EASY_AI;
 		
 		appendChild(_ball.display);
 		appendChild(_leftPaddle.display);
@@ -105,12 +109,7 @@ class Game extends Group
 	}
 	private function runAI(p:Paddle) {
 		//make AI chase ball...
-		if (p.y + p.height/2 < _ball.y + _ball.height/2)
-			p.velocity.y = _height * 0.01;
-		else if (p.y + p.height/2 > _ball.y + _ball.height/2)
-			p.velocity.y = _height * -0.01;
-		else
-			p.velocity.y = 0;
+		p.followPoint(_ball.y + Math.random()*100-50);
 	}
 	private function doCollisions() {
 		//Paddles/walls
@@ -170,23 +169,41 @@ class Game extends Group
 			_ball.velocity = newDirection.normalize(_ball.velocity.length());
 		}
 	}
-	private function physicsStep():Void{
-		//get user input
-		if (!_leftPaddle.ai) {
-			_leftPaddle.y = Mouse.Y - _y - _leftPaddle.height / 2;
-			//if (Keyboard.KEY[Keyboard.UP_ARROW] == true)
-				//_leftPaddle.y--;
-		}else if (_ball.velocity.x < 0)
-			runAI(_leftPaddle);
-		else
-			_leftPaddle.velocity.y = 0;
-			
-		if (!_rightPaddle.ai){
-			_rightPaddle.y = Mouse.Y - _y - _rightPaddle.height / 2;
-		}else if(_ball.velocity.x > 0)
-			runAI(_rightPaddle);
-		else
-			_rightPaddle.velocity.y = 0;
+	private function physicsStep():Void {
+		
+		switch(_leftPaddle.ai) {
+			case Paddle.HUMAN:
+				_leftPaddle.followPoint(Mouse.Y);
+				/*
+				if (Keyboard.isDown("UP"))
+					_leftPaddle.moveUp();
+				else if (Keyboard.isDown("DOWN"))
+					_leftPaddle.moveDown();
+					*/
+				
+			case Paddle.EASY_AI:
+				runAI(_leftPaddle);
+			case Paddle.MEDIUM_AI:
+				runAI(_leftPaddle);
+			case Paddle.HARD_AI:
+				runAI(_leftPaddle);
+			default:
+				runAI(_leftPaddle);
+		}
+		
+		switch(_rightPaddle.ai) {
+			case Paddle.HUMAN:
+				_rightPaddle.followPoint(Mouse.Y);
+			case Paddle.EASY_AI:
+				runAI(_rightPaddle);
+			case Paddle.MEDIUM_AI:
+				runAI(_rightPaddle);
+			case Paddle.HARD_AI:
+				runAI(_rightPaddle);
+			default:
+				runAI(_rightPaddle);
+		}
+		
 		
 		//move objects
 		_leftPaddle.move();
@@ -250,7 +267,17 @@ class Game extends Group
 		
 		return v;
 	}
-	
+	private function getPause():Bool {
+		return _pause;
+	}
+	private function setPause(v:Bool) {
+		_pause = v;
+		if(_pause)
+			_physicsTicker.stop();
+		else
+			_physicsTicker.run = physicsStep;
+		return v;
+	}
 	//private function getFrameRate():Float { return _frameRate; }
 	private function getPhysicsRate():Float { return _physicsRate; }
 	

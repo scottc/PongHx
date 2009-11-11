@@ -4,7 +4,7 @@ import Xinf;
 
 class Mouse
 {
-	//public static var BUTTON:ArrayList<Bool>;
+	static var _BUTTON:Array<Bool> = new Array<Bool>();
 	
 	public static var X:Int = 0;
 	public static var Y:Int = 0;
@@ -22,12 +22,15 @@ class Mouse
 	}
 	static function onMouseDown(e:MouseEvent)
 	{
-		//BUTTON[e.button] = true;
-		trace("Mouse " + e.button + " is Down");
+		_BUTTON[e.button] = true;
 	}
 	static function onMouseUp(e:MouseEvent )
 	{
-		//BUTTON[e.button] = false;
-		trace("Mouse " + e.button + " is Up");
+		_BUTTON[e.button] = false;
+	}
+	public static function isDown(button:Int) {
+		if (_BUTTON[button] == true)
+			return true;
+		return false;
 	}
 }

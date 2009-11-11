@@ -4,10 +4,7 @@ import Xinf;
 
 class Keyboard 
 {
-	public static var KEY:Array<Bool> = new Array<Bool>();
-	
-	public static var UP_ARROW:Int = 38;
-	public static var DOWN_ARROW:Int = 40;
+	private static var _KEY:Hash<Bool> = new Hash<Bool>();
 	
 	public static function initialize() {
 		Root.addEventListener( KeyboardEvent.KEY_DOWN, onKeyDown );
@@ -15,12 +12,16 @@ class Keyboard
 	}
 	static function onKeyDown( e:KeyboardEvent )
 	{
-		KEY[e.code] = true;
-		trace("Keyboard " + e.code + " is Down");
+		_KEY.set(e.key.toUpperCase() ,true);
 	}
 	static function onKeyUp( e:KeyboardEvent )
 	{
-		KEY[e.code] = false;
-		trace("Keyboard " + e.code + " is Up");
+		_KEY.set(e.key.toUpperCase() ,false);
+	}
+	public static function isDown(key:String):Bool {
+		if (_KEY.exists(key.toUpperCase()))
+			return _KEY.get(key.toUpperCase());
+			
+		return false;
 	}
 }
