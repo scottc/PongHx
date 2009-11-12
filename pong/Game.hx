@@ -107,7 +107,7 @@ class Game extends Group
 		//set the ball's speed
 		_ball.velocity = _ball.velocity.normalize(_width * 0.01);
 	}
-	private function runAI(p:Paddle) {
+	private inline function runAI(p:Paddle) {
 		//make AI chase ball...
 		p.followPoint(_ball.y + Math.random()*100-50);
 	}
@@ -224,10 +224,10 @@ class Game extends Group
 		_rightPaddle.display.y = _rightPaddle.y + _y;
 	}
 	
-	private function getX():Float { return _x; }
-	private function getY():Float { return _y; }
-	private function getWidth():Float { return _width; }
-	private function getHeight():Float { return _height; }
+	private inline function getX():Float { return _x; }
+	private inline function getY():Float { return _y; }
+	private inline function getWidth():Float { return _width; }
+	private inline function getHeight():Float { return _height; }
 	
 	private function setX(v:Float) {
 		_x = v;
@@ -248,7 +248,7 @@ class Game extends Group
 		
 		return v;
 	}
-	private function setWidth(v:Float) {
+	private inline function setWidth(v:Float) {
 		_width = v;
 		
 		_backGround.width = v;
@@ -258,7 +258,7 @@ class Game extends Group
 		_rightPaddle.x = _width * 0.93;
 		return v;
 	}
-	private function setHeight(v:Float) {
+	private inline function setHeight(v:Float) {
 		_height = v;
 		
 		_backGround.height = v;
@@ -267,7 +267,7 @@ class Game extends Group
 		
 		return v;
 	}
-	private function getPause():Bool {
+	private inline function getPause():Bool {
 		return _pause;
 	}
 	private function setPause(v:Bool) {
@@ -278,8 +278,8 @@ class Game extends Group
 			_physicsTicker.run = physicsStep;
 		return v;
 	}
-	//private function getFrameRate():Float { return _frameRate; }
-	private function getPhysicsRate():Float { return _physicsRate; }
+	//private inline function getFrameRate():Float { return _frameRate; }
+	private inline function getPhysicsRate():Float { return _physicsRate; }
 	
 	private function setPhysicsRate(v:Float) {
 		_physicsRate = v;

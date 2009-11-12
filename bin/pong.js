@@ -6920,7 +6920,7 @@ pong.Paddle = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
 	this.display = new xinf.ony.erno.Rectangle({ x : x_, y : y_, width : width_, height : height_, fill : xinf.ony.type.Paint.RGBColor(1,1,1)});
 	this.velocity = new pong.geom.Vector(0,0);
 	this.score = 0;
-	this.ai = pong.Paddle.HUMAN;
+	this.ai = 0;
 }}
 pong.Paddle.__name__ = ["pong","Paddle"];
 pong.Paddle.__super__ = pong.geom.Rectangle;
@@ -6931,11 +6931,11 @@ pong.Paddle.prototype.decay = function() {
 }
 pong.Paddle.prototype.display = null;
 pong.Paddle.prototype.followPoint = function(y_) {
-	if(y_ < this.y + this.height / 2) this.moveUp();
-	else if(y_ > this.y + this.height / 2) this.moveDown();
+	if(y_ < this.y + this.height / 2) this.velocity.y -= xinf.ony.Root.height * .003;
+	else if(y_ > this.y + this.height / 2) this.velocity.y += xinf.ony.Root.height * .003;
 }
 pong.Paddle.prototype.move = function() {
-	this.decay();
+	this.velocity.y *= .9;
 	this.x += this.velocity.x;
 	this.y += this.velocity.y;
 }
@@ -6956,7 +6956,7 @@ pong.Ball = function(x_,y_,width_,height_) { if( x_ === $_ ) return; {
 	pong.geom.Rectangle.apply(this,[x_,y_,width_,height_]);
 	this.display = new xinf.ony.erno.Rectangle({ x : x_, y : y_, width : width_, height : height_, fill : xinf.ony.type.Paint.RGBColor(1,1,1)});
 	this.velocity = new pong.geom.Vector(0,0);
-	this.acceleration = xinf.ony.Root.width * 0.01;
+	this.acceleration = xinf.ony.Root.width * 0.1;
 }}
 pong.Ball.__name__ = ["pong","Ball"];
 pong.Ball.__super__ = pong.geom.Rectangle;
@@ -6964,7 +6964,7 @@ for(var k in pong.geom.Rectangle.prototype ) pong.Ball.prototype[k] = pong.geom.
 pong.Ball.prototype.acceleration = null;
 pong.Ball.prototype.display = null;
 pong.Ball.prototype.move = function() {
-	this.velocity.normalize(1 + this.acceleration);
+	this.velocity.multiply(1 + this.acceleration);
 	this.x += this.velocity.x;
 	this.y += this.velocity.y;
 }
@@ -8839,37 +8839,37 @@ pong.Game.prototype.pause = null;
 pong.Game.prototype.physicsRate = null;
 pong.Game.prototype.physicsStep = function() {
 	switch(this._leftPaddle.ai) {
-	case pong.Paddle.HUMAN:{
+	case 0:{
 		this._leftPaddle.followPoint(pong.ui.Mouse.Y);
 	}break;
-	case pong.Paddle.EASY_AI:{
-		this.runAI(this._leftPaddle);
+	case 1:{
+		this._leftPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
 	}break;
-	case pong.Paddle.MEDIUM_AI:{
-		this.runAI(this._leftPaddle);
+	case 2:{
+		this._leftPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
 	}break;
-	case pong.Paddle.HARD_AI:{
-		this.runAI(this._leftPaddle);
+	case 3:{
+		this._leftPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
 	}break;
 	default:{
-		this.runAI(this._leftPaddle);
+		this._leftPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
 	}break;
 	}
 	switch(this._rightPaddle.ai) {
-	case pong.Paddle.HUMAN:{
+	case 0:{
 		this._rightPaddle.followPoint(pong.ui.Mouse.Y);
 	}break;
-	case pong.Paddle.EASY_AI:{
-		this.runAI(this._rightPaddle);
+	case 1:{
+		this._rightPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
 	}break;
-	case pong.Paddle.MEDIUM_AI:{
-		this.runAI(this._rightPaddle);
+	case 2:{
+		this._rightPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
 	}break;
-	case pong.Paddle.HARD_AI:{
-		this.runAI(this._rightPaddle);
+	case 3:{
+		this._rightPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
 	}break;
 	default:{
-		this.runAI(this._rightPaddle);
+		this._rightPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
 	}break;
 	}
 	this._leftPaddle.move();
@@ -8937,7 +8937,7 @@ pong.Game.prototype.setupStage = function() {
 	this._ball = new pong.Ball(150,50,this._width * 0.02,this._width * 0.02);
 	this._leftPaddle = new pong.Paddle(this._width * 0.05,50,this._width * 0.02,this._height * 0.15);
 	this._rightPaddle = new pong.Paddle(this._width * 0.93,50,this._width * 0.02,this._height * 0.15);
-	this._rightPaddle.ai = pong.Paddle.EASY_AI;
+	this._rightPaddle.ai = 1;
 	this.appendChild(this._ball.display);
 	this.appendChild(this._leftPaddle.display);
 	this.appendChild(this._rightPaddle.display);

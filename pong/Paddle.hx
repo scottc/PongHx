@@ -10,10 +10,10 @@ import Xinf;
 
 class Paddle extends pong.geom.Rectangle
 {
-	public static var HUMAN:Int = 0;
-	public static var EASY_AI:Int = 1;
-	public static var MEDIUM_AI:Int = 2;
-	public static var HARD_AI:Int = 3;
+	public static inline var HUMAN:Int = 0;
+	public static inline var EASY_AI:Int = 1;
+	public static inline var MEDIUM_AI:Int = 2;
+	public static inline var HARD_AI:Int = 3;
 	
 	public var display:Rectangle;
 	public var score:Int;
@@ -37,27 +37,27 @@ class Paddle extends pong.geom.Rectangle
 		score = 0;
 		ai = HUMAN;
 	}
-	public function moveUp() {
+	public inline function moveUp() {
 		velocity.y -= Root.height*.003;
 	}
-	public function moveDown() {
+	public inline function moveDown() {
 		velocity.y += Root.height*.003;
 	}
-	public function followPoint(y_:Float) {
+	public inline function followPoint(y_:Float) {
 		//velocity.y = y_ - y - height / 2;
 		if (y_ < y + height / 2)
 			moveUp();
 		else if(y_ > y + height / 2)
 			moveDown();
 	}
-	private function decay() {
+	private inline function decay() {
 			velocity.y *= .9;
 	}
-	public function render() {
+	public inline function render() {
 		display.x = x;
 		display.y = y;
 	}
-	public function move() {
+	public inline function move() {
 		decay();
 		
 		x += velocity.x;

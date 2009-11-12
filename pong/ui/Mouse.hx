@@ -15,20 +15,20 @@ class Mouse
 		Root.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 	}
 	
-	static function onMouseMove( e:MouseEvent )
+	private static inline function onMouseMove( e:MouseEvent )
 	{
 		X = Math.floor(e.x);
 		Y = Math.floor(e.y);
 	}
-	static function onMouseDown(e:MouseEvent)
+	private static inline function onMouseDown(e:MouseEvent)
 	{
 		_BUTTON[e.button] = true;
 	}
-	static function onMouseUp(e:MouseEvent )
+	private static inline function onMouseUp(e:MouseEvent )
 	{
 		_BUTTON[e.button] = false;
 	}
-	public static function isDown(button:Int) {
+	public static inline function isDown(button:Int) {
 		if (_BUTTON[button] == true)
 			return true;
 		return false;

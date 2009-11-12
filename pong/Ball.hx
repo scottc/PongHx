@@ -28,15 +28,15 @@ class Ball extends pong.geom.Rectangle
 			});
 		
 		velocity = new Vector(0, 0);
-		acceleration = Root.width * 0.01;
+		acceleration = Root.width * 0.1;
 	}
-	public function render() {
+	public inline function render() {
 		display.x = x;
 		display.y = y;
 	}
-	public function move() {
-		//velocity.multiply(1 + acceleration);
-		velocity.normalize(1 + acceleration);
+	public inline function move() {
+		velocity.multiply(1 + acceleration);
+		//velocity.normalize(1 + acceleration);
 		
 		x += velocity.x;
 		y += velocity.y;
