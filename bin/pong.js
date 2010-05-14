@@ -1,6 +1,6 @@
 $estr = function() { return js.Boot.__string_rec(this,''); }
-xinf = {}
-xinf.event = {}
+if(typeof xinf=='undefined') xinf = {}
+if(!xinf.event) xinf.event = {}
 xinf.event.EventDispatcher = function() { }
 xinf.event.EventDispatcher.__name__ = ["xinf","event","EventDispatcher"];
 xinf.event.EventDispatcher.prototype.addEventListener = null;
@@ -82,7 +82,7 @@ xinf.event.SimpleEventDispatcher.prototype.removeEventListener = function(type,h
 }
 xinf.event.SimpleEventDispatcher.prototype.__class__ = xinf.event.SimpleEventDispatcher;
 xinf.event.SimpleEventDispatcher.__interfaces__ = [xinf.event.EventDispatcher];
-xinf.erno = {}
+if(!xinf.erno) xinf.erno = {}
 xinf.erno.ImageData = function(p) { if( p === $_ ) return; {
 	xinf.event.SimpleEventDispatcher.apply(this,[]);
 }}
@@ -105,7 +105,7 @@ xinf.erno.ImageData.prototype.partLoaded = function(pos) {
 xinf.erno.ImageData.prototype.url = null;
 xinf.erno.ImageData.prototype.width = null;
 xinf.erno.ImageData.prototype.__class__ = xinf.erno.ImageData;
-xinf.erno.js = {}
+if(!xinf.erno.js) xinf.erno.js = {}
 xinf.erno.js.JSImageData = function(url) { if( url === $_ ) return; {
 	xinf.erno.ImageData.apply(this,[]);
 	this.url = url;
@@ -132,14 +132,14 @@ xinf.event.Event.prototype.origin = null;
 xinf.event.Event.prototype.preventBubble = null;
 xinf.event.Event.prototype.toString = function() {
 	var r = "" + this.type;
-	if(this.origin != null) r += ", from " + this.origin.fileName + ":" + this.origin.lineNumber;
+	if(this.origin != null) r += ((", from " + this.origin.fileName) + ":") + this.origin.lineNumber;
 	r += " { ";
 	{
 		var _g = 0, _g1 = Reflect.fields(this);
 		while(_g < _g1.length) {
 			var field = _g1[_g];
 			++_g;
-			if(field != "origin") r += field + ":" + Reflect.field(this,field) + ", ";
+			if(field != "origin") r += ((field + ":") + Reflect.field(this,field)) + ", ";
 		}
 	}
 	r += "}";
@@ -178,11 +178,11 @@ xinf.event.MouseEvent.prototype.ctrlMod = null;
 xinf.event.MouseEvent.prototype.shiftMod = null;
 xinf.event.MouseEvent.prototype.targetId = null;
 xinf.event.MouseEvent.prototype.toString = function() {
-	var r = "" + this.type + "(" + this.x + "," + this.y + ", ";
+	var r = ((((("" + this.type) + "(") + this.x) + ",") + this.y) + ", ";
 	if(this.shiftMod) r += "Shift+";
 	if(this.altMod) r += "Alt+";
 	if(this.ctrlMod) r += "Ctrl+";
-	r += "Button " + this.button + ")";
+	r += ("Button " + this.button) + ")";
 	if(this.targetId != 0) r += " to #" + this.targetId;
 	return r;
 }
@@ -218,7 +218,7 @@ xinf.erno.Renderer.prototype.startPath = null;
 xinf.erno.Renderer.prototype.startShape = null;
 xinf.erno.Renderer.prototype.text = null;
 xinf.erno.Renderer.prototype.__class__ = xinf.erno.Renderer;
-xinf.xml = {}
+if(!xinf.xml) xinf.xml = {}
 xinf.xml.Serializable = function() { }
 xinf.xml.Serializable.__name__ = ["xinf","xml","Serializable"];
 xinf.xml.Serializable.prototype.fromXml = null;
@@ -335,7 +335,7 @@ xinf.xml.Node.prototype.toXml = function() {
 }
 xinf.xml.Node.prototype.__class__ = xinf.xml.Node;
 xinf.xml.Node.__interfaces__ = [xinf.xml.Serializable];
-xinf.traits = {}
+if(!xinf.traits) xinf.traits = {}
 xinf.traits.TraitAccess = function() { }
 xinf.traits.TraitAccess.__name__ = ["xinf","traits","TraitAccess"];
 xinf.traits.TraitAccess.prototype.getStyleTrait = null;
@@ -372,7 +372,7 @@ xinf.traits.TypedTrait.prototype.fromDynamic = function(value) {
 	return (this.parse(Std.string(value)));
 }
 xinf.traits.TypedTrait.prototype.getDefault = function() {
-	throw ("unimplemented " + Type.getClassName(Type.getClass(this)) + ".getDefault()");
+	throw (("unimplemented " + Type.getClassName(Type.getClass(this))) + ".getDefault()");
 	return null;
 }
 xinf.traits.TypedTrait.prototype.interpolate = function(a,b,f) {
@@ -494,7 +494,7 @@ xinf.xml.XMLElement.prototype.getElementByName = function(name) {
 		if(child.get_name() == name) return child;
 	}
 	}}
-	throw ("no child with name '" + name + "'");
+	throw (("no child with name '" + name) + "'");
 	return null;
 }
 xinf.xml.XMLElement.prototype.getStyleTrait = function(name,type,inherit,presentation) {
@@ -538,7 +538,7 @@ xinf.xml.XMLElement.prototype.getTraitDefinition = function(_name) {
 }
 xinf.xml.XMLElement.prototype.getTypedElementByName = function(name,cl) {
 	var r = this.getElementByName(name);
-	if(!Std["is"](r,cl)) throw ("Element '" + name + "' is not of class " + Type.getClassName(cl) + " (but instead " + Type.getClassName(Type.getClass(r)) + ")");
+	if(!Std["is"](r,cl)) throw (((((("Element '" + name) + "' is not of class ") + Type.getClassName(cl)) + " (but instead ") + Type.getClassName(Type.getClass(r))) + ")");
 	return r;
 }
 xinf.xml.XMLElement.prototype.get_base = function() {
@@ -716,7 +716,7 @@ EReg.prototype.split = function(s) {
 	return s.replace(this.r,d).split(d);
 }
 EReg.prototype.__class__ = EReg;
-xinf.style = {}
+if(!xinf.style) xinf.style = {}
 xinf.style.StyledElement = function(traits) { if( traits === $_ ) return; {
 	xinf.xml.XMLElement.apply(this,[traits]);
 	this._matchedStyle = { }
@@ -930,8 +930,8 @@ xinf.style.StyledElement.prototype.updateClassStyle = function() {
 	this.styleChanged();
 }
 xinf.style.StyledElement.prototype.__class__ = xinf.style.StyledElement;
-xinf.ony = {}
-xinf.ony.traits = {}
+if(!xinf.ony) xinf.ony = {}
+if(!xinf.ony.traits) xinf.ony.traits = {}
 xinf.ony.traits.TransformTrait = function(p) { if( p === $_ ) return; {
 	xinf.traits.TypedTrait.apply(this,[xinf.geom.Transform]);
 }}
@@ -995,7 +995,7 @@ xinf.ony.traits.TransformTrait.parseSingle = function(text) {
 		return new xinf.geom.Identity();
 	}
 	else {
-		throw ("invalid/unimplemented SVG transform '" + text + "'");
+		throw (("invalid/unimplemented SVG transform '" + text) + "'");
 	}
 	return r;
 }
@@ -1018,7 +1018,7 @@ xinf.ony.traits.TransformTrait.prototype.parse = function(value) {
 	return xinf.ony.traits.TransformTrait.parseTransformList(value);
 }
 xinf.ony.traits.TransformTrait.prototype.__class__ = xinf.ony.traits.TransformTrait;
-xinf.ony.type = {}
+if(!xinf.ony.type) xinf.ony.type = {}
 xinf.ony.type.Display = { __ename__ : ["xinf","ony","type","Display"], __constructs__ : ["None","Inline"] }
 xinf.ony.type.Display.Inline = ["Inline",1];
 xinf.ony.type.Display.Inline.toString = $estr;
@@ -1054,7 +1054,7 @@ xinf.traits.EnumTrait.prototype.parse = function(value) {
 			}
 		}
 	}
-	throw ("Value '" + value + "' not in " + Type.getEnumConstructs(this.enumClass));
+	throw ((("Value '" + value) + "' not in ") + Type.getEnumConstructs(this.enumClass));
 	return this.def;
 }
 xinf.traits.EnumTrait.prototype.sfx = null;
@@ -1363,7 +1363,7 @@ xinf.ony.traits.PaintTrait.prototype.distance = function(a,b) {
 		case 2:
 		var b2 = $e[4], g2 = $e[3], r2 = $e[2];
 		{
-			return Math.sqrt(((r2 - r1) * (r2 - r1)) + ((g2 - g1) * (g2 - g1)) + ((b2 + b1) * (b2 + b1)));
+			return Math.sqrt((((r2 - r1) * (r2 - r1)) + ((g2 - g1) * (g2 - g1))) + ((b2 + b1) * (b2 + b1)));
 		}break;
 		default:{
 			return 1.;
@@ -1440,7 +1440,7 @@ xinf.ony.traits.PaintTrait.prototype.parse = function(value) {
 	else if(StringTools.trim(value).length == 0) {
 		v = xinf.ony.type.Paint.None;
 	}
-	if(v == null) throw ("Not a color: -" + value + "- (" + value.length + ")");
+	if(v == null) throw (((("Not a color: -" + value) + "- (") + value.length) + ")");
 	return v;
 }
 xinf.ony.traits.PaintTrait.prototype.write = function(value) {
@@ -1450,12 +1450,12 @@ xinf.ony.traits.PaintTrait.prototype.write = function(value) {
 	case 2:
 	var b = $e[4], g = $e[3], r = $e[2];
 	{
-		return ("rgb(" + (r * 255) + "," + (g * 255) + "," + (b * 255) + ")");
+		return (((((("rgb(" + (r * 255)) + ",") + (g * 255)) + ",") + (b * 255)) + ")");
 	}break;
 	case 1:
 	var url = $e[2];
 	{
-		return ("url(" + url + ")");
+		return (("url(" + url) + ")");
 	}break;
 	case 0:
 	{
@@ -1522,7 +1522,7 @@ xinf.ony.type.Length.prototype.convertToSpecifiedUnits = function(newType,data) 
 		}break;
 		case xinf.ony.type.Length.TYPE_CM:{
 			rv = true;
-			this.setValue(this.getValue() * xinf.ony.type.Length.pixSize / 10);
+			this.setValue((this.getValue() * xinf.ony.type.Length.pixSize) / 10);
 		}break;
 		case xinf.ony.type.Length.TYPE_MM:{
 			rv = true;
@@ -1576,7 +1576,7 @@ xinf.ony.type.Length.prototype.convertToSpecifiedUnits = function(newType,data) 
 		}break;
 		case xinf.ony.type.Length.TYPE_PX:{
 			rv = true;
-			this.setValue(this.getValue() * 10 / xinf.ony.type.Length.pixSize);
+			this.setValue((this.getValue() * 10) / xinf.ony.type.Length.pixSize);
 		}break;
 		case xinf.ony.type.Length.TYPE_CM:{
 			rv = true;
@@ -1594,11 +1594,11 @@ xinf.ony.type.Length.prototype.convertToSpecifiedUnits = function(newType,data) 
 		}break;
 		case xinf.ony.type.Length.TYPE_PT:{
 			rv = true;
-			this.setValue(this.getValue() * (1 / 2.54) * 72);
+			this.setValue((this.getValue() * (1 / 2.54)) * 72);
 		}break;
 		case xinf.ony.type.Length.TYPE_PC:{
 			rv = true;
-			this.setValue(this.getValue() * (1 / 2.54) * 6);
+			this.setValue((this.getValue() * (1 / 2.54)) * 6);
 		}break;
 		default:{
 			null;
@@ -1641,15 +1641,15 @@ xinf.ony.type.Length.prototype.convertToSpecifiedUnits = function(newType,data) 
 		}break;
 		case xinf.ony.type.Length.TYPE_IN:{
 			rv = true;
-			this.setValue(this.getValue() * (1 / 2.54) / 10);
+			this.setValue((this.getValue() * (1 / 2.54)) / 10);
 		}break;
 		case xinf.ony.type.Length.TYPE_PT:{
 			rv = true;
-			this.setValue(this.getValue() * (1 / 2.54) * 7.2);
+			this.setValue((this.getValue() * (1 / 2.54)) * 7.2);
 		}break;
 		case xinf.ony.type.Length.TYPE_PC:{
 			rv = true;
-			this.setValue(this.getValue() * (1 / 2.54) * 0.6);
+			this.setValue((this.getValue() * (1 / 2.54)) * 0.6);
 		}break;
 		default:{
 			null;
@@ -1677,7 +1677,7 @@ xinf.ony.type.Length.prototype.convertToSpecifiedUnits = function(newType,data) 
 			rv = true;
 			{
 				var _g = this;
-				_g.setValue(_g.getValue() * 25.4 / xinf.ony.type.Length.pixSize);
+				_g.setValue(_g.getValue() * (25.4 / xinf.ony.type.Length.pixSize));
 			}
 		}break;
 		case xinf.ony.type.Length.TYPE_CM:{
@@ -1737,7 +1737,7 @@ xinf.ony.type.Length.prototype.convertToSpecifiedUnits = function(newType,data) 
 			rv = true;
 			{
 				var _g = this;
-				_g.setValue(_g.getValue() / 2.834645669291399 / xinf.ony.type.Length.pixSize);
+				_g.setValue(_g.getValue() / (2.834645669291399 / xinf.ony.type.Length.pixSize));
 			}
 		}break;
 		case xinf.ony.type.Length.TYPE_CM:{
@@ -1797,7 +1797,7 @@ xinf.ony.type.Length.prototype.convertToSpecifiedUnits = function(newType,data) 
 			rv = true;
 			{
 				var _g = this;
-				_g.setValue(_g.getValue() / 0.23622047244 / xinf.ony.type.Length.pixSize);
+				_g.setValue(_g.getValue() / (0.23622047244 / xinf.ony.type.Length.pixSize));
 			}
 		}break;
 		case xinf.ony.type.Length.TYPE_CM:{
@@ -2310,13 +2310,13 @@ xinf.ony.Element.prototype.textAnchor = null;
 xinf.ony.Element.prototype.toString = function() {
 	var s = "";
 	if(this.get_id() != null) s += "#" + this.get_id();
-	if(this.get_name() != null) s += "(\"" + this.get_name() + "\")";
+	if(this.get_name() != null) s += ("(\"" + this.get_name()) + "\")";
 	return (Type.getClassName(Type.getClass(this)) + s);
 }
 xinf.ony.Element.prototype.transform = null;
 xinf.ony.Element.prototype.visibility = null;
 xinf.ony.Element.prototype.__class__ = xinf.ony.Element;
-xinf.ony.erno = {}
+if(!xinf.ony.erno) xinf.ony.erno = {}
 xinf.ony.erno.Element = function(traits) { if( traits === $_ ) return; {
 	xinf.ony.Element.apply(this,[traits]);
 	this.xid = null;
@@ -2362,7 +2362,7 @@ xinf.ony.erno.Element.prototype.convertPaint = function(paint,opacity) {
 			return xinf.erno.Paint.None;
 		}break;
 		default:{
-			throw ("unhandled Paint: " + paint + ", my fill: " + this.get_fill());
+			throw ((("unhandled Paint: " + paint) + ", my fill: ") + this.get_fill());
 		}break;
 		}
 	}
@@ -2552,7 +2552,7 @@ xinf.ony.traits.PointListTrait.prototype.write = function(value) {
 	{ var $it15 = v.iterator();
 	while( $it15.hasNext() ) { var p = $it15.next();
 	{
-		r += p.x + "," + p.y + " ";
+		r += ((p.x + ",") + p.y) + " ";
 	}
 	}}
 	return r;
@@ -2749,7 +2749,7 @@ xinf.ony.Gradient.prototype.set_href = function(v) {
 	return this.href;
 }
 xinf.ony.Gradient.prototype.set_peer = function(v) {
-	if(v == this) throw ("Gradient #" + this.get_id() + " referencing itself.");
+	if(v == this) throw (("Gradient #" + this.get_id()) + " referencing itself.");
 	this.peer = v;
 	this.redraw();
 	return v;
@@ -3450,7 +3450,7 @@ xinf.erno.js.JSRenderer.__name__ = ["xinf","erno","js","JSRenderer"];
 xinf.erno.js.JSRenderer.__super__ = xinf.erno.ObjectModelRenderer;
 for(var k in xinf.erno.ObjectModelRenderer.prototype ) xinf.erno.js.JSRenderer.prototype[k] = xinf.erno.ObjectModelRenderer.prototype[k];
 xinf.erno.js.JSRenderer.colorToRGBString = function(r,g,b) {
-	return "rgb(" + Math.round(r * 255) + "," + Math.round(g * 255) + "," + Math.round(b * 255) + ")";
+	return ((((("rgb(" + Math.round(r * 255)) + ",") + Math.round(g * 255)) + ",") + Math.round(b * 255)) + ")";
 }
 xinf.erno.js.JSRenderer.prototype.attachPrimitive = function(parent,child) {
 	if(child.parentNode != null) {
@@ -3523,9 +3523,9 @@ xinf.erno.js.JSRenderer.prototype.rect = function(x,y,w,h) {
 		case 1:
 		var a = $e[5], b = $e[4], g = $e[3], red = $e[2];
 		{
-			r.style.border = "" + this.pen.width + "px solid " + xinf.erno.js.JSRenderer.colorToRGBString(red,g,b);
-			r.style.width = "" + Math.round(w + 1 - (this.pen.width * 2));
-			r.style.height = "" + Math.round(h + 1 - (this.pen.width * 2));
+			r.style.border = (("" + this.pen.width) + "px solid ") + xinf.erno.js.JSRenderer.colorToRGBString(red,g,b);
+			r.style.width = "" + Math.round((w + 1) - (this.pen.width * 2));
+			r.style.height = "" + Math.round((h + 1) - (this.pen.width * 2));
 		}break;
 		default:{
 			r.style.border = 0;
@@ -3694,7 +3694,7 @@ xinf.ony.traits.PreserveAspectRatioTrait.prototype.parse = function(value) {
 		return v;
 	}
 	else {
-		throw ("invalid PreserveAspectRatio value: '" + p + "'");
+		throw (("invalid PreserveAspectRatio value: '" + p) + "'");
 	}
 	return null;
 }
@@ -3710,7 +3710,7 @@ xinf.ony.traits.PreserveAspectRatioTrait.prototype.parsePart = function(s) {
 		return xinf.ony.type.Align.Max;
 	}break;
 	default:{
-		throw ("invalid PreserveAspectRatio value: '" + s + "'");
+		throw (("invalid PreserveAspectRatio value: '" + s) + "'");
 	}break;
 	}
 }
@@ -3723,17 +3723,17 @@ xinf.ony.traits.PreserveAspectRatioTrait.prototype.write = function(value) {
 		case 3:
 		var y = $e[3], x = $e[2];
 		{
-			$r = "x" + x + "Y" + y;
+			$r = (("x" + x) + "Y") + y;
 		}break;
 		case 0:
 		var o = $e[2];
 		{
-			$r = "" + $this.write(o) + " defer";
+			$r = ("" + $this.write(o)) + " defer";
 		}break;
 		case 1:
 		var o = $e[2];
 		{
-			$r = "" + $this.write(o) + " meet";
+			$r = ("" + $this.write(o)) + " meet";
 		}break;
 		case 2:
 		{
@@ -3814,7 +3814,7 @@ xinf.event.ScrollEvent.__super__ = xinf.event.Event;
 for(var k in xinf.event.Event.prototype ) xinf.event.ScrollEvent.prototype[k] = xinf.event.Event.prototype[k];
 xinf.event.ScrollEvent.prototype.targetId = null;
 xinf.event.ScrollEvent.prototype.toString = function() {
-	var r = "" + this.type + "(" + this.value + ")";
+	var r = ((("" + this.type) + "(") + this.value) + ")";
 	if(this.targetId != null) r += "to #" + this.targetId;
 	return r;
 }
@@ -3858,7 +3858,7 @@ StringTools.ltrim = function(s) {
 StringTools.rtrim = function(s) {
 	var l = s.length;
 	var r = 0;
-	while(r < l && StringTools.isSpace(s,l - r - 1)) {
+	while(r < l && StringTools.isSpace(s,(l - r) - 1)) {
 		r++;
 	}
 	if(r > 0) {
@@ -3919,8 +3919,8 @@ StringTools.hex = function(n,digits) {
 	return s;
 }
 StringTools.prototype.__class__ = StringTools;
-haxe = {}
-haxe.io = {}
+if(typeof haxe=='undefined') haxe = {}
+if(!haxe.io) haxe.io = {}
 haxe.io.Bytes = function(length,b) { if( length === $_ ) return; {
 	this.length = length;
 	this.b = b;
@@ -4053,7 +4053,7 @@ xinf.erno.Keys.get = function(code) {
 	return (xinf.erno.Keys.keys.get(code));
 }
 xinf.erno.Keys.prototype.__class__ = xinf.erno.Keys;
-xinf.geom = {}
+if(!xinf.geom) xinf.geom = {}
 xinf.geom.TransformParser = function() { }
 xinf.geom.TransformParser.__name__ = ["xinf","geom","TransformParser"];
 xinf.geom.TransformParser.parse = function(text) {
@@ -4110,12 +4110,12 @@ xinf.geom.TransformParser.parseSingle = function(text) {
 		return new xinf.geom.Identity();
 	}
 	else {
-		throw ("invalid/unimplemented SVG transform '" + text + "'");
+		throw (("invalid/unimplemented SVG transform '" + text) + "'");
 	}
 	return r;
 }
 xinf.geom.TransformParser.prototype.__class__ = xinf.geom.TransformParser;
-xinf.ony._Path = {}
+if(!xinf.ony._Path) xinf.ony._Path = {}
 xinf.ony._Path.PathBBox = function(segments) { if( segments === $_ ) return; {
 	if(segments != null) this.calculate(segments);
 }}
@@ -4199,7 +4199,7 @@ xinf.ony.traits.PathTrait.prototype.write = function(value) {
 		case 0:
 		var y = $e[3], x = $e[2];
 		{
-			r += "M" + x + " " + y + " ";
+			r += ((("M" + x) + " ") + y) + " ";
 		}break;
 		case 1:
 		{
@@ -4208,22 +4208,22 @@ xinf.ony.traits.PathTrait.prototype.write = function(value) {
 		case 2:
 		var y = $e[3], x = $e[2];
 		{
-			r += "L" + x + " " + y + " ";
+			r += ((("L" + x) + " ") + y) + " ";
 		}break;
 		case 4:
 		var y = $e[5], x = $e[4], y1 = $e[3], x1 = $e[2];
 		{
-			r += "Q" + x1 + " " + y1 + " " + x + " " + y + " ";
+			r += ((((((("Q" + x1) + " ") + y1) + " ") + x) + " ") + y) + " ";
 		}break;
 		case 3:
 		var y = $e[7], x = $e[6], y2 = $e[5], x2 = $e[4], y1 = $e[3], x1 = $e[2];
 		{
-			r += "C" + x1 + " " + y1 + " " + x2 + " " + y2 + " " + x + " " + y + " ";
+			r += ((((((((((("C" + x1) + " ") + y1) + " ") + x2) + " ") + y2) + " ") + x) + " ") + y) + " ";
 		}break;
 		case 5:
 		var y = $e[10], x = $e[9], sweep = $e[8], largeArc = $e[7], rotation = $e[6], ry = $e[5], rx = $e[4], y1 = $e[3], x1 = $e[2];
 		{
-			r + "A" + x1 + " " + y1 + " " + rx + " " + ry + " " + rotation + " " + ((largeArc?"1":"0")) + " " + ((sweep?"1":"0")) + " " + x + " " + y + " ";
+			((((((((((((((((((r + "A") + x1) + " ") + y1) + " ") + rx) + " ") + ry) + " ") + rotation) + " ") + ((largeArc?"1":"0"))) + " ") + ((sweep?"1":"0"))) + " ") + x) + " ") + y) + " ";
 		}break;
 		}
 	}
@@ -4285,13 +4285,13 @@ xinf.ony.Use.prototype.resolve = function() {
 	var id = this.get_href().split("#")[1];
 	try {
 		this.set_peer(this.ownerDocument.getTypedElementById(id,xinf.ony.erno.Element));
-		if(this.peer == null) throw ("#" + id + " not found");
+		if(this.peer == null) throw (("#" + id) + " not found");
 	}
 	catch( $e23 ) {
 		{
 			var e = $e23;
 			{
-				haxe.Log.trace("'Use' peer '" + this.get_href() + "' invalid: " + e + ", ignored.",{ fileName : "Use.hx", lineNumber : 47, className : "xinf.ony.Use", methodName : "resolve"});
+				haxe.Log.trace(((("'Use' peer '" + this.get_href()) + "' invalid: ") + e) + ", ignored.",{ fileName : "Use.hx", lineNumber : 47, className : "xinf.ony.Use", methodName : "resolve"});
 			}
 		}
 	}
@@ -4400,7 +4400,7 @@ xinf.ony.erno.Image.prototype.set_href = function(v) {
 	return this.get_href();
 }
 xinf.ony.erno.Image.prototype.toString = function() {
-	return ("xinf.ony.erno.Image(" + this.get_href() + ")");
+	return (("xinf.ony.erno.Image(" + this.get_href()) + ")");
 }
 xinf.ony.erno.Image.prototype.__class__ = xinf.ony.erno.Image;
 haxe.Resource = function() { }
@@ -4425,6 +4425,7 @@ haxe.Resource.getString = function(name) {
 			var x = _g1[_g];
 			++_g;
 			if(x.name == name) {
+				if(x.str != null) return x.str;
 				var b = haxe.Unserializer.run(x.data);
 				return b.toString();
 			}
@@ -4439,6 +4440,7 @@ haxe.Resource.getBytes = function(name) {
 			var x = _g1[_g];
 			++_g;
 			if(x.name == name) {
+				if(x.str != null) return haxe.io.Bytes.ofString(x.str);
 				return haxe.Unserializer.run(x.data);
 			}
 		}
@@ -4604,8 +4606,8 @@ xinf.ony.Style.prototype.set_type = function(v) {
 xinf.ony.Style.prototype.text = null;
 xinf.ony.Style.prototype.type = null;
 xinf.ony.Style.prototype.__class__ = xinf.ony.Style;
-pong = {}
-pong.geom = {}
+if(typeof pong=='undefined') pong = {}
+if(!pong.geom) pong.geom = {}
 pong.geom.Vector = function(x_,y_) { if( x_ === $_ ) return; {
 	this.x = x_;
 	this.y = y_;
@@ -4633,7 +4635,7 @@ pong.geom.Vector.prototype.normalize = function(l) {
 	if(l == null) l = 1;
 	var d = Math.sqrt(this.x * this.x + this.y * this.y);
 	if(d == 0) return new pong.geom.Vector(0,0);
-	else return new pong.geom.Vector(this.x / d * l,this.y / d * l);
+	else return new pong.geom.Vector((this.x / d) * l,(this.y / d) * l);
 }
 pong.geom.Vector.prototype.plus = function(v) {
 	return new pong.geom.Vector(this.x + v.x,this.y + v.y);
@@ -4654,14 +4656,14 @@ xinf.ony.type.PathSegment.CubicTo = function(x1,y1,x2,y2,x,y) { var $x = ["Cubic
 xinf.ony.type.PathSegment.LineTo = function(x,y) { var $x = ["LineTo",2,x,y]; $x.__enum__ = xinf.ony.type.PathSegment; $x.toString = $estr; return $x; }
 xinf.ony.type.PathSegment.MoveTo = function(x,y) { var $x = ["MoveTo",0,x,y]; $x.__enum__ = xinf.ony.type.PathSegment; $x.toString = $estr; return $x; }
 xinf.ony.type.PathSegment.QuadraticTo = function(x1,y1,x,y) { var $x = ["QuadraticTo",4,x1,y1,x,y]; $x.__enum__ = xinf.ony.type.PathSegment; $x.toString = $estr; return $x; }
-js = {}
+if(typeof js=='undefined') js = {}
 js.Boot = function() { }
 js.Boot.__name__ = ["js","Boot"];
 js.Boot.__unhtml = function(s) {
 	return s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
 }
 js.Boot.__trace = function(v,i) {
-	var msg = (i != null?i.fileName + ":" + i.lineNumber + ": ":"");
+	var msg = (i != null?((i.fileName + ":") + i.lineNumber) + ": ":"");
 	msg += js.Boot.__unhtml(js.Boot.__string_rec(v,"")) + "<br/>";
 	var d = document.getElementById("haxe:trace");
 	if(d == null) alert("No haxe:trace element defined\n" + msg);
@@ -4742,10 +4744,10 @@ js.Boot.__string_rec = function(o,s) {
 		if(hasp && !o.hasOwnProperty(k)) continue;
 		if(k == "prototype" || k == "__class__" || k == "__super__" || k == "__interfaces__") continue;
 		if(str.length != 2) str += ", \n";
-		str += s + k + " : " + js.Boot.__string_rec(o[k],s);
+		str += ((s + k) + " : ") + js.Boot.__string_rec(o[k],s);
 		}
 		s = s.substring(1);
-		str += "\n" + s + "}";
+		str += ("\n" + s) + "}";
 		return str;
 	}break;
 	case "function":{
@@ -4812,8 +4814,8 @@ js.Boot.__instanceof = function(o,cl) {
 	}
 }
 js.Boot.__init = function() {
-	js.Lib.isIE = (document.all != null && window.opera == null);
-	js.Lib.isOpera = (window.opera != null);
+	js.Lib.isIE = (typeof document!='undefined' && document.all != null && typeof window!='undefined' && window.opera == null);
+	js.Lib.isOpera = (typeof window!='undefined' && window.opera != null);
 	Array.prototype.copy = Array.prototype.slice;
 	Array.prototype.insert = function(i,x) {
 		this.splice(i,0,x);
@@ -4858,7 +4860,7 @@ js.Boot.__init = function() {
 			if(pos < 0) pos = 0;
 		}
 		else if(len < 0) {
-			len = this.length + len - pos;
+			len = (this.length + len) - pos;
 		}
 		return oldsub.apply(this,[pos,len]);
 	}
@@ -4981,10 +4983,11 @@ js.JsXml__.parse = function(str) {
 			}
 		} catch( e ) { if( e != "__break__" ) throw e; }
 		if(i == nrules) {
-			if(str.length > 10) throw ("Xml parse error : Unexpected " + str.substr(0,10) + "...");
+			if(str.length > 10) throw (("Xml parse error : Unexpected " + str.substr(0,10)) + "...");
 			else throw ("Xml parse error : Unexpected " + str);
 		}
 	}
+	if(!stack.isEmpty()) throw "Xml parse error : Unclosed " + stack.last().getNodeName();
 	return current;
 }
 js.JsXml__.createElement = function(name) {
@@ -5173,7 +5176,7 @@ js.JsXml__.prototype.setNodeValue = function(v) {
 }
 js.JsXml__.prototype.toString = function() {
 	if(this.nodeType == Xml.PCData) return this._nodeValue;
-	if(this.nodeType == Xml.CData) return "<![CDATA[" + this._nodeValue + "]]>";
+	if(this.nodeType == Xml.CData) return ("<![CDATA[" + this._nodeValue) + "]]>";
 	if(this.nodeType == Xml.Comment || this.nodeType == Xml.DocType || this.nodeType == Xml.Prolog) return this._nodeValue;
 	var s = new StringBuf();
 	if(this.nodeType == Xml.Element) {
@@ -5260,7 +5263,7 @@ xinf.ony.erno.SolidColor.prototype.getPaint = function(target) {
 xinf.ony.erno.SolidColor.prototype.__class__ = xinf.ony.erno.SolidColor;
 xinf.ony.erno.SolidColor.__interfaces__ = [xinf.ony.erno.PaintServer];
 xinf.traits.TraitTypeException = function(name,obj,value,expected) { if( name === $_ ) return; {
-	this.message = "Trait '" + name + "' in " + obj + " is of wrong type: " + Type.getClassName(Type.getClass(value)) + " ('" + value + "'), expect " + expected;
+	this.message = (((((((("Trait '" + name) + "' in ") + obj) + " is of wrong type: ") + Type.getClassName(Type.getClass(value))) + " ('") + value) + "'), expect ") + expected;
 }}
 xinf.traits.TraitTypeException.__name__ = ["xinf","traits","TraitTypeException"];
 xinf.traits.TraitTypeException.prototype.message = null;
@@ -5415,7 +5418,7 @@ xinf.geom.Translate.prototype.interpolateWith = function(p,f) {
 	return (new xinf.geom.Translate(this.x + ((q.x - this.x) * f),this.y + ((q.y - this.y) * f)));
 }
 xinf.geom.Translate.prototype.toString = function() {
-	return ("translate(" + this.x + "," + this.y + ")");
+	return (((("translate(" + this.x) + ",") + this.y) + ")");
 }
 xinf.geom.Translate.prototype.x = null;
 xinf.geom.Translate.prototype.y = null;
@@ -5528,10 +5531,10 @@ Type.createEnum = function(e,constr,params) {
 	var f = Reflect.field(e,constr);
 	if(f == null) throw "No such constructor " + constr;
 	if(Reflect.isFunction(f)) {
-		if(params == null) throw "Constructor " + constr + " need parameters";
+		if(params == null) throw ("Constructor " + constr) + " need parameters";
 		return f.apply(e,params);
 	}
-	if(params != null && params.length != 0) throw "Constructor " + constr + " does not need parameters";
+	if(params != null && params.length != 0) throw ("Constructor " + constr) + " does not need parameters";
 	return f;
 }
 Type.createEnumIndex = function(e,index,params) {
@@ -5630,7 +5633,7 @@ xinf.event.FrameEvent.__super__ = xinf.event.Event;
 for(var k in xinf.event.Event.prototype ) xinf.event.FrameEvent.prototype[k] = xinf.event.Event.prototype[k];
 xinf.event.FrameEvent.prototype.frame = null;
 xinf.event.FrameEvent.prototype.__class__ = xinf.event.FrameEvent;
-xinf.ony._PathParser = {}
+if(!xinf.ony._PathParser) xinf.ony._PathParser = {}
 xinf.ony._PathParser.PathParserState = { __ename__ : ["xinf","ony","_PathParser","PathParserState"], __constructs__ : ["Empty","ParseCommand","ParseFloat"] }
 xinf.ony._PathParser.PathParserState.Empty = ["Empty",0];
 xinf.ony._PathParser.PathParserState.Empty.toString = $estr;
@@ -5904,7 +5907,7 @@ xinf.ony.PathParser.prototype.endState = function() {
 	}
 }
 xinf.ony.PathParser.prototype.fail = function() {
-	throw ("failed parsing path '" + this.input.substr(this.pin) + "'");
+	throw (("failed parsing path '" + this.input.substr(this.pin)) + "'");
 }
 xinf.ony.PathParser.prototype.g = null;
 xinf.ony.PathParser.prototype.input = null;
@@ -6065,7 +6068,7 @@ xinf.erno.SimpleRuntime.prototype.getNextId = function() {
 }
 xinf.erno.SimpleRuntime.prototype.nextId = null;
 xinf.erno.SimpleRuntime.prototype.__class__ = xinf.erno.SimpleRuntime;
-pong.ui = {}
+if(!pong.ui) pong.ui = {}
 pong.ui.Keyboard = function() { }
 pong.ui.Keyboard.__name__ = ["pong","ui","Keyboard"];
 pong.ui.Keyboard.initialize = function() {
@@ -6092,7 +6095,7 @@ xinf.event.GeometryEvent.__name__ = ["xinf","event","GeometryEvent"];
 xinf.event.GeometryEvent.__super__ = xinf.event.Event;
 for(var k in xinf.event.Event.prototype ) xinf.event.GeometryEvent.prototype[k] = xinf.event.Event.prototype[k];
 xinf.event.GeometryEvent.prototype.toString = function() {
-	return ("" + this.type + "(" + this.x + "," + this.y + ")");
+	return (((((("" + this.type) + "(") + this.x) + ",") + this.y) + ")");
 }
 xinf.event.GeometryEvent.prototype.x = null;
 xinf.event.GeometryEvent.prototype.y = null;
@@ -6443,7 +6446,7 @@ xinf.xml.Instantiator.prototype.instantiate = function() {
 		{
 			var e = $e42;
 			{
-				throw ("Could not create instance of " + Type.getClassName(this.myClass) + ": " + e);
+				throw ((("Could not create instance of " + Type.getClassName(this.myClass)) + ": ") + e);
 			}
 		}
 	}
@@ -6516,7 +6519,7 @@ xinf.xml.Binding.prototype.instantiate = function(xml) {
 		{
 			var e = $e43;
 			{
-				throw ("Could not create instance of " + Type.getClassName(m) + ": " + e);
+				throw ((("Could not create instance of " + Type.getClassName(m)) + ": ") + e);
 			}
 		}
 	}
@@ -6545,7 +6548,7 @@ xinf.xml.Document.instantiate = function(data,base,parentDocument,onLoad,type) {
 	}
 	e.onLoad();
 	if(onLoad != null) {
-		if(type != null && !Std["is"](e,type)) throw ("Document root (" + e + ") is not of expected type " + Type.getClassName(type) + ".");
+		if(type != null && !Std["is"](e,type)) throw (((("Document root (" + e) + ") is not of expected type ") + Type.getClassName(type)) + ".");
 		onLoad(e);
 	}
 	return e;
@@ -6578,7 +6581,7 @@ xinf.xml.Document.prototype.documentElement = null;
 xinf.xml.Document.prototype.elementsById = null;
 xinf.xml.Document.prototype.getElementById = function(id) {
 	var r = this.elementsById.get(id);
-	if(r == null) throw ("No such Element #" + id + " in " + this);
+	if(r == null) throw ((("No such Element #" + id) + " in ") + this);
 	return r;
 }
 xinf.xml.Document.prototype.getElementByURI = function(uri) {
@@ -6590,17 +6593,17 @@ xinf.xml.Document.prototype.getElementByURI = function(uri) {
 }
 xinf.xml.Document.prototype.getTypedElementById = function(id,type) {
 	var r = this.getElementById(id);
-	if(!Std["is"](r,type)) throw ("Element #" + id + " is not of class " + Type.getClassName(type) + " (but instead " + Type.getClassName(Type.getClass(r)) + ")");
+	if(!Std["is"](r,type)) throw (((((("Element #" + id) + " is not of class ") + Type.getClassName(type)) + " (but instead ") + Type.getClassName(Type.getClass(r))) + ")");
 	return r;
 }
 xinf.xml.Document.prototype.getTypedElementByURI = function(uri,cl) {
 	var r = this.getElementByURI(uri);
-	if(!Std["is"](r,cl)) throw ("Element " + uri + " is not of class " + Type.getClassName(cl) + " (but instead " + Type.getClassName(Type.getClass(r)) + ")");
+	if(!Std["is"](r,cl)) throw (((((("Element " + uri) + " is not of class ") + Type.getClassName(cl)) + " (but instead ") + Type.getClassName(Type.getClass(r))) + ")");
 	return r;
 }
 xinf.xml.Document.prototype.styleSheet = null;
 xinf.xml.Document.prototype.toString = function() {
-	return ("Document(" + this.get_base() + ")");
+	return (("Document(" + this.get_base()) + ")");
 }
 xinf.xml.Document.prototype.unmarshal = function(xml,parent) {
 	var r = null;
@@ -6653,7 +6656,7 @@ xinf.style.StyleParser.parseToObject = function(text) {
 			}
 			else if(prop.length == 0) null;
 			else {
-				throw ("invalid CSS: '" + prop + "'");
+				throw (("invalid CSS: '" + prop) + "'");
 			}
 		}
 	}
@@ -6677,7 +6680,7 @@ xinf.style.StyleParser.parseRules = function(text) {
 				rules.push({ selector : sel, style : s});
 			}
 			else {
-				if(StringTools.trim(ruleText).length > 0) throw ("ignore non-CSS '" + ruleText + "'");
+				if(StringTools.trim(ruleText).length > 0) throw (("ignore non-CSS '" + ruleText) + "'");
 			}
 		}
 	}
@@ -6727,8 +6730,8 @@ xinf.style.StyleParser.parseSelector = function(text,already) {
 			default:{
 				$r = (function($this) {
 					var $r;
-					haxe.Log.trace("a: " + a + ", b: " + b + ", op: " + op,{ fileName : "StyleParser.hx", lineNumber : 136, className : "xinf.style.StyleParser", methodName : "parseSelector"});
-					throw ("unknown style selector operator '" + op + "'");
+					haxe.Log.trace((((("a: " + a) + ", b: ") + b) + ", op: ") + op,{ fileName : "StyleParser.hx", lineNumber : 136, className : "xinf.style.StyleParser", methodName : "parseSelector"});
+					throw (("unknown style selector operator '" + op) + "'");
 					$r = xinf.style.Selector.Unknown(op);
 					return $r;
 				}($this));
@@ -6931,19 +6934,18 @@ pong.Paddle.prototype.decay = function() {
 }
 pong.Paddle.prototype.display = null;
 pong.Paddle.prototype.followPoint = function(y_) {
-	if(y_ < this.y + this.height / 2) this.velocity.y -= xinf.ony.Root.height * .003;
-	else if(y_ > this.y + this.height / 2) this.velocity.y += xinf.ony.Root.height * .003;
+	if(y_ < this.y + this.height / 2) this.velocity.y -= xinf.ony.Root.height * .01;
+	else if(y_ > this.y + this.height / 2) this.velocity.y += xinf.ony.Root.height * .01;
 }
 pong.Paddle.prototype.move = function() {
-	this.velocity.y *= .9;
 	this.x += this.velocity.x;
 	this.y += this.velocity.y;
 }
 pong.Paddle.prototype.moveDown = function() {
-	this.velocity.y += xinf.ony.Root.height * .003;
+	this.velocity.y += xinf.ony.Root.height * .01;
 }
 pong.Paddle.prototype.moveUp = function() {
-	this.velocity.y -= xinf.ony.Root.height * .003;
+	this.velocity.y -= xinf.ony.Root.height * .01;
 }
 pong.Paddle.prototype.render = function() {
 	this.display.set_x(this.x);
@@ -6964,7 +6966,6 @@ for(var k in pong.geom.Rectangle.prototype ) pong.Ball.prototype[k] = pong.geom.
 pong.Ball.prototype.acceleration = null;
 pong.Ball.prototype.display = null;
 pong.Ball.prototype.move = function() {
-	this.velocity.multiply(1 + this.acceleration);
 	this.x += this.velocity.x;
 	this.y += this.velocity.y;
 }
@@ -7038,7 +7039,7 @@ xinf.geom.SkewY.prototype.interpolateWith = function(p,f) {
 	return (new xinf.geom.SkewY(this.a + ((q.a - this.a) * f)));
 }
 xinf.geom.SkewY.prototype.toString = function() {
-	return ("skewY(" + (this.a * xinf.geom.TransformParser.R2D) + ")");
+	return (("skewY(" + (this.a * xinf.geom.TransformParser.R2D)) + ")");
 }
 xinf.geom.SkewY.prototype.__class__ = xinf.geom.SkewY;
 xinf.geom.SkewY.__interfaces__ = [xinf.geom.Transform];
@@ -7131,7 +7132,7 @@ xinf.geom.Matrix = function(m) { if( m === $_ ) return; {
 xinf.geom.Matrix.__name__ = ["xinf","geom","Matrix"];
 xinf.geom.Matrix.prototype.a = null;
 xinf.geom.Matrix.prototype.apply = function(p) {
-	return { x : (p.x * this.a) + (p.y * this.c) + this.tx, y : (p.x * this.b) + (p.y * this.d) + this.ty}
+	return { x : ((p.x * this.a) + (p.y * this.c)) + this.tx, y : ((p.x * this.b) + (p.y * this.d)) + this.ty}
 }
 xinf.geom.Matrix.prototype.applyInverse = function(p) {
 	return this.invert().apply(p);
@@ -7169,10 +7170,10 @@ xinf.geom.Matrix.prototype.multiply = function(m) {
 	var o = new xinf.geom.Matrix();
 	o.a = (this.a * m.a) + (this.b * m.c);
 	o.c = (this.c * m.a) + (this.d * m.c);
-	o.tx = (this.tx * m.a) + (this.ty * m.c) + m.tx;
+	o.tx = ((this.tx * m.a) + (this.ty * m.c)) + m.tx;
 	o.b = (this.a * m.b) + (this.b * m.d);
 	o.d = (this.c * m.b) + (this.d * m.d);
-	o.ty = (this.tx * m.b) + (this.ty * m.d) + m.ty;
+	o.ty = ((this.tx * m.b) + (this.ty * m.d)) + m.ty;
 	return o;
 }
 xinf.geom.Matrix.prototype.rotate = function(a) {
@@ -7226,7 +7227,7 @@ xinf.geom.Matrix.prototype.skew = function(x,y) {
 	return this.multiply(new xinf.geom.Matrix().setSkew(x,y));
 }
 xinf.geom.Matrix.prototype.toString = function() {
-	return ("matrix(" + this.a + "," + this.b + "," + this.c + "," + this.d + "," + this.tx + "," + this.ty + ")");
+	return (((((((((((("matrix(" + this.a) + ",") + this.b) + ",") + this.c) + ",") + this.d) + ",") + this.tx) + ",") + this.ty) + ")");
 }
 xinf.geom.Matrix.prototype.transformBBox = function(r) {
 	var tl = this.apply({ x : r.l, y : r.t});
@@ -7257,12 +7258,12 @@ xinf.event.KeyboardEvent.prototype.ctrlMod = null;
 xinf.event.KeyboardEvent.prototype.key = null;
 xinf.event.KeyboardEvent.prototype.shiftMod = null;
 xinf.event.KeyboardEvent.prototype.toString = function() {
-	var r = "" + this.type + "(";
+	var r = ("" + this.type) + "(";
 	if(this.shiftMod) r += "Shift-";
 	if(this.altMod) r += "Alt-";
 	if(this.ctrlMod) r += "Ctrl-";
 	if(this.key == null) r += "[null]";
-	else if(this.key.length == 1) r += "'" + this.key + "'";
+	else if(this.key.length == 1) r += ("'" + this.key) + "'";
 	else r += this.key;
 	r += ")";
 	return r;
@@ -7443,7 +7444,7 @@ xinf.ony.GradientStop.prototype.fromXml = function(xml) {
 			this.r = this.g = this.b = this.a = 0;
 		}break;
 		default:{
-			throw ("GradientStop stop-color must be a SolidColor (is: " + this.get_stop_color() + ")");
+			throw (("GradientStop stop-color must be a SolidColor (is: " + this.get_stop_color()) + ")");
 		}break;
 		}
 	}
@@ -7466,7 +7467,7 @@ xinf.ony.GradientStop.prototype.set_stop_opacity = function(v) {
 xinf.ony.GradientStop.prototype.stopColor = null;
 xinf.ony.GradientStop.prototype.stopOpacity = null;
 xinf.ony.GradientStop.prototype.toString = function() {
-	return ("GradientStop(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")");
+	return (((((((("GradientStop(" + this.r) + ",") + this.g) + ",") + this.b) + ",") + this.a) + ")");
 }
 xinf.ony.GradientStop.prototype.__class__ = xinf.ony.GradientStop;
 Std = function() { }
@@ -7538,7 +7539,7 @@ xinf.traits.CurrentColor.prototype.__class__ = xinf.traits.CurrentColor;
 haxe.Timer = function(time_ms) { if( time_ms === $_ ) return; {
 	this.id = haxe.Timer.arr.length;
 	haxe.Timer.arr[this.id] = this;
-	this.timerId = window.setInterval("haxe.Timer.arr[" + this.id + "].run();",time_ms);
+	this.timerId = window.setInterval(("haxe.Timer.arr[" + this.id) + "].run();",time_ms);
 }}
 haxe.Timer.__name__ = ["haxe","Timer"];
 haxe.Timer.delay = function(f,time_ms) {
@@ -7614,7 +7615,7 @@ xinf.geom.Rotate.prototype.interpolateWith = function(p,f) {
 	return (new xinf.geom.Rotate(this.a + ((q.a - this.a) * f)));
 }
 xinf.geom.Rotate.prototype.toString = function() {
-	return ("rotate(" + (this.a * xinf.geom.TransformParser.R2D) + ")");
+	return (("rotate(" + (this.a * xinf.geom.TransformParser.R2D)) + ")");
 }
 xinf.geom.Rotate.prototype.__class__ = xinf.geom.Rotate;
 xinf.geom.Rotate.__interfaces__ = [xinf.geom.Transform];
@@ -8026,7 +8027,7 @@ haxe.Unserializer.prototype.unserialize = function() {
 			if(c == 117) {
 				this.pos++;
 				var n = this.readDigits();
-				a[a.length + n - 1] = null;
+				a[(a.length + n) - 1] = null;
 			}
 			else a.push(this.unserialize());
 		}
@@ -8073,7 +8074,7 @@ haxe.Unserializer.prototype.unserialize = function() {
 		this.pos++;
 		var index = this.readDigits();
 		var tag = Type.getEnumConstructs(edecl)[index];
-		if(tag == null) throw "Unknown enum index " + name + "@" + index;
+		if(tag == null) throw (("Unknown enum index " + name) + "@") + index;
 		return this.unserializeEnum(edecl,tag);
 	}break;
 	case 108:{
@@ -8156,11 +8157,11 @@ haxe.Unserializer.prototype.unserialize = function() {
 	}break;
 	}
 	this.pos--;
-	throw ("Invalid char " + this.buf.charAt(this.pos) + " at position " + this.pos);
+	throw ((("Invalid char " + this.buf.charAt(this.pos)) + " at position ") + this.pos);
 }
 haxe.Unserializer.prototype.unserializeEnum = function(edecl,tag) {
 	var constr = Reflect.field(edecl,tag);
-	if(constr == null) throw "Unknown enum tag " + Type.getEnumName(edecl) + "." + tag;
+	if(constr == null) throw (("Unknown enum tag " + Type.getEnumName(edecl)) + ".") + tag;
 	if(this.buf.cca(this.pos++) != 58) throw "Invalid enum format";
 	var nargs = this.readDigits();
 	if(nargs == 0) {
@@ -8311,7 +8312,7 @@ xinf.geom.Concatenate.prototype.interpolateWith = function(p,f) {
 	return this;
 }
 xinf.geom.Concatenate.prototype.toString = function() {
-	return ("concat( " + this.a + ", " + this.b + " )");
+	return (((("concat( " + this.a) + ", ") + this.b) + " )");
 }
 xinf.geom.Concatenate.prototype.__class__ = xinf.geom.Concatenate;
 xinf.geom.Concatenate.__interfaces__ = [xinf.geom.Transform];
@@ -8507,7 +8508,7 @@ haxe.Http.prototype.request = function(post) {
 		}break;
 		}
 	}
-	r.onreadystatechange = onreadystatechange;
+	if(this.async) r.onreadystatechange = onreadystatechange;
 	var uri = this.postData;
 	if(uri != null) post = true;
 	else { var $it50 = this.params.keys();
@@ -8515,14 +8516,14 @@ haxe.Http.prototype.request = function(post) {
 	{
 		if(uri == null) uri = "";
 		else uri += "&";
-		uri += StringTools.urlDecode(p) + "=" + StringTools.urlEncode(this.params.get(p));
+		uri += (StringTools.urlDecode(p) + "=") + StringTools.urlEncode(this.params.get(p));
 	}
 	}}
 	try {
 		if(post) r.open("POST",this.url,this.async);
 		else if(uri != null) {
 			var question = this.url.split("?").length <= 1;
-			r.open("GET",this.url + ((question?"?":"&")) + uri,this.async);
+			r.open("GET",(this.url + ((question?"?":"&"))) + uri,this.async);
 			uri = null;
 		}
 		else r.open("GET",this.url,this.async);
@@ -8587,7 +8588,7 @@ xinf.geom.SkewX.prototype.interpolateWith = function(p,f) {
 	return (new xinf.geom.SkewX(this.a + ((q.a - this.a) * f)));
 }
 xinf.geom.SkewX.prototype.toString = function() {
-	return ("skewX(" + (this.a * xinf.geom.TransformParser.R2D) + ")");
+	return (("skewX(" + (this.a * xinf.geom.TransformParser.R2D)) + ")");
 }
 xinf.geom.SkewX.prototype.__class__ = xinf.geom.SkewX;
 xinf.geom.SkewX.__interfaces__ = [xinf.geom.Transform];
@@ -8625,7 +8626,7 @@ xinf.ony.erno.TextArea.prototype.drawContents = function(g) {
 		r.style.color = xinf.erno.js.JSRenderer.colorToRGBString(red,g1,b);
 	}break;
 	default:{
-		throw ("Fill " + this.get_fill() + " not supported for text");
+		throw (("Fill " + this.get_fill()) + " not supported for text");
 	}break;
 	}
 	this.format.apply(r);
@@ -8777,19 +8778,19 @@ pong.Game.prototype.ballPaddleCollision = function(p) {
 }
 pong.Game.prototype.doCollisions = function() {
 	if(this._leftPaddle.y + this._leftPaddle.height > this._height - 10) {
-		this._leftPaddle.y = this._height - this._leftPaddle.height - 10;
+		this._leftPaddle.y = (this._height - this._leftPaddle.height) - 10;
 	}
 	if(this._leftPaddle.y < 10) {
 		this._leftPaddle.y = 10;
 	}
 	if(this._rightPaddle.y + this._rightPaddle.height > this._height - 10) {
-		this._rightPaddle.y = this._height - this._rightPaddle.height - 10;
+		this._rightPaddle.y = (this._height - this._rightPaddle.height) - 10;
 	}
 	if(this._rightPaddle.y < 10) {
 		this._rightPaddle.y = 10;
 	}
 	if(this._ball.y + this._ball.height > this._height - 10) {
-		this._ball.y = this._height - this._ball.height - 10;
+		this._ball.y = (this._height - this._ball.height) - 10;
 		this._ball.velocity.y *= -1;
 	}
 	if(this._ball.y < 10) {
@@ -8843,16 +8844,16 @@ pong.Game.prototype.physicsStep = function() {
 		this._leftPaddle.followPoint(pong.ui.Mouse.Y);
 	}break;
 	case 1:{
-		this._leftPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
+		this._leftPaddle.followPoint((this._ball.y + Math.random() * 100) - 50);
 	}break;
 	case 2:{
-		this._leftPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
+		this._leftPaddle.followPoint((this._ball.y + Math.random() * 100) - 50);
 	}break;
 	case 3:{
-		this._leftPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
+		this._leftPaddle.followPoint((this._ball.y + Math.random() * 100) - 50);
 	}break;
 	default:{
-		this._leftPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
+		this._leftPaddle.followPoint((this._ball.y + Math.random() * 100) - 50);
 	}break;
 	}
 	switch(this._rightPaddle.ai) {
@@ -8860,16 +8861,16 @@ pong.Game.prototype.physicsStep = function() {
 		this._rightPaddle.followPoint(pong.ui.Mouse.Y);
 	}break;
 	case 1:{
-		this._rightPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
+		this._rightPaddle.followPoint((this._ball.y + Math.random() * 100) - 50);
 	}break;
 	case 2:{
-		this._rightPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
+		this._rightPaddle.followPoint((this._ball.y + Math.random() * 100) - 50);
 	}break;
 	case 3:{
-		this._rightPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
+		this._rightPaddle.followPoint((this._ball.y + Math.random() * 100) - 50);
 	}break;
 	default:{
-		this._rightPaddle.followPoint(this._ball.y + Math.random() * 100 - 50);
+		this._rightPaddle.followPoint((this._ball.y + Math.random() * 100) - 50);
 	}break;
 	}
 	this._leftPaddle.move();
@@ -8886,13 +8887,13 @@ pong.Game.prototype.render = function(e) {
 	this._rightPaddle.display.set_y(this._rightPaddle.y + this._y);
 }
 pong.Game.prototype.runAI = function(p) {
-	p.followPoint(this._ball.y + Math.random() * 100 - 50);
+	p.followPoint((this._ball.y + Math.random() * 100) - 50);
 }
 pong.Game.prototype.setHeight = function(v) {
 	this._height = v;
 	this._backGround.set_height(v);
-	this._rightScoreLabel.set_x(this._width * 0.5 + 10 + this._x);
-	this._leftScoreLabel.set_x(this._width * 0.5 - 20 + this._x);
+	this._rightScoreLabel.set_x((this._width * 0.5 + 10) + this._x);
+	this._leftScoreLabel.set_x((this._width * 0.5 - 20) + this._x);
 	return v;
 }
 pong.Game.prototype.setPause = function(v) {
@@ -8911,8 +8912,8 @@ pong.Game.prototype.setPhysicsRate = function(v) {
 pong.Game.prototype.setWidth = function(v) {
 	this._width = v;
 	this._backGround.set_width(v);
-	this._rightScoreLabel.set_x(this._width * 0.5 + 10 + this._x);
-	this._leftScoreLabel.set_x(this._width * 0.5 - 20 + this._x);
+	this._rightScoreLabel.set_x((this._width * 0.5 + 10) + this._x);
+	this._leftScoreLabel.set_x((this._width * 0.5 - 20) + this._x);
 	this._leftPaddle.x = this._width * 0.05;
 	this._rightPaddle.x = this._width * 0.93;
 	return v;
@@ -8920,8 +8921,8 @@ pong.Game.prototype.setWidth = function(v) {
 pong.Game.prototype.setX = function(v) {
 	this._x = v;
 	this._backGround.set_x(this._x);
-	this._rightScoreLabel.set_x(this._width * 0.5 + 10 + this._x);
-	this._leftScoreLabel.set_x(this._width * 0.5 - 20 + this._x);
+	this._rightScoreLabel.set_x((this._width * 0.5 + 10) + this._x);
+	this._leftScoreLabel.set_x((this._width * 0.5 - 20) + this._x);
 	return v;
 }
 pong.Game.prototype.setY = function(v) {
@@ -8944,12 +8945,12 @@ pong.Game.prototype.setupStage = function() {
 	this._leftScoreLabel = new xinf.ony.erno.Text({ fill : "white"});
 	this._leftScoreLabel.set_text(Std.string(this._leftPaddle.score));
 	this._leftScoreLabel.set_y(10 + this._y);
-	this._leftScoreLabel.set_x(this._width * 0.5 - 20 + this._x);
+	this._leftScoreLabel.set_x((this._width * 0.5 - 20) + this._x);
 	this.appendChild(this._leftScoreLabel);
 	this._rightScoreLabel = new xinf.ony.erno.Text({ fill : "white"});
 	this._rightScoreLabel.set_text(Std.string(this._rightPaddle.score));
 	this._rightScoreLabel.set_y(10 + this._y);
-	this._rightScoreLabel.set_x(this._width * 0.5 + 10 + this._x);
+	this._rightScoreLabel.set_x((this._width * 0.5 + 10) + this._x);
 	this.appendChild(this._rightScoreLabel);
 }
 pong.Game.prototype.width = null;
@@ -9024,7 +9025,7 @@ xinf.geom.Scale.prototype.interpolateWith = function(p,f) {
 	return (new xinf.geom.Scale(this.x + ((q.x - this.x) * f),this.y + ((q.y - this.y) * f)));
 }
 xinf.geom.Scale.prototype.toString = function() {
-	return ("scale(" + this.x + "," + this.y + ")");
+	return (((("scale(" + this.x) + ",") + this.y) + ")");
 }
 xinf.geom.Scale.prototype.x = null;
 xinf.geom.Scale.prototype.y = null;
@@ -9038,13 +9039,13 @@ xinf.xml.URL.prototype.fetch = function(onData,onError) {
 	if(onError == null) {
 		var self = this;
 		onError = function(e) {
-			haxe.Log.trace("Error fetching document '" + self + "': " + e + "\n" + haxe.Stack.toString(haxe.Stack.exceptionStack()),{ fileName : "URL.hx", lineNumber : 111, className : "xinf.xml.URL", methodName : "fetch"});
+			haxe.Log.trace((((("Error fetching document '" + self) + "': ") + e) + "\n") + haxe.Stack.toString(haxe.Stack.exceptionStack()),{ fileName : "URL.hx", lineNumber : 111, className : "xinf.xml.URL", methodName : "fetch"});
 			throw "Could not load document";
 		}
 	}
 	try {
 		if(this.protocol == "resource") {
-			var rname = (this.host != null?this.host + this.path + this.filename:this.path + this.filename);
+			var rname = (this.host != null?(this.host + this.path) + this.filename:this.path + this.filename);
 			var data = haxe.Resource.getString(rname);
 			if(data == null) throw ("Resource not found: " + rname);
 			onData(data);
@@ -9095,7 +9096,7 @@ xinf.xml.URL.prototype.parse = function(s) {
 		}
 		this.path = r.matched(5);
 		if(this.protocol == "file") {
-			if(this.path != "") this.path = this.host + "/" + this.path;
+			if(this.path != "") this.path = (this.host + "/") + this.path;
 			else this.path = this.host;
 			this.host = "";
 		}
@@ -9125,7 +9126,7 @@ xinf.xml.URL.prototype.pathString = function() {
 		h = h + this.host;
 	}
 	if(this.port != 0) {
-		h = h + ":" + this.port;
+		h = (h + ":") + this.port;
 	}
 	return (h + this.path);
 }
@@ -9222,7 +9223,7 @@ js.Boot.__init();
 		var h = date.getHours();
 		var mi = date.getMinutes();
 		var s = date.getSeconds();
-		return date.getFullYear() + "-" + ((m < 10?"0" + m:"" + m)) + "-" + ((d < 10?"0" + d:"" + d)) + " " + ((h < 10?"0" + h:"" + h)) + ":" + ((mi < 10?"0" + mi:"" + mi)) + ":" + ((s < 10?"0" + s:"" + s));
+		return (((((((((date.getFullYear() + "-") + ((m < 10?"0" + m:"" + m))) + "-") + ((d < 10?"0" + d:"" + d))) + " ") + ((h < 10?"0" + h:"" + h))) + ":") + ((mi < 10?"0" + mi:"" + mi))) + ":") + ((s < 10?"0" + s:"" + s));
 	}
 	Date.prototype.__class__ = Date;
 	Date.__name__ = ["Date"];

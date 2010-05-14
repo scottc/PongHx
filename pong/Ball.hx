@@ -35,7 +35,7 @@ class Ball extends pong.geom.Rectangle
 		display.y = y;
 	}
 	public inline function move() {
-		velocity.multiply(1 + acceleration);
+		//velocity.multiply(1 + acceleration);
 		//velocity.normalize(1 + acceleration);
 		
 		x += velocity.x;

@@ -38,10 +38,12 @@ class Paddle extends pong.geom.Rectangle
 		ai = HUMAN;
 	}
 	public inline function moveUp() {
-		velocity.y -= Root.height*.003;
+		//velocity.y -= Root.height*.003;
+		velocity.y -= Root.height*.01;
 	}
 	public inline function moveDown() {
-		velocity.y += Root.height*.003;
+		//velocity.y += Root.height*.003;
+		velocity.y += Root.height*.01;
 	}
 	public inline function followPoint(y_:Float) {
 		//velocity.y = y_ - y - height / 2;
@@ -58,7 +60,7 @@ class Paddle extends pong.geom.Rectangle
 		display.y = y;
 	}
 	public inline function move() {
-		decay();
+		//decay();
 		
 		x += velocity.x;
 		y += velocity.y;
