@@ -1,0 +1,24 @@
+-swf9 bin\pong.swf
+-main pong.Main
+-lib xinf
+-swf-header 550:400:60:FFFFFF
+
+--next
+-js bin\pong.js
+-main pong.Main
+-lib xinf
+
+--next
+-main pong.Main
+-lib xinf
+-neko pong.n
+
+--next
+-cpp bin\cpp
+-main pong.Main
+-lib xinf
+
+--next
+-as3 bin/as3
+-main pong.Main
+-lib xinf

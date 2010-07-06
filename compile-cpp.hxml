@@ -1,0 +1,3 @@
+-cpp bin\cpp
+-main pong.Main
+-lib xinf

@@ -1,0 +1,3 @@
+-js bin\pong.js
+-main pong.Main
+-lib xinf
