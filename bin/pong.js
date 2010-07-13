@@ -6934,8 +6934,8 @@ pong.Paddle.prototype.decay = function() {
 }
 pong.Paddle.prototype.display = null;
 pong.Paddle.prototype.followPoint = function(y_) {
-	if(y_ < this.y + this.height / 2) this.velocity.y -= xinf.ony.Root.height * .01;
-	else if(y_ > this.y + this.height / 2) this.velocity.y += xinf.ony.Root.height * .01;
+	if(y_ + xinf.ony.Root.height * .01 < this.y + this.height / 2) this.velocity.y -= xinf.ony.Root.height * .01;
+	else if(y_ - xinf.ony.Root.height * .01 > this.y + this.height / 2) this.velocity.y += xinf.ony.Root.height * .01;
 }
 pong.Paddle.prototype.move = function() {
 	this.y = this.velocity.y;

@@ -47,9 +47,9 @@ class Paddle extends pong.geom.Rectangle
 	}
 	public inline function followPoint(y_:Float) {
 		//velocity.y = y_ - y - height / 2;
-		if (y_ < y + height / 2)
+		if (y_+Root.height*.01 < y + height / 2)
 			moveUp();
-		else if(y_ > y + height / 2)
+		else if(y_-Root.height*.01 > y + height / 2)
 			moveDown();
 	}
 	private inline function decay() {
