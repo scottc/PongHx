@@ -6938,8 +6938,7 @@ pong.Paddle.prototype.followPoint = function(y_) {
 	else if(y_ > this.y + this.height / 2) this.velocity.y += xinf.ony.Root.height * .01;
 }
 pong.Paddle.prototype.move = function() {
-	this.x += this.velocity.x;
-	this.y += this.velocity.y;
+	this.y = this.velocity.y;
 }
 pong.Paddle.prototype.moveDown = function() {
 	this.velocity.y += xinf.ony.Root.height * .01;
@@ -6948,7 +6947,6 @@ pong.Paddle.prototype.moveUp = function() {
 	this.velocity.y -= xinf.ony.Root.height * .01;
 }
 pong.Paddle.prototype.render = function() {
-	this.display.set_x(this.x);
 	this.display.set_y(this.y);
 }
 pong.Paddle.prototype.score = null;

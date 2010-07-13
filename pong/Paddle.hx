@@ -53,16 +53,16 @@ class Paddle extends pong.geom.Rectangle
 			moveDown();
 	}
 	private inline function decay() {
-			velocity.y *= .9;
+		velocity.y *= .9;
 	}
 	public inline function render() {
-		display.x = x;
+		//display.x = x;
 		display.y = y;
 	}
 	public inline function move() {
 		//decay();
 		
-		x += velocity.x;
-		y += velocity.y;
+		//x = velocity.x;
+		y = velocity.y;
 	}
 }
