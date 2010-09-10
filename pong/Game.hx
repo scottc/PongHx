@@ -1,15 +1,18 @@
 package pong;
 
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.text.TextField;
 import haxe.Timer;
 
-import Xinf;
+
 
 import pong.geom.Vector;
 
 import pong.ui.Keyboard;
 import pong.ui.Mouse;
 
-class Game extends Group
+class Game extends Sprite
 {
 	//private var _stage:Stage;
 	
@@ -18,10 +21,10 @@ class Game extends Group
 	private var _leftPaddle:Paddle;
 	private var _rightPaddle:Paddle;
 	
-	private var _leftScoreLabel:Text;
-	private var _rightScoreLabel:Text;
+	private var _leftScoreLabel:TextField;
+	private var _rightScoreLabel:TextField;
 	
-	private var _backGround:Rectangle;
+	private var _backGround:Sprite;
 	
 	private var _graphicsTicker:Timer;
 	private var _physicsTicker:Timer;
@@ -31,11 +34,11 @@ class Game extends Group
 	//public var frameRate(getFrameRate, setFrameRate):Float;//target frames per second
 	public var physicsRate(getPhysicsRate, setPhysicsRate):Float;//target physics steps per second
 	
-	private var _x:Float; public var x(getX, setX):Float;
-	private var _y:Float; public var y(getY, setY):Float;
+	private var _x:Float; //public var x(getX, setX):Float;
+	private var _y:Float; //public var y(getY, setY):Float;
 	
-	private var _width:Float; public var width(getWidth, setWidth):Float;
-	private var _height:Float; public var height(getHeight, setHeight):Float;
+	private var _width:Float; //public var width(getWidth, setWidth):Float;
+	private var _height:Float; //public var height(getHeight, setHeight):Float;
 	
 	private var _pause:Bool; public var pause(getPause, setPause):Bool;
 	
@@ -52,7 +55,7 @@ class Game extends Group
 		_height = height_;
 		
 		//frameRate = 60;
-		Root.addEventListener( FrameEvent.ENTER_FRAME, render);
+		flash.Lib.current.addEventListener( Event.ENTER_FRAME, render);
 		physicsRate = 60;
 		
 		setupStage();
@@ -61,12 +64,8 @@ class Game extends Group
 	}
 	private function setupStage():Void {
 		//background
-		_backGround = new Rectangle( {
-							width: _width,
-							height: _height,
-							fill: Paint.RGBColor(0.1,0.1,0.1)
-						});
-		appendChild(_backGround);
+		_backGround = new pong.display.Rectangle( _width, _height, 0x334433);
+		addChild(_backGround);
 		
 		_ball = new Ball(150, 50, _width*0.02, _width*0.02);
 		
@@ -75,21 +74,23 @@ class Game extends Group
 		_rightPaddle = new Paddle(_width*0.93, 50, _width*0.02, _height*0.15);
 		_rightPaddle.ai = Paddle.EASY_AI;
 		
-		appendChild(_ball.display);
-		appendChild(_leftPaddle.display);
-		appendChild(_rightPaddle.display);
+		addChild(_ball.display);
+		addChild(_leftPaddle.display);
+		addChild(_rightPaddle.display);
 		
-		_leftScoreLabel = new Text({fill:"white"});
+		_leftScoreLabel = new TextField();
 		_leftScoreLabel.text = Std.string(_leftPaddle.score);
 		_leftScoreLabel.y = 10 + _y;
 		_leftScoreLabel.x = _width * 0.5 - 20 + _x;
-		appendChild(_leftScoreLabel);
+		_leftScoreLabel.textColor = 0xffffff;
+		addChild(_leftScoreLabel);
 		
-		_rightScoreLabel = new Text({fill:"white"});
+		_rightScoreLabel = new TextField();
 		_rightScoreLabel.text = Std.string(_rightPaddle.score);
 		_rightScoreLabel.y = 10 + _y;
 		_rightScoreLabel.x = _width * 0.5 + 10 + _x;
-		appendChild(_rightScoreLabel);
+		_rightScoreLabel.textColor = 0xffffff;
+		addChild(_rightScoreLabel);
 	}
 	private function newRound():Void {
 		//reset Paddle locations
@@ -213,7 +214,7 @@ class Game extends Group
 		//do collisions
 		doCollisions();
 	}
-	private function render(?e:FrameEvent = null):Void {
+	private function render(?e:Event = null):Void {
 		_ball.display.x = _ball.x + _x;
 		_ball.display.y = _ball.y + _y;
 		

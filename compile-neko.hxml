@@ -1,3 +1,4 @@
 -main pong.Main
--lib xinf
--neko pong.n
+-neko bin/pong.n
+-lib nme
+--remap flash:nme

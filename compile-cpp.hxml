@@ -1,3 +1,6 @@
 -cpp bin\cpp
 -main pong.Main
--lib xinf
+-lib nme
+-debug
+--remap flash:nme
+--remap neko:cpp

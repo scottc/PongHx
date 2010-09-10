@@ -5,12 +5,12 @@
 
 package pong;
 
+import flash.display.Sprite;
 import pong.geom.Vector;
-import Xinf;
 
 class Ball extends pong.geom.Rectangle
 {
-	public var display:Rectangle;
+	public var display:Sprite;
 	
 	public var velocity:Vector;
 	
@@ -19,16 +19,12 @@ class Ball extends pong.geom.Rectangle
 	public function new(x_:Float, y_:Float, width_:Float, height_:Float) 
 	{
 		super(x_, y_, width_, height_);
-		display = new Rectangle( {
-								x: x_,
-								y: y_,
-								width: width_,
-								height: height_,
-								fill: Paint.RGBColor(1,1,1)
-			});
+		display = new pong.display.Rectangle(width_, height_, 0xffffff);
+		display.x = x_;
+		display.y = y_;
 		
 		velocity = new Vector(0, 0);
-		acceleration = Root.width * 0.1;
+		acceleration = flash.Lib.current.width * 0.1;
 	}
 	public inline function render() {
 		display.x = x;

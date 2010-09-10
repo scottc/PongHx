@@ -1,18 +1,15 @@
 ﻿package pong;
 
-import Xinf;
+import nme.Lib;
 
 class Main 
 {
-	
 	static function main() 
 	{
-		pong.ui.Mouse.initialize();
-		pong.ui.Keyboard.initialize();
-		
-		Root.main();
-		
-		new MainMenu();
+		#if flash
+			new MainMenu();
+		#else
+			Lib.create(function(){new MainMenu();},550,400,60,0xffffff,(1*Lib.HARDWARE) | Lib.RESIZABLE);
+		#end
 	}
-	
 }

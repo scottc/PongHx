@@ -1,4 +1,5 @@
 -swf9 bin\pong.swf
 -main pong.Main
--lib xinf
+-swf-version 9
 -swf-header 550:400:60:FFFFFF
+--remap nme:flash

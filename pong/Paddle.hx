@@ -5,8 +5,8 @@
 
 package pong;
 
+import flash.display.Sprite;
 import pong.geom.Vector;
-import Xinf;
 
 class Paddle extends pong.geom.Rectangle
 {
@@ -15,7 +15,7 @@ class Paddle extends pong.geom.Rectangle
 	public static inline var MEDIUM_AI:Int = 2;
 	public static inline var HARD_AI:Int = 3;
 	
-	public var display:Rectangle;
+	public var display:Sprite;
 	public var score:Int;
 	public var ai:Int;
 	
@@ -24,13 +24,9 @@ class Paddle extends pong.geom.Rectangle
 	public function new(x_:Float, y_:Float, width_:Float, height_:Float) 
 	{
 		super(x_, y_, width_, height_);
-		display = new Rectangle( {
-								x: x_,
-								y: y_,
-								width: width_,
-								height: height_,
-								fill: Paint.RGBColor(1,1,1)
-			});
+		display = new pong.display.Rectangle(width_,height_,0xffffff);
+		display.x = x_;
+		display.y = y_;
 		
 		velocity = new Vector(0, 0);
 		
@@ -39,17 +35,17 @@ class Paddle extends pong.geom.Rectangle
 	}
 	public inline function moveUp() {
 		//velocity.y -= Root.height*.003;
-		velocity.y -= Root.height*.01;
+		velocity.y -= flash.Lib.current.height*.01;
 	}
 	public inline function moveDown() {
 		//velocity.y += Root.height*.003;
-		velocity.y += Root.height*.01;
+		velocity.y += flash.Lib.current.height*.01;
 	}
 	public inline function followPoint(y_:Float) {
 		//velocity.y = y_ - y - height / 2;
-		if (y_+Root.height*.01 < y + height / 2)
+		if (y_+flash.Lib.current.height*.01 < y + height / 2)
 			moveUp();
-		else if(y_-Root.height*.01 > y + height / 2)
+		else if(y_-flash.Lib.current.height*.01 > y + height / 2)
 			moveDown();
 	}
 	private inline function decay() {

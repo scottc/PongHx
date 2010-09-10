@@ -1,3 +1,4 @@
 -js bin\pong.js
 -main pong.Main
--lib xinf
+-lib nme
+--remap flash:nme
